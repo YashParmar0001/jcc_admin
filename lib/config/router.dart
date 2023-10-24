@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jcc_admin/features/complaint/screens/complaint_screen.dart';
 import 'package:jcc_admin/features/emplyoee/screens/employee_create.dart';
+import 'package:jcc_admin/features/emplyoee/screens/employee_details.dart';
 import 'package:jcc_admin/features/notification/screens/notification_screen.dart';
 
 import '../features/base/screens/base_screen.dart';
@@ -26,10 +27,16 @@ final router = GoRouter(
       parentNavigatorKey: _rootNavigatorKey,
       path: '/login',
       builder: (context, state) => LoginScreen(),
-    ),GoRoute(
+    ),
+    GoRoute(
       parentNavigatorKey: _rootNavigatorKey,
       path: '/newEmployee',
       builder: (context, state) => EmployeeCreate(),
+    ),
+    GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
+      path: '/employeeDetails',
+      builder: (context, state) => EmployeeDetails(),
     ),
     ShellRoute(
       navigatorKey: _shellNavigatorKay,
@@ -76,7 +83,8 @@ final router = GoRouter(
               },
             );
           },
-        ),GoRoute(
+        ),
+        GoRoute(
           parentNavigatorKey: _shellNavigatorKay,
           path: '/notification',
           pageBuilder: (context, state) {

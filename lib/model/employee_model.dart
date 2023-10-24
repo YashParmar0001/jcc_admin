@@ -57,8 +57,7 @@ class EmployeeModel {
     );
   }
 
-
-  Map<String, dynamic> toMap(){
+  Map<String, dynamic> toMap() {
     return {
       firstName: firstName,
       middleName: middleName,
@@ -71,7 +70,7 @@ class EmployeeModel {
     };
   }
 
-  factory EmployeeModel.fromMap(Map<String, dynamic> map){
+  factory EmployeeModel.fromMap(Map<String, dynamic> map) {
     return EmployeeModel(
       firstName: map['firstName'],
       middleName: map['middleName'],

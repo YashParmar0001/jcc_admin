@@ -22,13 +22,13 @@ class BaseScreen extends StatelessWidget {
 
   final filledIcons = [
     SvgPicture.asset('assets/icons/home.svg',
-        colorFilter: const ColorFilter.mode(Colors.blue, BlendMode.srcIn)),
+        colorFilter: const ColorFilter.mode(AppColors.blue, BlendMode.srcIn)),
     SvgPicture.asset('assets/icons/complaints.svg',
-        colorFilter: const ColorFilter.mode(Colors.blue, BlendMode.srcIn)),
+        colorFilter: const ColorFilter.mode(AppColors.blue, BlendMode.srcIn)),
     SvgPicture.asset('assets/icons/employee.svg',
-        colorFilter: const ColorFilter.mode(Colors.blue, BlendMode.srcIn)),
+        colorFilter: const ColorFilter.mode(AppColors.blue, BlendMode.srcIn)),
     SvgPicture.asset('assets/icons/notifications.svg',
-        colorFilter: const ColorFilter.mode(Colors.blue, BlendMode.srcIn)),
+        colorFilter: const ColorFilter.mode(AppColors.blue, BlendMode.srcIn)),
   ];
 
   @override
@@ -81,7 +81,8 @@ class BaseScreen extends StatelessWidget {
     );
   }
 
-  BottomNavigationBarItem _buildBottomNavigationBarItem({required int index,required String label}){
+  BottomNavigationBarItem _buildBottomNavigationBarItem(
+      {required int index, required String label}) {
     return BottomNavigationBarItem(
       icon: outlinedIcon[index],
       activeIcon: filledIcons[index],

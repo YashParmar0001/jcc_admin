@@ -20,34 +20,37 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
       employeeId: "45454",
       phone: "976431045",
       email: "",
-      ward: "ward",
+      ward: "23",
       password: "password",
-    ),const EmployeeModel(
+    ),
+    const EmployeeModel(
       firstName: "Ukani",
       middleName: "Bhavy",
       lastName: "N",
       employeeId: "45454",
       phone: "976431045",
       email: "",
-      ward: "ward",
+      ward: "23",
       password: "password",
-    ),const EmployeeModel(
+    ),
+    const EmployeeModel(
       firstName: "Ukani",
       middleName: "Bhavy",
       lastName: "N",
       employeeId: "45454",
       phone: "976431045",
       email: "",
-      ward: "ward",
+      ward: "23",
       password: "password",
-    ),const EmployeeModel(
+    ),
+    const EmployeeModel(
       firstName: "Ukani",
       middleName: "Bhavy",
       lastName: "N",
       employeeId: "45454",
       phone: "976431045",
       email: "",
-      ward: "ward",
+      ward: "23",
       password: "password",
     ),
   ];
@@ -86,7 +89,12 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
       body: ListView.builder(
         itemCount: employeeData.length,
         itemBuilder: (context, index) {
-          return EmployeeWidget(employeeModel: employeeData[index]);
+          return GestureDetector(
+            onTap: () {
+              context.push('/employeeDetails');
+            },
+            child: EmployeeWidget(employeeModel: employeeData[index]),
+          );
         },
       ),
     );

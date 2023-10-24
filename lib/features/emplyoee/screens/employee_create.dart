@@ -19,27 +19,33 @@ class EmployeeCreate extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildInputFields(context: context,
+                _buildInputFields(
+                    context: context,
                     title: "First Name:",
                     hint: "Enter first name",
                     onChnaged: (val) {}),
-                _buildInputFields(context: context,
+                _buildInputFields(
+                    context: context,
                     title: "Middle Name:",
                     hint: "Enter middle name",
                     onChnaged: (val) {}),
-                _buildInputFields(context: context,
+                _buildInputFields(
+                    context: context,
                     title: "Last Name:",
                     hint: "Enter last name",
                     onChnaged: (val) {}),
-                _buildInputFields(context: context,
+                _buildInputFields(
+                    context: context,
                     title: "Employee ID:",
                     hint: "Enter employee ID",
                     onChnaged: (val) {}),
-                _buildInputFields(context: context,
+                _buildInputFields(
+                    context: context,
                     title: "Phone No:",
                     hint: "+91 987654321",
                     onChnaged: (val) {}),
-                _buildInputFields(context: context,
+                _buildInputFields(
+                    context: context,
                     title: "Email",
                     hint: "Enter email",
                     onChnaged: (val) {}),
@@ -78,7 +84,8 @@ class EmployeeCreate extends StatelessWidget {
                       value: "Ward 4",
                     ),
                   ],
-                  onChanged: (val) {},),
+                  onChanged: (val) {},
+                ),
                 SizedBox(height: 10),
                 Text(
                   "Password",
@@ -92,19 +99,21 @@ class EmployeeCreate extends StatelessWidget {
                   children: [
                     Text("sfd9894(&-0"),
                     Expanded(child: SizedBox()),
-                    IconButton(onPressed: (){}, icon: Icon(Icons.sync))
+                    IconButton(onPressed: () {}, icon: Icon(Icons.sync))
                   ],
                 ),
-                MyButton(onTap: (){}, title: "Create Employee")
+                MyButton(onTap: () {}, title: "Create Employee")
               ],
-            )
-        ),
+            )),
       ),
     );
   }
 
   Widget _buildInputFields(
-      {required BuildContext context, required String title, required String hint, required Function onChnaged}) {
+      {required BuildContext context,
+      required String title,
+      required String hint,
+      required Function onChnaged}) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,

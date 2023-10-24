@@ -11,7 +11,7 @@ class EmployeeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
+      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       padding: const EdgeInsets.all(15),
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
@@ -61,14 +61,13 @@ class EmployeeWidget extends StatelessWidget {
                   Text(
                     'Employee ID: ${employeeModel.employeeId}',
                     style: TextStyle(
-
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                   const SizedBox(width: 60),
                   Text(
-                    employeeModel.ward,
+                    "ward no : ${employeeModel.ward}",
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,

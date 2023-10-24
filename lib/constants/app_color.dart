@@ -14,7 +14,6 @@ class AppColors {
   static const Color antiFlashWhite = Color(0xFFF0F0F0);
   static const Color mintTulip = Color(0xFFBDF2E8);
 
-
   static const Color brightTurquoise = Color(0xFF15DCE9);
   static const Color monaLisa = Color(0xFFFF9999);
   static const Color mantis = Color(0xFF66CC66);
