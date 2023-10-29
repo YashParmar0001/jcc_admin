@@ -186,8 +186,8 @@ class HomeScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(100),
                   color: bgColor,
                 ),
-                width: 25,
-                height: 25,
+                width: 30,
+                height: 30,
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -199,7 +199,7 @@ class HomeScreen extends StatelessWidget {
                     Text(
                       "60",
                       style: TextStyle(
-                        fontSize: 10,
+                        fontSize: 12,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),

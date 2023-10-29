@@ -1,4 +1,4 @@
-package com.example.jcc_admin
+package com.jcc.jcc_admin
 
 import io.flutter.embedding.android.FlutterActivity
 

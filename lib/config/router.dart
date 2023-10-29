@@ -1,49 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jcc_admin/common/widget/app_scaffold.dart';
 import 'package:jcc_admin/features/complaint/screens/complaint_screen.dart';
-import 'package:jcc_admin/features/emplyoee/screens/employee_create.dart';
-import 'package:jcc_admin/features/emplyoee/screens/employee_details.dart';
+import 'package:jcc_admin/features/home/sreens/home_screen.dart';
+import 'package:jcc_admin/features/login/screens/login_screen.dart';
 import 'package:jcc_admin/features/notification/screens/notification_screen.dart';
-
-import '../features/base/screens/base_screen.dart';
-import '../features/emplyoee/screens/employee_screen.dart';
-import '../features/home/sreens/home_screen.dart';
-import '../features/login/screens/login_screen.dart';
-import '../features/splash_screen.dart';
-
+import 'package:jcc_admin/features/splash_screen.dart';
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
-final _shellNavigatorKay = GlobalKey<NavigatorState>();
+final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 final router = GoRouter(
   initialLocation: '/splash',
   navigatorKey: _rootNavigatorKey,
-  routes: [
+  routes: <RouteBase>[
     GoRoute(
       parentNavigatorKey: _rootNavigatorKey,
       path: '/splash',
-      builder: (context, state) => SplashScreen(),
+      builder: (context, state) => const SplashScreen(),
     ),
     GoRoute(
       parentNavigatorKey: _rootNavigatorKey,
       path: '/login',
-      builder: (context, state) => LoginScreen(),
+      builder: (context, state) => const LoginScreen(),
     ),
     GoRoute(
       parentNavigatorKey: _rootNavigatorKey,
-      path: '/newEmployee',
-      builder: (context, state) => EmployeeCreate(),
-    ),
-    GoRoute(
-      parentNavigatorKey: _rootNavigatorKey,
-      path: '/employeeDetails',
-      builder: (context, state) => EmployeeDetails(),
+      path: '/complaintView',
+      builder: (context, state) => const Text("Complaint View"),
     ),
     ShellRoute(
-      navigatorKey: _shellNavigatorKay,
-      builder: (context, state, child) => BaseScreen(child: child),
+      navigatorKey: _shellNavigatorKey,
+      builder: (context, state, child) => AppScaffold(child: child),
       routes: [
         GoRoute(
-          parentNavigatorKey: _shellNavigatorKay,
+          parentNavigatorKey: _shellNavigatorKey,
           path: '/home',
           pageBuilder: (context, state) {
             return CustomTransitionPage(
@@ -57,8 +47,8 @@ final router = GoRouter(
           },
         ),
         GoRoute(
-          parentNavigatorKey: _shellNavigatorKay,
-          path: '/complaint',
+          parentNavigatorKey: _shellNavigatorKey,
+          path: '/complaints',
           pageBuilder: (context, state) {
             return CustomTransitionPage(
               child: const ComplaintScreen(),
@@ -71,28 +61,18 @@ final router = GoRouter(
           },
         ),
         GoRoute(
-          parentNavigatorKey: _shellNavigatorKay,
-          path: '/employee',
-          pageBuilder: (context, state) {
-            return CustomTransitionPage(
-              child: const EmployeeScreen(),
-              transitionDuration: Duration.zero,
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                return child;
-              },
-            );
-          },
-        ),
-        GoRoute(
-          parentNavigatorKey: _shellNavigatorKay,
-          path: '/notification',
+          parentNavigatorKey: _shellNavigatorKey,
+          path: '/notifications',
           pageBuilder: (context, state) {
             return CustomTransitionPage(
               child: const NotificationScreen(),
               transitionDuration: Duration.zero,
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
+              transitionsBuilder: (
+                  context,
+                  animation,
+                  secondaryAnimation,
+                  child,
+                  ) {
                 return child;
               },
             );
