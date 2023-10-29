@@ -31,20 +31,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: AppColors.darkMidnightBlue,
-        onPressed: () {
-          context.push('/newEmployee');
-        },
-        icon: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-        label: Text(
-          "Add Employees",
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
       body: ListView.builder(
         itemCount: notificationData.length,
         itemBuilder: (context, index) {
