@@ -28,6 +28,10 @@ dependencies:
   fl_chart: ^0.64.0
   form_bloc: ^0.31.0
 
+  #  Firebase lib
+  firebase_core:
+  cloud_firestore:
+  firebase_auth:
 
 dev_dependencies:
   flutter_test:

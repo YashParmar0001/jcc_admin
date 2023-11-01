@@ -14,11 +14,12 @@ class ComplaintScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('ComplaintScreen'),
-        ),
-        body: const Center(
-          child: Text('ComplaintScreen'),
-        ));
+      appBar: AppBar(
+        title: const Text('ComplaintScreen'),
+      ),
+      body: const Center(
+        child: Text('ComplaintScreen'),
+      ),
+    );
   }
 }
