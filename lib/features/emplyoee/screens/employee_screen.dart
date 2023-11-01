@@ -6,8 +6,8 @@ import 'package:jcc_admin/features/emplyoee/widget/employee_widget.dart';
 import 'package:jcc_admin/model/employee_model.dart';
 
 class EmployeeScreen extends StatefulWidget {
-
-  const EmployeeScreen({super.key, required this.controller, required this.bottomNavKey});
+  const EmployeeScreen(
+      {super.key, required this.controller, required this.bottomNavKey});
 
   final ScrollController controller;
   final GlobalKey<ScrollToHideWidgetState> bottomNavKey;
@@ -25,7 +25,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
       employeeId: "45454",
       phone: "976431045",
       email: "",
-      ward: "23",
+      ward: "ward",
       password: "password",
     ),
     const EmployeeModel(
@@ -35,7 +35,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
       employeeId: "45454",
       phone: "976431045",
       email: "",
-      ward: "23",
+      ward: "ward",
       password: "password",
     ),
     const EmployeeModel(
@@ -45,7 +45,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
       employeeId: "45454",
       phone: "976431045",
       email: "",
-      ward: "23",
+      ward: "ward",
       password: "password",
     ),
     const EmployeeModel(
@@ -55,7 +55,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
       employeeId: "45454",
       phone: "976431045",
       email: "",
-      ward: "23",
+      ward: "ward",
       password: "password",
     ),
   ];
@@ -94,12 +94,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
       body: ListView.builder(
         itemCount: employeeData.length,
         itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              context.push('/employeeDetails');
-            },
-            child: EmployeeWidget(employeeModel: employeeData[index]),
-          );
+          return EmployeeWidget(employeeModel: employeeData[index]);
         },
       ),
     );
