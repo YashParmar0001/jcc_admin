@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jcc_admin/common/widget/scroll_to_hide_widget.dart';
 import 'package:jcc_admin/constants/app_color.dart';
-import 'package:jcc_admin/features/emplyoee/widget/employee_widget.dart';
 import 'package:jcc_admin/model/employee_model.dart';
+
+import '../widget/employee_widget.dart';
 
 class EmployeeScreen extends StatefulWidget {
   const EmployeeScreen(
@@ -28,6 +29,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
       department: '',
       ward: "ward",
       password: "password",
+      type: 'employee',
     ),
     const EmployeeModel(
       firstName: "Ukani",
@@ -39,6 +41,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
       department: '',
       ward: "ward",
       password: "password",
+      type: 'employee',
     ),
     const EmployeeModel(
       firstName: "Ukani",
@@ -50,6 +53,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
       department: '',
       ward: "ward",
       password: "password",
+      type: 'employee',
     ),
     const EmployeeModel(
       firstName: "Ukani",
@@ -61,6 +65,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
       department: '',
       ward: "ward",
       password: "password",
+      type: 'employee',
     ),
   ];
 
