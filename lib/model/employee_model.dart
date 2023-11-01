@@ -8,6 +8,7 @@ class EmployeeModel {
   final String department;
   final String ward;
   final String password;
+  final String type;
 
   List<Object?> get props => [
         firstName,
@@ -19,6 +20,7 @@ class EmployeeModel {
         department,
         ward,
         password,
+    type,
       ];
 
   const EmployeeModel({
@@ -31,6 +33,7 @@ class EmployeeModel {
     required this.department,
     required this.ward,
     required this.password,
+    required this.type,
   });
 
   @override
@@ -48,6 +51,7 @@ class EmployeeModel {
     String? department,
     String? ward,
     String? password,
+    String? type,
   }) {
     return EmployeeModel(
       firstName: firstName ?? this.firstName,
@@ -59,6 +63,7 @@ class EmployeeModel {
       department: department ?? this.department,
       ward: ward ?? this.ward,
       password: password ?? this.password,
+      type: type ?? this.type,
     );
   }
 
@@ -73,6 +78,7 @@ class EmployeeModel {
       department: department,
       ward: ward,
       password: password,
+      type: type,
     };
   }
 
@@ -87,6 +93,7 @@ class EmployeeModel {
       department: map['department'],
       ward: map['ward'],
       password: map['password'],
+      type: map['type'],
     );
   }
 }
