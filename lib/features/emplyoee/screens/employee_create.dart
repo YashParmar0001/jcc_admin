@@ -69,7 +69,7 @@ class EmployeeCreate extends StatelessWidget {
                   items: const [
                     DropdownMenuItem(
                       value: "Ward 1",
-                      child : Text("Ward 1"),
+                      child: Text("Ward 1"),
                     ),
                     DropdownMenuItem(
                       value: "Ward 2",

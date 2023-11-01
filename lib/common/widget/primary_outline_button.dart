@@ -4,7 +4,8 @@ import 'package:jcc_admin/constants/app_color.dart';
 class PrimaryOutlineButton extends StatelessWidget {
   final VoidCallback onTap;
   final String title;
-  const PrimaryOutlineButton({super.key, required this.onTap, required this.title});
+  const PrimaryOutlineButton(
+      {super.key, required this.onTap, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +27,8 @@ class PrimaryOutlineButton extends StatelessWidget {
           child: Text(
             title,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              color: AppColors.black,
-            ),
+                  color: AppColors.black,
+                ),
           ),
         ),
       ),
