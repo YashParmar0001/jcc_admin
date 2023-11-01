@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jcc_admin/bloc/login/login_bloc.dart';
 import 'package:jcc_admin/config/router.dart';
 import 'package:jcc_admin/firebase_options.dart';
+import 'package:jcc_admin/repositories/login_repository.dart';
 import 'package:jcc_admin/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -16,9 +20,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      theme: AppTheme.getTheme(),
-      routerConfig: router,
+    final loginRepository = LoginRepository();
+
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => LoginBloc(loginRepository: loginRepository),
+        ),
+      ],
+      child: MaterialApp.router(
+        theme: AppTheme.getTheme(),
+        routerConfig: router,
+      ),
     );
   }
 }

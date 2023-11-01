@@ -6,8 +6,14 @@ class NotificationModel {
   final String department;
   final String complaintID;
 
-  List<Object?> get props =>
-      [title, description, time, userId, department, complaintID];
+  List<Object?> get props => [
+        title,
+        description,
+        time,
+        userId,
+        department,
+        complaintID,
+      ];
 
   const NotificationModel({
     required this.title,

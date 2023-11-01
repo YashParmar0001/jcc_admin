@@ -5,6 +5,7 @@ class EmployeeModel {
   final String employeeId;
   final String phone;
   final String email;
+  final String department;
   final String ward;
   final String password;
 
@@ -15,6 +16,7 @@ class EmployeeModel {
         employeeId,
         phone,
         email,
+        department,
         ward,
         password,
       ];
@@ -26,6 +28,7 @@ class EmployeeModel {
     required this.employeeId,
     required this.phone,
     required this.email,
+    required this.department,
     required this.ward,
     required this.password,
   });
@@ -42,18 +45,20 @@ class EmployeeModel {
     String? employeeId,
     String? phone,
     String? email,
+    String? department,
     String? ward,
     String? password,
   }) {
     return EmployeeModel(
-      firstName: this.firstName,
-      middleName: this.middleName,
-      lastName: this.lastName,
-      employeeId: this.employeeId,
-      phone: this.phone,
-      email: this.email,
-      ward: this.ward,
-      password: this.password,
+      firstName: firstName ?? this.firstName,
+      middleName: middleName ?? this.middleName,
+      lastName: lastName ?? this.lastName,
+      employeeId: employeeId ?? this.employeeId,
+      phone: phone ?? this.phone,
+      email: email ?? this.email,
+      department: department ?? this.department,
+      ward: ward ?? this.ward,
+      password: password ?? this.password,
     );
   }
 
@@ -65,6 +70,7 @@ class EmployeeModel {
       employeeId: employeeId,
       phone: phone,
       email: email,
+      department: department,
       ward: ward,
       password: password,
     };
@@ -78,6 +84,7 @@ class EmployeeModel {
       employeeId: map['employeeId'],
       phone: map['phone'],
       email: map['email'],
+      department: map['department'],
       ward: map['ward'],
       password: map['password'],
     );
