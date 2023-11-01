@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jcc_admin/constants/app_color.dart';
+import 'package:jcc_admin/generated/assets.dart';
 
 class HomeDrawer extends StatelessWidget {
   const HomeDrawer({super.key});
@@ -19,7 +20,7 @@ class HomeDrawer extends StatelessWidget {
                   elevation: 5,
                   clipBehavior: Clip.antiAlias,
                   child: Image.asset(
-                    "assets/images/employee_image.png",
+                    Assets.iconsUser,
                     width: 75,
                     height: 75,
                     fit: BoxFit.cover,

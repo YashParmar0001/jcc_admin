@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:jcc_admin/generated/assets.dart';
 
 class EmployeeDetails extends StatelessWidget {
   const EmployeeDetails({super.key});
@@ -43,7 +44,7 @@ class EmployeeDetails extends StatelessWidget {
                 children: [
                   SizedBox(height: 60),
                   Image.asset(
-                    "assets/images/employee_image.png",
+                    Assets.iconsLogo,
                     width: double.infinity,
                   ),
                   _buildEmployDataField(
