@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jcc_admin/bloc/login/login_bloc.dart';
 import 'package:jcc_admin/constants/app_color.dart';
 import 'package:jcc_admin/constants/string_constants.dart';
 import 'package:jcc_admin/generated/assets.dart';
@@ -48,6 +50,8 @@ class AppBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final type = (context.read<LoginBloc>().state as LoggedIn).employee.type;
+
     return Container(
       decoration: BoxDecoration(
         boxShadow: [
@@ -73,7 +77,7 @@ class AppBottomNavigationBar extends StatelessWidget {
           items: [
             _buildBottomNavigationBarItem(index: 0),
             _buildBottomNavigationBarItem(index: 1),
-            _buildBottomNavigationBarItem(index: 2),
+            if (type == 'hod') _buildBottomNavigationBarItem(index: 2),
             _buildBottomNavigationBarItem(index: 3),
           ],
         ),

@@ -110,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   TextFormField(
                     controller: passwordController,
                     cursorColor: Colors.black,
-                    keyboardType: TextInputType.emailAddress,
+                    obscureText: true,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 20,
