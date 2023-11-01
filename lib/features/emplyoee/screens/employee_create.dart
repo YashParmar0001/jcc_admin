@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jcc_admin/common/widget/my_button.dart';
+import 'package:jcc_admin/common/widget/primary_button.dart';
 
 class EmployeeCreate extends StatelessWidget {
   const EmployeeCreate({super.key});
@@ -49,10 +49,10 @@ class EmployeeCreate extends StatelessWidget {
                     title: "Email",
                     hint: "Enter email",
                     onChnaged: (val) {}),
-                SizedBox(height: 10),
-                Text(
+                const SizedBox(height: 10),
+                const Text(
                   "Ward no:",
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
@@ -66,30 +66,30 @@ class EmployeeCreate extends StatelessWidget {
                     ),
                     hintText: "Select ward",
                   ),
-                  items: [
+                  items: const [
                     DropdownMenuItem(
-                      child: Text("Ward 1"),
                       value: "Ward 1",
+                      child : Text("Ward 1"),
                     ),
                     DropdownMenuItem(
-                      child: Text("Ward 2"),
                       value: "Ward 2",
+                      child: Text("Ward 2"),
                     ),
                     DropdownMenuItem(
-                      child: Text("Ward 3"),
                       value: "Ward 3",
+                      child: Text("Ward 3"),
                     ),
                     DropdownMenuItem(
-                      child: Text("Ward 4"),
                       value: "Ward 4",
+                      child: Text("Ward 4"),
                     ),
                   ],
                   onChanged: (val) {},
                 ),
-                SizedBox(height: 10),
-                Text(
+                const SizedBox(height: 10),
+                const Text(
                   "Password",
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
@@ -97,12 +97,12 @@ class EmployeeCreate extends StatelessWidget {
                 const SizedBox(height: 5),
                 Row(
                   children: [
-                    Text("sfd9894(&-0"),
-                    Expanded(child: SizedBox()),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.sync))
+                    const Text("sfd9894(&-0"),
+                    const Expanded(child: SizedBox()),
+                    IconButton(onPressed: () {}, icon: const Icon(Icons.sync))
                   ],
                 ),
-                MyButton(onTap: () {}, title: "Create Employee")
+                PrimaryButton(onTap: () {}, title: "Create Employee")
               ],
             )),
       ),
@@ -119,7 +119,7 @@ class EmployeeCreate extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Text(
           title,
           style: const TextStyle(

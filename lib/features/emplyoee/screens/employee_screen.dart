@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jcc_admin/common/widget/scroll_to_hide_widget.dart';
 import 'package:jcc_admin/constants/app_color.dart';
 import 'package:jcc_admin/features/emplyoee/widget/employee_widget.dart';
 import 'package:jcc_admin/model/employee_model.dart';
 
 class EmployeeScreen extends StatefulWidget {
-  const EmployeeScreen({super.key});
+
+  const EmployeeScreen({super.key, required this.controller, required this.bottomNavKey});
+
+  final ScrollController controller;
+  final GlobalKey<ScrollToHideWidgetState> bottomNavKey;
 
   @override
   State<EmployeeScreen> createState() => _EmployeeScreenState();

@@ -1,48 +1,47 @@
-// this file created by jay pedhadiya
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jcc_admin/constants/app_color.dart';
 import 'package:jcc_admin/constants/string_constants.dart';
+import 'package:jcc_admin/generated/assets.dart';
 
 class AppBottomNavigationBar extends StatelessWidget {
   AppBottomNavigationBar({super.key});
 
   final outlinedIcon = [
     SvgPicture.asset(
-      'assets/icons/home.svg',
+      Assets.iconsHome,
       colorFilter: const ColorFilter.mode(AppColors.black60, BlendMode.srcIn),
     ),
     SvgPicture.asset(
-      'assets/icons/complaints.svg',
+      Assets.iconsComplaints,
       colorFilter: const ColorFilter.mode(AppColors.black60, BlendMode.srcIn),
     ),
     SvgPicture.asset(
-      'assets/icons/employee.svg',
+      Assets.iconsNotifications,
       colorFilter: const ColorFilter.mode(AppColors.black60, BlendMode.srcIn),
     ),
     SvgPicture.asset(
-      'assets/icons/notification.svg',
+      Assets.iconsEmployee,
       colorFilter: const ColorFilter.mode(AppColors.black60, BlendMode.srcIn),
     ),
   ];
 
   final filledIcons = [
     SvgPicture.asset(
-      'assets/icons/home.svg',
+      Assets.iconsHome,
       colorFilter: const ColorFilter.mode(AppColors.blue, BlendMode.srcIn),
     ),
     SvgPicture.asset(
-      'assets/icons/complaints.svg',
+      Assets.iconsComplaints,
       colorFilter: const ColorFilter.mode(AppColors.blue, BlendMode.srcIn),
     ),
     SvgPicture.asset(
-      'assets/icons/employee.svg',
+      Assets.iconsEmployee,
       colorFilter: const ColorFilter.mode(AppColors.blue, BlendMode.srcIn),
     ),
     SvgPicture.asset(
-      'assets/icons/notification.svg',
+      Assets.iconsNotifications,
       colorFilter: const ColorFilter.mode(AppColors.blue, BlendMode.srcIn),
     ),
   ];
@@ -50,7 +49,6 @@ class AppBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -70,14 +68,13 @@ class AppBottomNavigationBar extends StatelessWidget {
           selectedItemColor: AppColors.blue,
           unselectedItemColor: AppColors.black60,
           showUnselectedLabels: true,
-          unselectedLabelStyle: Theme.of(context).textTheme.titleLarge,
-          selectedLabelStyle: Theme.of(context).textTheme.headlineSmall,
           currentIndex: _calculateSelectedIndex(context),
           onTap: (value) => onTap(value, context),
           items: [
             _buildBottomNavigationBarItem(index: 0),
             _buildBottomNavigationBarItem(index: 1),
             _buildBottomNavigationBarItem(index: 2),
+            _buildBottomNavigationBarItem(index: 3),
           ],
         ),
       ),
@@ -98,14 +95,14 @@ class AppBottomNavigationBar extends StatelessWidget {
     if (location.startsWith('/home')) {
       return 0;
     }
-    if (location.startsWith('/complaints')) {
+    if (location.startsWith('/complaint_screen')) {
       return 1;
     }
-    if (location.startsWith('/employee')) {
+    if (location.startsWith('/employee_screen')) {
       return 2;
     }
-    if (location.startsWith('/notification')) {
-      return 2;
+    if (location.startsWith('/notifications')) {
+      return 3;
     }
     return 0;
   }
@@ -115,11 +112,13 @@ class AppBottomNavigationBar extends StatelessWidget {
       case 0:
         return context.go('/home');
       case 1:
-        return context.go('/complaints');
+        return context.go('/complaint_screen');
       case 2:
-        return context.go('/Employee');
+        return context.go('/employee_screen');
+      case 3:
+        return context.go('/notifications');
       default:
-        return context.go('/Notification');
+        return context.go('/home');
     }
   }
 }

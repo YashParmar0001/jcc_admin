@@ -26,6 +26,7 @@ dependencies:
   flutter_bloc: ^8.1.3
   syncfusion_flutter_gauges: ^23.1.42
   fl_chart: ^0.64.0
+  form_bloc: ^0.31.0
 
 
 dev_dependencies:
@@ -42,8 +43,12 @@ flutter:
   assets:
     - assets/
     - assets/logo/
+    - assets/fonts/
     - assets/icons/
-    - assets/images/
-    - assets/background/
+    - assets/lottie/
+    - assets/artworks/
     - assets/department/
+    - assets/backgrounds/
+    - assets/complaint_data/
+    - assets/departmentIcons/
 
