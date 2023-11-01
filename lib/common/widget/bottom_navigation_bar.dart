@@ -18,11 +18,11 @@ class AppBottomNavigationBar extends StatelessWidget {
       colorFilter: const ColorFilter.mode(AppColors.black60, BlendMode.srcIn),
     ),
     SvgPicture.asset(
-      Assets.iconsNotifications,
+      Assets.iconsEmployee,
       colorFilter: const ColorFilter.mode(AppColors.black60, BlendMode.srcIn),
     ),
     SvgPicture.asset(
-      Assets.iconsEmployee,
+      Assets.iconsNotifications,
       colorFilter: const ColorFilter.mode(AppColors.black60, BlendMode.srcIn),
     ),
   ];
