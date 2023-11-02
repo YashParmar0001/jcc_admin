@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jcc_admin/common/widget/scroll_to_hide_widget.dart';
 import 'package:jcc_admin/constants/app_color.dart';
+import 'package:jcc_admin/features/complaint/widgets/complaint_widget.dart';
 import 'package:jcc_admin/features/complaint/widgets/complaints_overview.dart';
+import 'package:jcc_admin/model/complaint_model.dart';
 
 class ComplaintScreen extends StatelessWidget {
   const ComplaintScreen({
@@ -62,14 +64,43 @@ class ComplaintScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              TabBarView(children: [
-                Text('Tab 1'),
-                Text('Tab 2'),
-              ])
+              Expanded(
+                child: TabBarView(children: [
+               buildList(),
+                  Text('Tab 2'),
+                ]),
+              )
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildList(){
+    return    ListView.builder(
+      itemBuilder: (context, index) {
+        return ComplaintWidget(
+          complaint: ComplaintModel(
+              id: 'id',
+              description: 'description',
+              registrationDate: DateTime.now(),
+              departmentName: 'departmentName',
+              subject: 'subject',
+              ward: 'ward',
+              area: 'area',
+              userId: 'userId',
+              uniquePin: 'uniquePin',
+              imageUrls: ['imageUrls'],
+              status: 'status',
+              detailedAddress: 'detailedAddress',
+              isLocked: false,
+              isAssigned: false,
+              assignedEmployeeId: 'asignid',
+              applicantName: 'applicantName'), );
+      },
+      itemCount: 5,
+      shrinkWrap: true,
     );
   }
 }

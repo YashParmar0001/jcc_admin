@@ -32,7 +32,7 @@ dependencies:
   #  Firebase lib
   firebase_core:
   cloud_firestore:
-
+  intl:
   firebase_auth:
 
 dev_dependencies:

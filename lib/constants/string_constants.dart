@@ -46,6 +46,27 @@ class ComplaintStateDataConstants {
 }
 
 class DepartmentDataConstants {
+
+  static final List<String> departmentNameList = [
+    "Water Works",
+    "Slum",
+    "Light eSMART CITY AREA",
+    "Civil",
+    "Health",
+    "Solid Waste Branch",
+    "Estate",
+    "Town Planning",
+    "UGD",
+    "House Tax",
+    "UCD",
+    "ICDS",
+    "Garden",
+    "Project Planning",
+    "Light EESL NAGAR SIm AREA",
+    "Security",
+    "FLOOD CONTROL",
+  ];
+
   static final List<String> departmentIconsAssetsName = [
     Assets.departmentIconsWaterDepartment,
     Assets.departmentIconsSlumDepartment,
