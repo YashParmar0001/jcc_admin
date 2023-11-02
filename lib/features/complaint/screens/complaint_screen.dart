@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jcc_admin/common/widget/scroll_to_hide_widget.dart';
 import 'package:jcc_admin/constants/app_color.dart';
+import 'package:jcc_admin/features/complaint/widgets/complaint_widget.dart';
 import 'package:jcc_admin/features/complaint/widgets/complaints_overview.dart';
+import 'package:jcc_admin/model/complaint_model.dart';
 
 class ComplaintScreen extends StatelessWidget {
   const ComplaintScreen({
@@ -20,6 +22,13 @@ class ComplaintScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () {
+                  debugDumpRenderTree();
+                },
+                icon: Icon(Icons.sort))
+          ],
           title: const Text('ComplaintScreen'),
         ),
         body: Padding(
@@ -62,14 +71,30 @@ class ComplaintScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              TabBarView(children: [
-                Text('Tab 1'),
-                Text('Tab 2'),
-              ])
+              const SizedBox(height: 15,),
+              Expanded(
+                child: TabBarView(children: [
+                  buildList([]),
+                  buildList([]),
+                ],),
+              )
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildList(List<ComplaintModel> list) {
+    return ListView.builder(
+      itemBuilder: (context, index) {
+        return ComplaintWidget(
+          complaint: list[index],
+        );
+      },
+      itemCount: list.length,
+
+      // shrinkWrap: true,
     );
   }
 }

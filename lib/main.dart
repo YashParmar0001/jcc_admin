@@ -11,6 +11,8 @@ import 'package:jcc_admin/repositories/login_repository.dart';
 import 'package:jcc_admin/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'features/complaint/screens/complaint_screen.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
