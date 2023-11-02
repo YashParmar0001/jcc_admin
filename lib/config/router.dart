@@ -4,6 +4,9 @@ import 'package:jcc_admin/common/widget/app_scaffold.dart';
 import 'package:jcc_admin/common/widget/scroll_to_hide_widget.dart';
 import 'package:jcc_admin/features/complaint/screens/complaint_screen.dart';
 import 'package:jcc_admin/features/complaint/screens/complaint_view.dart';
+import 'package:jcc_admin/features/employee/screens/employee_create.dart';
+import 'package:jcc_admin/features/employee/screens/employee_details.dart';
+import 'package:jcc_admin/features/employee/screens/employee_screen.dart';
 import 'package:jcc_admin/features/home/sreens/home_screen.dart';
 import 'package:jcc_admin/features/login/screens/login_screen.dart';
 import 'package:jcc_admin/features/notification/screens/notification_screen.dart';
@@ -32,6 +35,18 @@ final router = GoRouter(
       parentNavigatorKey: _rootNavigatorKey,
       path: '/complaintView/:id',
       builder: (context, state) => ComplaintView(
+        id: state.pathParameters['id']!,
+      ),
+    ),
+    GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
+      path: '/employee_create',
+      builder: (context, state) => EmployeeCreate(),
+    ),
+    GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
+      path: '/employeeView/:id',
+      builder: (context, state) => EmployeeDetails(
         id: state.pathParameters['id']!,
       ),
     ),
@@ -66,7 +81,7 @@ final router = GoRouter(
           pageBuilder: (context, state) {
             return CustomTransitionPage(
               child: ComplaintScreen(
-                controller : controller,
+                controller: controller,
                 bottomNavKey: _bottomNavKey,
               ),
               transitionDuration: Duration.zero,
@@ -91,7 +106,7 @@ final router = GoRouter(
           path: '/employee_screen',
           pageBuilder: (context, state) {
             return CustomTransitionPage(
-              child: NotificationScreen(
+              child: EmployeeScreen(
                 controller: controller,
                 bottomNavKey: _bottomNavKey,
               ),
