@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:jcc_admin/constants/app_color.dart';
+import 'package:jcc_admin/generated/assets.dart';
 import 'package:jcc_admin/model/employee_model.dart';
 
 class EmployeeWidget extends StatelessWidget {
@@ -29,7 +30,7 @@ class EmployeeWidget extends StatelessWidget {
             height: 50,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/icons/user.png'),
+                image: AssetImage(Assets.iconsUser),
               ),
             ),
           ),

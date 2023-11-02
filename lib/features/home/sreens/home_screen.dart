@@ -2,20 +2,51 @@
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:jcc_admin/common/widget/menu_drawer.dart';
+import 'package:jcc_admin/common/widget/scroll_to_hide_widget.dart';
 import 'package:jcc_admin/constants/app_color.dart';
 import 'package:jcc_admin/features/home/widget/drawer_widget.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({
+    super.key,
+    required this.controller,
+    required this.bottomNavKey,
+  });
 
+  final ScrollController controller;
+  final GlobalKey<ScrollToHideWidgetState> bottomNavKey;
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('HomeScreen'),
       ),
-      drawer: const HomeDrawer(),
+      drawer: MenuDrawer(),
+      onDrawerChanged: (isOpened) {
+        if (isOpened) {
+          if (widget.bottomNavKey.currentState != null) {
+            if (widget.bottomNavKey.currentState!.isVisible) {
+              widget.bottomNavKey.currentState!.hide();
+            }
+          } else {
+          }
+        } else {
+          if (widget.bottomNavKey.currentState != null) {
+            if (!widget.bottomNavKey.currentState!.isVisible) {
+              widget.bottomNavKey.currentState!.show();
+            }
+          } else {
+          }
+        }
+      },
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
