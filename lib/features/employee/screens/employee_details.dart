@@ -7,9 +7,10 @@ import 'package:jcc_admin/generated/assets.dart';
 import 'package:jcc_admin/model/employee_model.dart';
 
 class EmployeeDetails extends StatefulWidget {
-  EmployeeDetails({super.key, required this.id});
+  const EmployeeDetails({super.key, required this.id});
 
-  String id;
+  final String id;
+
   @override
   State<EmployeeDetails> createState() => _EmployeeDetailsState();
 }

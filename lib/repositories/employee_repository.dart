@@ -37,7 +37,7 @@ class EmployeeRepository {
       );
       await _firestore
           .collection('employees')
-          .doc(employee.employeeId)
+          .doc(employee.email)
           .set(employee.toMap());
       return employee;
     } catch (e) {

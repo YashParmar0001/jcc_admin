@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'dart:developer' as dev;
 
 import 'package:jcc_admin/repositories/employee_repository.dart';
 part 'employee_register_event.dart';

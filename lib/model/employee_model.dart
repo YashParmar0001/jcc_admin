@@ -20,7 +20,7 @@ class EmployeeModel {
         department,
         ward,
         password,
-    type,
+        type,
       ];
 
   const EmployeeModel({
@@ -69,16 +69,16 @@ class EmployeeModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'firstName': firstName ?? "",
-      'middleName': middleName ?? "",
-      'lastName': lastName ?? "",
-      'employeeId': employeeId ?? "",
-      'phone': phone ?? "",
-      'email': email ?? "",
-      'department': department ?? "",
-      'ward': ward ?? "",
-      'password': password ?? "",
-      'type': type ?? "",
+      'firstName': firstName,
+      'middleName': middleName,
+      'lastName': lastName,
+      'employeeId': employeeId,
+      'phone': phone,
+      'email': email,
+      'department': department,
+      'ward': ward,
+      'password': password,
+      'type': type,
     };
   }
 
