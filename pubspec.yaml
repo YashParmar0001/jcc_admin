@@ -34,6 +34,7 @@ dependencies:
   cloud_firestore:
 
   firebase_auth:
+  flutter_form_bloc: ^0.31.0
 
 dev_dependencies:
   flutter_test:

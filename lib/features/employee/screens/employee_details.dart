@@ -1,13 +1,30 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jcc_admin/bloc/employee/employee_bloc.dart';
 import 'package:jcc_admin/generated/assets.dart';
+import 'package:jcc_admin/model/employee_model.dart';
 
-class EmployeeDetails extends StatelessWidget {
-  const EmployeeDetails({super.key});
+class EmployeeDetails extends StatefulWidget {
+  EmployeeDetails({super.key, required this.id});
+
+  String id;
+  @override
+  State<EmployeeDetails> createState() => _EmployeeDetailsState();
+}
+
+class _EmployeeDetailsState extends State<EmployeeDetails> {
+  late EmployeeModel employeeModel;
+
 
   @override
   Widget build(BuildContext context) {
+    print("Hello");
+    employeeModel = (context.read<EmployeeBloc>().state as EmployeeLoaded)
+          .employeeList
+          .firstWhere((element) => element.employeeId == widget.id) ;
+      print(employeeModel.toString());
     return Scaffold(
       appBar: AppBar(
         title: const Text('EmployeeDetails'),
@@ -48,17 +65,17 @@ class EmployeeDetails extends StatelessWidget {
                     width: double.infinity,
                   ),
                   _buildEmployDataField(
-                      title: "Full name ", data: "Bhavy Ukani"),
+                      title: "Full name ", data: "${employeeModel.firstName} ${employeeModel.middleName} ${employeeModel.lastName}"),
                   _buildEmployDataField(
-                      title: "Employee ID", data: "EMP465432"),
+                      title: "Employee ID", data: "${employeeModel.employeeId}"),
                   _buildEmployDataField(
-                      title: "Mobile No", data: "+91 63555 77329"),
+                      title: "Mobile No", data: "${employeeModel.phone}"),
                   _buildEmployDataField(
-                      title: "Email", data: "bhavycnt@gmail.com"),
+                      title: "Email", data: "${employeeModel.email}"),
                   _buildEmployDataField(title: "Department", data: "Coding"),
-                  _buildEmployDataField(title: "Post", data: "Pro Dev"),
+                  _buildEmployDataField(title: "Post", data: "Pro Developer"),
                   _buildEmployDataField(
-                      title: "Ward no", data: "Khud ka Ilaqa"),
+                      title: "Ward no", data: "${employeeModel.ward}"),
                 ],
               ),
             ),
