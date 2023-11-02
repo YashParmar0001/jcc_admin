@@ -22,6 +22,13 @@ class ComplaintScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () {
+                  debugDumpRenderTree();
+                },
+                icon: Icon(Icons.sort))
+          ],
           title: const Text('ComplaintScreen'),
         ),
         body: Padding(
@@ -64,11 +71,12 @@ class ComplaintScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              const SizedBox(height: 15,),
               Expanded(
                 child: TabBarView(children: [
-               buildList(),
-                  Text('Tab 2'),
-                ]),
+                  buildList([]),
+                  buildList([]),
+                ],),
               )
             ],
           ),
@@ -77,30 +85,16 @@ class ComplaintScreen extends StatelessWidget {
     );
   }
 
-  Widget buildList(){
-    return    ListView.builder(
+  Widget buildList(List<ComplaintModel> list) {
+    return ListView.builder(
       itemBuilder: (context, index) {
         return ComplaintWidget(
-          complaint: ComplaintModel(
-              id: 'id',
-              description: 'description',
-              registrationDate: DateTime.now(),
-              departmentName: 'departmentName',
-              subject: 'subject',
-              ward: 'ward',
-              area: 'area',
-              userId: 'userId',
-              uniquePin: 'uniquePin',
-              imageUrls: ['imageUrls'],
-              status: 'status',
-              detailedAddress: 'detailedAddress',
-              isLocked: false,
-              isAssigned: false,
-              assignedEmployeeId: 'asignid',
-              applicantName: 'applicantName'), );
+          complaint: list[index],
+        );
       },
-      itemCount: 5,
-      shrinkWrap: true,
+      itemCount: list.length,
+
+      // shrinkWrap: true,
     );
   }
 }

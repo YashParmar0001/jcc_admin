@@ -15,7 +15,7 @@ class ComplaintWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.go('/complaints/complaint_details');
+        // context.go('/complaints/complaint_details');
       },
       child: Container(
         margin: const EdgeInsets.only(
@@ -23,31 +23,19 @@ class ComplaintWidget extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
+          border: Border.all(color: AppColors.geryis),
           color: AppColors.antiFlashWhite,
           borderRadius: BorderRadius.circular(15),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x3F000000),
-              blurRadius: 2,
-              offset: Offset(0, 2),
-              spreadRadius: 0,
-            )
-          ],
+          // boxShadow: const [
+          //   BoxShadow(
+          //     color: Color(0x3F000000),
+          //     blurRadius: 2,
+          //     offset: Offset(0, 2),
+          //     spreadRadius: 0,
+          //   )
+          // ],
         ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const SizedBox(width: 5),
-            Image.asset(
-              UIUtils.getIconName(complaint.departmentName),
-              height: 60,
-              width: 60,
-            ),
-            const SizedBox(
-              width: 15,
-            ),
-            Column(
+        child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -61,7 +49,7 @@ class ComplaintWidget extends StatelessWidget {
                   height: 5,
                 ),
                 Text(
-                  complaint.departmentName,
+                  complaint.subject,
                   style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 14,
@@ -71,16 +59,7 @@ class ComplaintWidget extends StatelessWidget {
                 const SizedBox(
                   height: 5,
                 ),
-                Text(
-                  complaint.subject,
-                  style: const TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 12,
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
+
                 buildStatus(
                   context,
                   AppColors.monaLisa,
@@ -95,7 +74,7 @@ class ComplaintWidget extends StatelessWidget {
                     style: const TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 10,
-                      fontWeight: FontWeight.w100,
+                      fontWeight: FontWeight.w400,
                       color: Colors.black,
                     ),
                     children: [
@@ -107,11 +86,30 @@ class ComplaintWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                )
-              ],
-            )
-          ],
+                ),
+        const SizedBox(
+          height: 5,
         ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'registered by ',
+              style: const TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 10,
+              ),),
+          Text(
+              complaint.applicantName,
+              style: const TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 10,
+              ),
+          )
+          ],
+        )],
+            )
+
       ),
     );
   }
@@ -130,7 +128,7 @@ class ComplaintWidget extends StatelessWidget {
         Text(
           status,
           style: const TextStyle(
-              fontFamily: 'Poppins', fontSize: 10, fontWeight: FontWeight.w100),
+              fontFamily: 'Poppins', fontSize: 10, fontWeight: FontWeight.w400),
         )
       ],
     );
