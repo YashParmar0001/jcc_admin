@@ -37,12 +37,22 @@ class EmployeeRepository {
       );
       await _firestore
           .collection('employees')
-          .doc(employee.employeeId)
+          .doc(employee.email)
           .set(employee.toMap());
       return employee;
     } catch (e) {
       dev.log('Error while creating employee: $e', name: 'Employee');
       return null;
+    }
+  }
+
+  Future<void> removeEmployee(String email) async {
+    try {
+      await _firestore
+          .collection('employees')
+          .doc(email).delete();
+    } catch(e){
+      print(e.toString());
     }
   }
 }

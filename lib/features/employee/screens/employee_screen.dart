@@ -36,7 +36,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
         ),
         child: FloatingActionButton.extended(
           label: Text(
-            "Register Complaint",
+            "Register Employee",
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   fontFamily: 'Roboto',
                   fontWeight: FontWeight.w600,
@@ -116,7 +116,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
             } else {
               return Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
+                  horizontal: 0,
                 ),
                 child: ListView.builder(
                   controller: widget.controller,

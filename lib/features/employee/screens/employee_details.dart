@@ -1,15 +1,19 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jcc_admin/bloc/employee/employee_bloc.dart';
 import 'package:jcc_admin/generated/assets.dart';
 import 'package:jcc_admin/model/employee_model.dart';
+import 'package:jcc_admin/repositories/employee_repository.dart';
 
 class EmployeeDetails extends StatefulWidget {
   EmployeeDetails({super.key, required this.id});
 
   String id;
+
   @override
   State<EmployeeDetails> createState() => _EmployeeDetailsState();
 }
@@ -17,17 +21,22 @@ class EmployeeDetails extends StatefulWidget {
 class _EmployeeDetailsState extends State<EmployeeDetails> {
   late EmployeeModel employeeModel;
 
-
   @override
   Widget build(BuildContext context) {
     print("Hello");
     employeeModel = (context.read<EmployeeBloc>().state as EmployeeLoaded)
-          .employeeList
-          .firstWhere((element) => element.employeeId == widget.id) ;
-      print(employeeModel.toString());
+        .employeeList
+        .firstWhere((element) => element.email == widget.id);
+    print(employeeModel.toString());
     return Scaffold(
       appBar: AppBar(
-        title: const Text('EmployeeDetails'),
+        title: const Text(
+          'EmployeeDetails',
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 22,
+          ),
+        ),
         centerTitle: true,
         actions: [
           PopupMenuButton(
@@ -36,8 +45,16 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
                 const PopupMenuItem(
                   child: Text("Edit"),
                 ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   child: Text("Delete"),
+                  onTap: () async {
+                    final email = employeeModel.email;
+                    await FirebaseFirestore.instance
+                        .collection('employees')
+                        .doc('${employeeModel.email}')
+                        .delete();
+                    context.pop();
+                  },
                 ),
               ];
             },
@@ -65,15 +82,20 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
                     width: double.infinity,
                   ),
                   _buildEmployDataField(
-                      title: "Full name ", data: "${employeeModel.firstName} ${employeeModel.middleName} ${employeeModel.lastName}"),
+                      title: "Full name ",
+                      data:
+                          "${employeeModel.firstName} ${employeeModel.middleName} ${employeeModel.lastName}"),
                   _buildEmployDataField(
-                      title: "Employee ID", data: "${employeeModel.employeeId}"),
+                      title: "Employee ID",
+                      data: "${employeeModel.employeeId}"),
                   _buildEmployDataField(
                       title: "Mobile No", data: "${employeeModel.phone}"),
                   _buildEmployDataField(
                       title: "Email", data: "${employeeModel.email}"),
-                  _buildEmployDataField(title: "Department", data: "Coding"),
-                  _buildEmployDataField(title: "Post", data: "Pro Developer"),
+                  _buildEmployDataField(
+                      title: "Department", data: "${employeeModel.department}"),
+                  _buildEmployDataField(
+                      title: "Post", data: "${employeeModel.type}"),
                   _buildEmployDataField(
                       title: "Ward no", data: "${employeeModel.ward}"),
                 ],
