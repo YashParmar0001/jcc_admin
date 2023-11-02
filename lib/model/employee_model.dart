@@ -5,8 +5,10 @@ class EmployeeModel {
   final String employeeId;
   final String phone;
   final String email;
+  final String department;
   final String ward;
   final String password;
+  final String type;
 
   List<Object?> get props => [
         firstName,
@@ -15,8 +17,10 @@ class EmployeeModel {
         employeeId,
         phone,
         email,
+        department,
         ward,
         password,
+    type,
       ];
 
   const EmployeeModel({
@@ -26,8 +30,10 @@ class EmployeeModel {
     required this.employeeId,
     required this.phone,
     required this.email,
+    required this.department,
     required this.ward,
     required this.password,
+    required this.type,
   });
 
   @override
@@ -42,18 +48,22 @@ class EmployeeModel {
     String? employeeId,
     String? phone,
     String? email,
+    String? department,
     String? ward,
     String? password,
+    String? type,
   }) {
     return EmployeeModel(
-      firstName: this.firstName,
-      middleName: this.middleName,
-      lastName: this.lastName,
-      employeeId: this.employeeId,
-      phone: this.phone,
-      email: this.email,
-      ward: this.ward,
-      password: this.password,
+      firstName: firstName ?? this.firstName,
+      middleName: middleName ?? this.middleName,
+      lastName: lastName ?? this.lastName,
+      employeeId: employeeId ?? this.employeeId,
+      phone: phone ?? this.phone,
+      email: email ?? this.email,
+      department: department ?? this.department,
+      ward: ward ?? this.ward,
+      password: password ?? this.password,
+      type: type ?? this.type,
     );
   }
 
@@ -65,8 +75,10 @@ class EmployeeModel {
       employeeId: employeeId,
       phone: phone,
       email: email,
+      department: department,
       ward: ward,
       password: password,
+      type: type,
     };
   }
 
@@ -78,8 +90,10 @@ class EmployeeModel {
       employeeId: map['employeeId'],
       phone: map['phone'],
       email: map['email'],
+      department: map['department'],
       ward: map['ward'],
       password: map['password'],
+      type: map['type'],
     );
   }
 }

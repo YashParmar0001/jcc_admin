@@ -10,12 +10,14 @@ class ComplaintsOverview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Image.asset(
           Assets.departmentWater,
           height: 100,
         ),
         Container(
+          width: 340,
           height: 75,
           decoration: const BoxDecoration(
             boxShadow: [

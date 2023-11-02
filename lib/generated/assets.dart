@@ -27,22 +27,7 @@ class Assets {
   static const String departmentIconsUcd = 'assets/departmentIcons/ucd.png';
   static const String departmentIconsUndergroundSewers = 'assets/departmentIcons/underground_sewers.png';
   static const String departmentIconsWaterDepartment = 'assets/departmentIcons/water_department.png';
-  static const String departmentThumbnailCivil = 'assets/departmentThumbnail/civil.png';
-  static const String departmentThumbnailEstate = 'assets/departmentThumbnail/estate.png';
-  static const String departmentThumbnailFloodControl = 'assets/departmentThumbnail/flood_control.png';
-  static const String departmentThumbnailGarden = 'assets/departmentThumbnail/garden.png';
-  static const String departmentThumbnailHealth = 'assets/departmentThumbnail/health.png';
-  static const String departmentThumbnailHouseTax = 'assets/departmentThumbnail/house_tax.png';
-  static const String departmentThumbnailICDS = 'assets/departmentThumbnail/ICDS.png';
-  static const String departmentThumbnailLightEESL = 'assets/departmentThumbnail/light_EESL.png';
-  static const String departmentThumbnailProjectPlanning = 'assets/departmentThumbnail/project_planning.png';
-  static const String departmentThumbnailSecurity = 'assets/departmentThumbnail/security.png';
-  static const String departmentThumbnailSlum = 'assets/departmentThumbnail/slum.png';
-  static const String departmentThumbnailSolidWaste = 'assets/departmentThumbnail/solid_waste.png';
-  static const String departmentThumbnailTownPlanning = 'assets/departmentThumbnail/town_planning.png';
-  static const String departmentThumbnailUCD = 'assets/departmentThumbnail/UCD.png';
-  static const String departmentThumbnailUGD = 'assets/departmentThumbnail/UGD.png';
-  static const String departmentThumbnailWaterWorks = 'assets/departmentThumbnail/water_works.png';
+
   static const String departmentWater = 'assets/department/water.png';
   static const String iconsAboutUs = 'assets/icons/about_us.svg';
   static const String iconsAddImage = 'assets/icons/add_image.svg';
@@ -63,6 +48,7 @@ class Assets {
   static const String iconsLogo = 'assets/icons/logo.png';
   static const String iconsMenu = 'assets/icons/menu.svg';
   static const String iconsNotifications = 'assets/icons/notifications.svg';
+
   static const String iconsPhoneCall = 'assets/icons/phone-call.svg';
   static const String iconsSearch = 'assets/icons/search.svg';
   static const String iconsUser = 'assets/icons/user.png';

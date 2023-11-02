@@ -7,7 +7,8 @@ import '../../../constants/app_color.dart';
 import 'package:go_router/go_router.dart';
 
 class NotificationScreen extends StatefulWidget {
-  const NotificationScreen({
+
+  NotificationScreen({
     Key? key,
     required this.controller,
     required this.bottomNavKey,
