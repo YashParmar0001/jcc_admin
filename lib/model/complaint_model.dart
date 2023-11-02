@@ -24,22 +24,23 @@ class ComplaintModel extends Equatable {
 
   @override
   List<Object?> get props => [
-    id,
-    description,
-    registrationDate,
-    departmentName,
-    subject,
-    ward,
-    area,
-    userId,
-    uniquePin,
-    imageUrls,
-    status,
-    detailedAddress,
-    isLocked,
-    isAssigned,
-    assignedEmployeeId,
-  ];
+        id,
+        description,
+        registrationDate,
+        departmentName,
+        subject,
+        ward,
+        area,
+        userId,
+        uniquePin,
+        imageUrls,
+        status,
+        detailedAddress,
+        isLocked,
+        isAssigned,
+        assignedEmployeeId,
+        applicantName,
+      ];
 
 //<editor-fold desc="Data Methods">
   const ComplaintModel({
@@ -89,6 +90,7 @@ class ComplaintModel extends Equatable {
     String? applicantName,
     String? remarks,
     Map<String, String>? trackData,
+    String? assignedId,
   }) {
     return ComplaintModel(
       id: id ?? this.id,
@@ -139,6 +141,7 @@ class ComplaintModel extends Equatable {
 
   factory ComplaintModel.fromMap(Map<String, dynamic> map) {
     final date = (map['registrationDate'] as Timestamp).toDate();
+
     return ComplaintModel(
       id: map['id'] as String,
       description: map['description'] as String,
@@ -150,7 +153,7 @@ class ComplaintModel extends Equatable {
       userId: map['userId'] as String,
       uniquePin: map['uniquePin'] as String,
       imageUrls:
-      (map['imageUrls'] as List<dynamic>).map((e) => e.toString()).toList(),
+          (map['imageUrls'] as List<dynamic>).map((e) => e.toString()).toList(),
       status: map['status'] as String,
       detailedAddress: map['siteAddress'] as String,
       isLocked: map['isLocked'] as bool,
@@ -159,7 +162,7 @@ class ComplaintModel extends Equatable {
       applicantName: map['applicantName'] as String,
       remarks: map['remarks'] as String,
       noOfHours: map['noOfHours'] as int,
-      trackData: map['trackData'] as Map<String, dynamic>,
+      trackData: {},
     );
   }
 }

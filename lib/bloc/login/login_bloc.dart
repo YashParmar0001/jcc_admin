@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer' as dev;
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -31,4 +32,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   void _onLogOut(LogOut event, Emitter<LoginState> emit) {}
+
+  @override
+  void onTransition(Transition<LoginEvent, LoginState> transition) {
+    dev.log(transition.toString(), name: 'User');
+    super.onTransition(transition);
+  }
 }
