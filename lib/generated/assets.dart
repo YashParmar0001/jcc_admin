@@ -27,6 +27,7 @@ class Assets {
   static const String departmentIconsUcd = 'assets/departmentIcons/ucd.png';
   static const String departmentIconsUndergroundSewers = 'assets/departmentIcons/underground_sewers.png';
   static const String departmentIconsWaterDepartment = 'assets/departmentIcons/water_department.png';
+
   static const String departmentWater = 'assets/department/water.png';
   static const String iconsAboutUs = 'assets/icons/about_us.svg';
   static const String iconsAddImage = 'assets/icons/add_image.svg';
@@ -47,6 +48,8 @@ class Assets {
   static const String iconsLogo = 'assets/icons/logo.png';
   static const String iconsMenu = 'assets/icons/menu.svg';
   static const String iconsNotifications = 'assets/icons/notifications.svg';
+
+  static const String iconsPhoneCall = 'assets/icons/phone-call.svg';
   static const String iconsSearch = 'assets/icons/search.svg';
   static const String iconsUser = 'assets/icons/user.png';
   static const String logoLogo = 'assets/logo/logo.png';

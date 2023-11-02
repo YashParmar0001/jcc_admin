@@ -77,6 +77,7 @@ class AppBottomNavigationBar extends StatelessWidget {
           items: [
             _buildBottomNavigationBarItem(index: 0),
             _buildBottomNavigationBarItem(index: 1),
+
             if (type == 'hod') _buildBottomNavigationBarItem(index: 2),
             _buildBottomNavigationBarItem(index: 3),
           ],
