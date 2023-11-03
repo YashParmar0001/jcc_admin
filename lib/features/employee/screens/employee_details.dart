@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jcc_admin/bloc/employee/employee_bloc.dart';
 import 'package:jcc_admin/generated/assets.dart';
 import 'package:jcc_admin/model/employee_model.dart';
+import 'package:jcc_admin/repositories/employee_repository.dart';
 
 class EmployeeDetails extends StatefulWidget {
   const EmployeeDetails({super.key, required this.id});
@@ -37,8 +40,16 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
                 const PopupMenuItem(
                   child: Text("Edit"),
                 ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   child: Text("Delete"),
+                  onTap: () async {
+                    final email = employeeModel.email;
+                    await FirebaseFirestore.instance
+                        .collection('employees')
+                        .doc('${employeeModel.email}')
+                        .delete();
+                    context.pop();
+                  },
                 ),
               ];
             },
