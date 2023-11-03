@@ -54,9 +54,9 @@ flutter:
     - assets/icons/
     - assets/lottie/
     - assets/artworks/
-    - assets/department/
     - assets/backgrounds/
     - assets/complaint_data/
     - assets/departmentIcons/
+    - assets/departmentThumbnail/
 
 

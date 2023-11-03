@@ -116,7 +116,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
             } else {
               return Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
+                  horizontal: 0,
                 ),
                 child: ListView.builder(
                   controller: widget.controller,
