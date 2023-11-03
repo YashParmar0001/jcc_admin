@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jcc_admin/model/complaint_model.dart';
+import 'dart:developer' as dev;
+import '../model/complaint_stats_model.dart';
 
 class ComplaintRepository {
   ComplaintRepository({
@@ -16,6 +18,22 @@ class ComplaintRepository {
         .snapshots()
         .map((event) {
       return event.docs.map((e) => ComplaintModel.fromMap(e.data())).toList();
+    });
+  }
+
+  Stream<ComplaintStatsModel?> getComplaintStats() {
+    return _firestore
+        .collection('complaint_stats')
+        .doc('stats')
+        .snapshots()
+        .map((event) {
+      try {
+        final data = event.data();
+        return ComplaintStatsModel.fromMap(data!);
+      } catch (e) {
+        dev.log('Got complaint stats error: $e', name: 'Stats');
+        return null;
+      }
     });
   }
 }

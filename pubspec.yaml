@@ -20,13 +20,14 @@ dependencies:
     #  UI Libs
   google_fonts: ^6.1.0
   flutter_svg: ^2.0.9
+  syncfusion_flutter_gauges: ^23.1.42
+  syncfusion_flutter_charts: ^23.1.42
   timeline_tile: ^2.0.0
 
   #  Bloc Libs
   equatable: ^2.0.5
   bloc: ^8.1.2
   flutter_bloc: ^8.1.3
-  syncfusion_flutter_gauges: ^23.1.42
   fl_chart: ^0.64.0
   form_bloc: ^0.31.0
 
