@@ -22,6 +22,7 @@ dependencies:
   flutter_svg: ^2.0.9
   syncfusion_flutter_gauges: ^23.1.42
   syncfusion_flutter_charts: ^23.1.42
+  timeline_tile: ^2.0.0
 
   #  Bloc Libs
   equatable: ^2.0.5
@@ -54,9 +55,9 @@ flutter:
     - assets/icons/
     - assets/lottie/
     - assets/artworks/
-    - assets/department/
     - assets/backgrounds/
     - assets/complaint_data/
     - assets/departmentIcons/
+    - assets/departmentThumbnail/
 
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jcc_admin/common/widget/app_scaffold.dart';
 import 'package:jcc_admin/common/widget/scroll_to_hide_widget.dart';
+import 'package:jcc_admin/features/complaint/screens/complaint_details.dart';
 import 'package:jcc_admin/features/complaint/screens/complaint_screen.dart';
 import 'package:jcc_admin/features/complaint/screens/complaint_view.dart';
 import 'package:jcc_admin/features/employee/screens/employee_create.dart';
@@ -94,10 +95,8 @@ final router = GoRouter(
           routes: [
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
-              path: 'complaint_details/:id',
-              builder: (context, state) => ComplaintView(
-                id: state.pathParameters['id']!,
-              ),
+              path: 'complaint_details',
+              builder: (context, state) => ComplaintDetails(),
             ),
           ],
         ),

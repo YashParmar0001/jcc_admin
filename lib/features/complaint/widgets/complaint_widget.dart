@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../constants/app_color.dart';
 import '../../../model/complaint_model.dart';
@@ -13,7 +14,7 @@ class ComplaintWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // context.go('/complaints/complaint_details');
+        context.go('/complaint_screen/complaint_details');
       },
       child: Container(
         margin: const EdgeInsets.only(

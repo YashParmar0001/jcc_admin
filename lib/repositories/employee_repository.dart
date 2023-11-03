@@ -45,4 +45,14 @@ class EmployeeRepository {
       return null;
     }
   }
+
+  Future<void> removeEmployee(String email) async {
+    try {
+      await _firestore
+          .collection('employees')
+          .doc(email).delete();
+    } catch(e){
+      print(e.toString());
+    }
+  }
 }

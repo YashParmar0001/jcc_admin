@@ -90,7 +90,7 @@ class EmployeeModel {
       employeeId: map['employeeId'],
       phone: map['phone'],
       email: map['email'],
-      department: map['department'],
+      department: map['department'] ?? "",
       ward: map['ward'],
       password: map['password'],
       type: map['type'],
