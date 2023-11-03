@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+
 import 'package:go_router/go_router.dart';
 import 'package:jcc_admin/constants/app_color.dart';
 import 'package:jcc_admin/generated/assets.dart';
+
 import 'package:jcc_admin/model/employee_model.dart';
 
 class EmployeeWidget extends StatelessWidget {
@@ -12,6 +14,7 @@ class EmployeeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return InkWell(
       onTap: (){
         context.push('/employeeView/${employeeModel.email}');

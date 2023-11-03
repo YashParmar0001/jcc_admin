@@ -11,9 +11,9 @@ import 'package:jcc_admin/model/employee_model.dart';
 import 'package:jcc_admin/repositories/employee_repository.dart';
 
 class EmployeeDetails extends StatefulWidget {
-  EmployeeDetails({super.key, required this.id});
+  const EmployeeDetails({super.key, required this.id});
 
-  String id;
+  final String id;
 
   @override
   State<EmployeeDetails> createState() => _EmployeeDetailsState();
