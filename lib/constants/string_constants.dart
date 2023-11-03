@@ -131,3 +131,30 @@ class DepartmentDataConstants {
     "+918160639228",
   ];
 }
+
+class ScreensDataConstants {
+  static const String recentTitle = "Recent Complaints";
+  static const String fullName = "Full Name";
+  static const String firstName = "First Name";
+  static const String lastName = "Last Name";
+  static const String mobileNo = "Mobile No";
+  static const String email = "Email";
+
+  // Complaint Details Screens
+  static const String complaintNo = "Complaint no.";
+  static const String status = "Status";
+  static const String registrationDate = "Registration Date";
+  static const String durationOfCompletion = "Duration of Completion";
+  static const String department = "Department";
+  static const String subject = "Subject";
+  static const String areaName = "Area Name";
+  static const String wardNo = "Ward no.";
+  static const String address = "Address";
+  static const String description = "Description";
+  static const String applicantName = "Applicant Name";
+  static const String applicantMobileNo = "Applicant Mobile no.";
+  static const String remarks = "Remarks";
+  static const String photographs = "Photographs";
+  static const String completionCode = "Completion Code";
+}
+
