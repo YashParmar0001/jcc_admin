@@ -14,7 +14,7 @@ class ComplaintModel extends Equatable {
   final String detailedAddress;
   final String userId;
   final String applicantName;
-  final Map<String, dynamic> trackData;
+  final List<TimeLine> trackData;
   final String uniquePin;
   final List<String> imageUrls;
   final String status;
@@ -24,23 +24,26 @@ class ComplaintModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        description,
-        registrationDate,
-        departmentName,
-        subject,
-        ward,
-        area,
-        userId,
-        uniquePin,
-        imageUrls,
-        status,
-        detailedAddress,
-        isLocked,
-        isAssigned,
-        assignedEmployeeId,
-        applicantName,
-      ];
+    id,
+    description,
+    registrationDate,
+    applicantName,
+    departmentName,
+    subject,
+    ward,
+    area,
+    userId,
+    uniquePin,
+    trackData,
+    imageUrls,
+    status,
+    detailedAddress,
+    isLocked,
+    isAssigned,
+    assignedEmployeeId,
+    noOfHours,
+    remarks,
+  ];
 
 //<editor-fold desc="Data Methods">
   const ComplaintModel({
@@ -67,7 +70,7 @@ class ComplaintModel extends Equatable {
 
   @override
   String toString() {
-    return 'ComplaintModel{ id: $id, description: $description, registrationDate: $registrationDate, departmentName: $departmentName, subject: $subject, ward: $ward, area: $area, userId: $userId, uniquePin: $uniquePin, imageUrls: $imageUrls, status: $status, siteAddress: $detailedAddress, isLocked: $isLocked, isAssigned: $isAssigned, assignedId: $assignedEmployeeId,}';
+    return 'ComplaintModel{ id: $id, description: $description, registrationDate: $registrationDate, departmentName: $departmentName, subject: $subject, ward: $ward, area: $area, userId: $userId, uniquePin: $uniquePin, imageUrls: , status: $status, siteAddress: $detailedAddress, isLocked: $isLocked, isAssigned: $isAssigned, assignedId: $assignedEmployeeId,}';
   }
 
   ComplaintModel copyWith({
@@ -89,8 +92,7 @@ class ComplaintModel extends Equatable {
     int? noOfHours,
     String? applicantName,
     String? remarks,
-    Map<String, String>? trackData,
-    String? assignedId,
+    List<TimeLine>? trackData,
   }) {
     return ComplaintModel(
       id: id ?? this.id,
@@ -135,13 +137,12 @@ class ComplaintModel extends Equatable {
       'noOfHours': noOfHours,
       'applicantName': applicantName,
       'remarks': remarks,
-      'trackData': trackData,
+      'trackData': trackData.map((e) => e.toMap()),
     };
   }
 
   factory ComplaintModel.fromMap(Map<String, dynamic> map) {
     final date = (map['registrationDate'] as Timestamp).toDate();
-
     return ComplaintModel(
       id: map['id'] as String,
       description: map['description'] as String,
@@ -153,7 +154,7 @@ class ComplaintModel extends Equatable {
       userId: map['userId'] as String,
       uniquePin: map['uniquePin'] as String,
       imageUrls:
-          (map['imageUrls'] as List<dynamic>).map((e) => e.toString()).toList(),
+      (map['imageUrls'] as List<dynamic>).map((e) => e.toString()).toList(),
       status: map['status'] as String,
       detailedAddress: map['siteAddress'] as String,
       isLocked: map['isLocked'] as bool,
@@ -162,7 +163,33 @@ class ComplaintModel extends Equatable {
       applicantName: map['applicantName'] as String,
       remarks: map['remarks'] as String,
       noOfHours: map['noOfHours'] as int,
-      trackData: {},
+      trackData: (map['trackData'] as List<dynamic>)
+          .map((e) => TimeLine.fromMap(e))
+          .toList(),
+    );
+  }
+}
+
+class TimeLine extends Equatable {
+  final String date;
+  final String status;
+
+  @override
+  List<Object?> get props => [date, status];
+
+  const TimeLine({required this.date, required this.status});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'date': date,
+      'status': status,
+    };
+  }
+
+  factory TimeLine.fromMap(Map<String, dynamic> map) {
+    return TimeLine(
+      date: map['date'] as String,
+      status: map['status'] as String,
     );
   }
 }
