@@ -12,10 +12,6 @@ class ComplaintsOverview extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Image.asset(
-          Assets.departmentWater,
-          height: 100,
-        ),
         Container(
           width: 340,
           height: 75,

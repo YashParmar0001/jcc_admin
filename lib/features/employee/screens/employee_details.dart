@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jcc_admin/bloc/employee/employee_bloc.dart';
 import 'package:jcc_admin/generated/assets.dart';
@@ -63,10 +64,8 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
       ),
       body: Stack(
         children: [
-          Image.asset(
-            "assets/department/water.png",
-            width: double.infinity,
-            fit: BoxFit.cover,
+          SvgPicture.asset(
+            'assets/departmentThumbnail/flood_control.svg',
           ),
           SingleChildScrollView(
             scrollDirection: Axis.vertical,
@@ -77,9 +76,13 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(height: 60),
-                  Image.asset(
-                    Assets.iconsLogo,
-                    width: double.infinity,
+                  Align(
+                    alignment: Alignment.center,
+                    child: Image.asset(
+                      Assets.iconsUser,
+                      width: 200,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   _buildEmployDataField(
                       title: "Full name ",
