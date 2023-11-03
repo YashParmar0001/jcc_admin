@@ -20,6 +20,7 @@ dependencies:
     #  UI Libs
   google_fonts: ^6.1.0
   flutter_svg: ^2.0.9
+  timeline_tile: ^2.0.0
 
   #  Bloc Libs
   equatable: ^2.0.5
