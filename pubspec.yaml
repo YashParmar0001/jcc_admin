@@ -38,6 +38,10 @@ dependencies:
   firebase_auth:
   flutter_form_bloc: ^0.31.0
 
+  #notification
+  onesignal_flutter: ^5.0.3
+  http:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -27,22 +27,22 @@ class Assets {
   static const String departmentIconsUcd = 'assets/departmentIcons/ucd.png';
   static const String departmentIconsUndergroundSewers = 'assets/departmentIcons/underground_sewers.png';
   static const String departmentIconsWaterDepartment = 'assets/departmentIcons/water_department.png';
-  static const String departmentThumbnailCivil = 'assets/departmentThumbnail/civil.svg';
-  static const String departmentThumbnailEstate = 'assets/departmentThumbnail/estate.svg';
-  static const String departmentThumbnailFloodControl = 'assets/departmentThumbnail/flood_control.svg';
-  static const String departmentThumbnailGarden = 'assets/departmentThumbnail/garden.svg';
-  static const String departmentThumbnailHealth = 'assets/departmentThumbnail/health.svg';
-  static const String departmentThumbnailHouseTax = 'assets/departmentThumbnail/house_tax.svg';
-  static const String departmentThumbnailICDS = 'assets/departmentThumbnail/ICDS.svg';
-  static const String departmentThumbnailLightEESL = 'assets/departmentThumbnail/light_EESL.svg';
-  static const String departmentThumbnailProjectPlanning = 'assets/departmentThumbnail/project_planning.svg';
-  static const String departmentThumbnailSecurity = 'assets/departmentThumbnail/security.svg';
-  static const String departmentThumbnailSlum = 'assets/departmentThumbnail/slum.svg';
-  static const String departmentThumbnailSolidWaste = 'assets/departmentThumbnail/solid_waste.svg';
-  static const String departmentThumbnailTownPlanning = 'assets/departmentThumbnail/town_planning.svg';
-  static const String departmentThumbnailUCD = 'assets/departmentThumbnail/UCD.svg';
-  static const String departmentThumbnailUGD = 'assets/departmentThumbnail/UGD.svg';
-  static const String departmentThumbnailWaterWorks = 'assets/departmentThumbnail/water_works.svg';
+  static const String departmentThumbnailCivil = 'assets/departmentThumbnail/civil.png';
+  static const String departmentThumbnailEstate = 'assets/departmentThumbnail/estate.png';
+  static const String departmentThumbnailFloodControl = 'assets/departmentThumbnail/flood_control.png';
+  static const String departmentThumbnailGarden = 'assets/departmentThumbnail/garden.png';
+  static const String departmentThumbnailHealth = 'assets/departmentThumbnail/health.png';
+  static const String departmentThumbnailHouseTax = 'assets/departmentThumbnail/house_tax.png';
+  static const String departmentThumbnailIcds = 'assets/departmentThumbnail/icds.png';
+  static const String departmentThumbnailLightEeslNagarSimArea = 'assets/departmentThumbnail/light_eesl_nagar_sim_area.png';
+  static const String departmentThumbnailProjectPlanning = 'assets/departmentThumbnail/project_planning.png';
+  static const String departmentThumbnailSecurity = 'assets/departmentThumbnail/security.png';
+  static const String departmentThumbnailSlum = 'assets/departmentThumbnail/slum.png';
+  static const String departmentThumbnailSoildWaste = 'assets/departmentThumbnail/soild_waste.png';
+  static const String departmentThumbnailTownPlanning = 'assets/departmentThumbnail/town_planning.png';
+  static const String departmentThumbnailUcd = 'assets/departmentThumbnail/ucd.png';
+  static const String departmentThumbnailUgd = 'assets/departmentThumbnail/ugd.png';
+  static const String departmentThumbnailWater = 'assets/departmentThumbnail/water.png';
   static const String iconsAboutUs = 'assets/icons/about_us.svg';
   static const String iconsAddImage = 'assets/icons/add_image.svg';
   static const String iconsBackArrow = 'assets/icons/back_arrow.svg';
@@ -68,6 +68,5 @@ class Assets {
   static const String logoLogo = 'assets/logo/logo.png';
   static const String lottieSearch = 'assets/lottie/search.json';
   static const String lottieSuccess = 'assets/lottie/success.json';
-  static const String tempWater2 = 'assets/temp/water2.png';
 
 }
