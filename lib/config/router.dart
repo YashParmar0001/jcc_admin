@@ -102,10 +102,8 @@ final router = GoRouter(
           routes: [
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
-              path: 'complaint_details/:id',
-              builder: (context, state) => ComplaintView(
-                id: state.pathParameters['id']!,
-              ),
+              path: 'complaint_details',
+              builder: (context, state) => ComplaintDetails(),
             ),
           ],
         ),

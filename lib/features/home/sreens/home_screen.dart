@@ -1,12 +1,18 @@
-// ignore_for_file: prefer_const_constructors
-
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:jcc_admin/common/widget/menu_drawer.dart';
-import 'package:jcc_admin/common/widget/scroll_to_hide_widget.dart';
-import 'package:jcc_admin/constants/app_color.dart';
-import 'package:jcc_admin/features/home/widget/drawer_widget.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import 'dart:developer' as dev;
+import '../../../bloc/complaint/stats/complaint_stats_bloc.dart';
+import '../../../common/widget/menu_drawer.dart';
+import '../../../common/widget/scroll_to_hide_widget.dart';
+import '../../../config/router.dart';
+import '../../../constants/app_color.dart';
+import '../../../constants/string_constants.dart';
+import '../../../generated/assets.dart';
+import '../widget/data_card.dart';
+import '../widget/data_chart.dart';
+import '../widget/recent_complaints_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -23,225 +29,204 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('HomeScreen'),
-      ),
-      drawer: MenuDrawer(),
+      key: scaffoldKey,
+      drawer: const MenuDrawer(),
       onDrawerChanged: (isOpened) {
         if (isOpened) {
           if (widget.bottomNavKey.currentState != null) {
+            dev.log('State is not null', name: 'Home');
             if (widget.bottomNavKey.currentState!.isVisible) {
               widget.bottomNavKey.currentState!.hide();
             }
           } else {
+            dev.log('State is null', name: 'Home');
           }
         } else {
           if (widget.bottomNavKey.currentState != null) {
+            dev.log('State is not null', name: 'Home');
             if (!widget.bottomNavKey.currentState!.isVisible) {
               widget.bottomNavKey.currentState!.show();
             }
           } else {
+            dev.log('State is null', name: 'Home');
           }
         }
       },
+      appBar: AppBar(
+        leading: Builder(
+          builder: (context) => IconButton(
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              icon: SvgPicture.asset(
+                Assets.iconsMenu,
+                fit: BoxFit.cover,
+              )),
+        ),
+        title: Text(
+          CommonDataConstants.home,
+          style: Theme.of(context).textTheme.displayLarge?.copyWith(
+            fontSize: 22,
+          ),
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: SvgPicture.asset(Assets.iconsSearch),
+          )
+        ],
+      ),
       body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
+        controller: controller,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                _buildCardItem(
-                  context: context,
-                  title: "Registerd",
-                  percentage: "60 %",
-                  count: "2597935798",
-                  lable: "Complaint Registerd",
-                  bgColor: Color(0xFF15DCE8),
-                  progressColor: Color(0xFF00AAF2),
-                ),
-                _buildCardItem(
-                  context: context,
-                  title: "On Hold",
-                  percentage: "60 %",
-                  count: "2597935798",
-                  lable: "Complaint Registerd",
-                  bgColor: Color(0xFFFF9999),
-                  progressColor: Color(0xFFFF1F1F),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                _buildCardItem(
-                  context: context,
-                  title: "In Process",
-                  percentage: "60 %",
-                  count: "2597935798",
-                  lable: "Complaint Registerd",
-                  bgColor: Color(0xFFBF57FF),
-                  progressColor: Color(0xFF9E07A1),
-                ),
-                _buildCardItem(
-                  context: context,
-                  title: "Completed",
-                  percentage: "60 %",
-                  count: "2597935798",
-                  lable: "Complaint Registerd",
-                  bgColor: Color(0xFF66CC66),
-                  progressColor: Color(0xFF008905),
-                ),
-              ],
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              height: MediaQuery.of(context).size.width-100,
-              child: PieChart(
-                swapAnimationDuration: Duration(milliseconds: 500),
-                PieChartData(
-                  sections: [
-                    PieChartSectionData(
-                      color: Colors.red,
-                      value: 60,
-                      title: "60%",
-                      radius: 50,
-                      titleStyle: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                      ),
-                    ),
-                    PieChartSectionData(
-                      color: Colors.blue,
-                      value: 60,
-                      title: "30%",
-                      radius: 50,
-                      titleStyle: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                      ),
-                    ),
-                    PieChartSectionData(
-                      color: Colors.green,
-                      value: 60,
-                      title: "20%",
-                      radius: 50,
-                      titleStyle: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                      ),
-                    ),
-                    PieChartSectionData(
-                      color: Colors.yellow,
-                      value: 60,
-                      title: "10%",
-                      radius: 50,
-                      titleStyle: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
+            BlocBuilder<ComplaintStatsBloc, ComplaintStatsState>(
+              builder: (context, state) {
+                if (state is ComplaintStatsLoading) {
+                  return const CircularProgressIndicator();
+                } else if (state is ComplaintStatsError) {
+                  return Text(state.message);
+                } else if (state is ComplaintStatsLoaded) {
+                  final data = state.stats;
 
-  Widget _buildCardItem({
-    required BuildContext context,
-    required String title,
-    required String percentage,
-    required String count,
-    required String lable,
-    required Color bgColor,
-    required Color progressColor,
-  }) {
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: Container(
-        height: 140,
-        width: (MediaQuery.of(context).size.width / 2) - 8,
-        child: Stack(
-          children: [
-            Container(
-              color: bgColor,
-              height: 70,
-              child: Center(
-                child: Text(
-                  title,
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 70,
-              left: 0,
-              child: Container(
-                color: Colors.white,
-                height: 70,
-                width: (MediaQuery.of(context).size.width / 2) - 8,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        count,
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Text(
-                        lable,
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  color: bgColor,
-                ),
-                width: 30,
-                height: 30,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    CircularProgressIndicator(
-                      strokeWidth: 3,
-                      value: 0.5,
-                      valueColor: AlwaysStoppedAnimation<Color>(progressColor),
+                  List<ComplaintStateData> complaintStateData = [
+                    ComplaintStateData(
+                      ComplaintStateDataConstants.complaintState[0],
+                      data.registered.toString(),
+                      (data.registered / data.total) * 100,
+                      AppColors.brightTurquoise,
                     ),
-                    Text(
-                      "60",
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )
-                  ],
+                    ComplaintStateData(
+                      ComplaintStateDataConstants.complaintState[1],
+                      data.onHold.toString(),
+                      (data.onHold / data.total) * 100,
+                      AppColors.monaLisa,
+                    ),
+                    ComplaintStateData(
+                      ComplaintStateDataConstants.complaintState[2],
+                      data.inProcess.toString(),
+                      (data.inProcess / data.total) * 100,
+                      AppColors.heliotrope,
+                    ),
+                    ComplaintStateData(
+                      ComplaintStateDataConstants.complaintState[3],
+                      data.solved.toString(),
+                      (data.solved / data.total) * 100,
+                      AppColors.mantis,
+                    ),
+                  ];
+
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            DataCard(
+                              index: 0,
+                              complaintStateData: complaintStateData[0],
+                            ),
+                            DataCard(
+                              index: 1,
+                              complaintStateData: complaintStateData[1],
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            DataCard(
+                              index: 2,
+                              complaintStateData: complaintStateData[2],
+                            ),
+                            DataCard(
+                              index: 3,
+                              complaintStateData: complaintStateData[3],
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 15,
+                          ),
+                          child: Container(
+                            height: 360,
+                            width: MediaQuery.of(context).size.width - 20,
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(20),
+                              ),
+                              color: AppColors.platinum,
+                            ),
+                            child: Center(
+                              child: DataChart(
+                                complaintStateData: complaintStateData,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return const Text('Unknown state');
+                }
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: Text(
+                ScreensDataConstants.recentTitle,
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.w400,
                 ),
               ),
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 10),
+              clipBehavior: Clip.hardEdge,
+              decoration:
+              BoxDecoration(borderRadius: BorderRadius.circular(15)),
+              //   // child: Column(
+              //   //   children: List.generate(10, (index) => RecentComplaintsCard(index: index)),
+              //   // ),
+              child: ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: 5,
+                separatorBuilder: (context, index) {
+                  return const SizedBox(
+                    height: 5,
+                  );
+                },
+                itemBuilder: (context, index) {
+                  return RecentComplaintsCard(index: index);
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 92,
             ),
           ],
         ),
       ),
     );
   }
+}
+
+class ComplaintStateData {
+  ComplaintStateData(this.complaintState, this.complaintDataInNumber,
+      this.complaintsDataInPercentage, this.color);
+
+  final String complaintState;
+  final String complaintDataInNumber;
+  final double complaintsDataInPercentage;
+  final Color color;
 }

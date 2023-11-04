@@ -14,6 +14,9 @@ import 'package:jcc_admin/repositories/notification_repository.dart';
 import 'package:jcc_admin/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'bloc/complaint/stats/complaint_stats_bloc.dart';
+
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -57,6 +60,11 @@ class MyApp extends StatelessWidget {
           create: (context) => EmployeeRegisterBloc(
             employeeRepository: employeeRepository,
           ),
+        ),
+        BlocProvider(
+          create: (context) =>
+          ComplaintStatsBloc(complaintRepository: complaintRepository)
+            ..add(GetComplaintStats()),
         ),
       ],
       child: MaterialApp.router(
