@@ -387,7 +387,7 @@ class _ComplaintDetailsState extends State<ComplaintDetails> {
                         title: "Take Complaint",
                       ),
                     if (complaint.isAssigned &&
-                        !(complaint.status == "On Hold"))
+                        !(complaint.status == "On Hold" || complaint.status == "Approval Pending"))
                       _buildCustomButton(
                         context: context,
                         onTap: () {
@@ -404,7 +404,7 @@ class _ComplaintDetailsState extends State<ComplaintDetails> {
                       const SizedBox(
                         height: 15,
                       ),
-                    if (complaint.isAssigned)
+                    if (complaint.isAssigned && complaint.status != "Approval Pending" )
                       _buildCustomButton(
                         context: context,
                         onTap: () {
@@ -460,7 +460,7 @@ class _ComplaintDetailsState extends State<ComplaintDetails> {
   Widget _buildDataFiled2(
       {required BuildContext context,
       required String title,
-      required String text}) {
+      required String text,}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -528,11 +528,14 @@ class _ComplaintDetailsState extends State<ComplaintDetails> {
             const SizedBox(
               width: 20,
             ),
-            Text(
-              timeLine.status.toString(),
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+            SizedBox(
+              width: 100,
+              child: Text(
+                timeLine.status.toString(),
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
             ),
           ],
         ),
