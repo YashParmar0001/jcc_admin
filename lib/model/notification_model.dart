@@ -1,66 +1,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class NotificationModel {
+  final DateTime timeStamp;
+  final String departmentName;
   final String description;
-  final DateTime time;
+  final String complaintId;
   final String userId;
-  final String department;
-  final String complaintID;
 
-  List<Object?> get props => [
-        description,
-        time,
-        userId,
-        department,
-        complaintID,
-      ];
-
-  const NotificationModel({
+  NotificationModel({
+    required this.timeStamp,
+    required this.departmentName,
     required this.description,
-    required this.time,
+    required this.complaintId,
     required this.userId,
-    required this.department,
-    required this.complaintID,
   });
-
-  factory NotificationModel.fromMap(Map<String, dynamic> map) {
-    return NotificationModel(
-      description: map['description'],
-      time: (map['timeStamp'] as Timestamp).toDate(),
-      userId: map['userId'],
-      department: map['departmentName'],
-      complaintID: map['complaintID'],
-    );
-  }
 
   Map<String, dynamic> toMap() {
     return {
+      'timeStamp': timeStamp,
+      'departmentName': departmentName,
       'description': description,
-      'timeStamp': time,
+      'complaintId': complaintId,
       'userId': userId,
-      'departmentName': department,
-      'complaintID': complaintID,
     };
   }
 
-  NotificationModel copyWith({
-    String? description,
-    DateTime? time,
-    String? userId,
-    String? department,
-    String? complaintID,
-  }) {
+  factory NotificationModel.fromMap(Map<String, dynamic> map) {
     return NotificationModel(
-      description: description ?? this.description,
-      time: time ?? this.time,
-      userId: userId ?? this.userId,
-      department: department ?? this.department,
-      complaintID: complaintID ?? this.complaintID,
+      timeStamp: (map['timeStamp'] as Timestamp).toDate(),
+      departmentName: map['departmentName'] as String,
+      description: map['description'] as String,
+      complaintId: map['complaintId'] as String,
+      userId: map['userId'] as String,
     );
-  }
-
-  @override
-  String toString() {
-    return 'NotificationModel{description: $description, time: $time, userId: $userId, department: $department, complaintID: $complaintID}';
   }
 }
