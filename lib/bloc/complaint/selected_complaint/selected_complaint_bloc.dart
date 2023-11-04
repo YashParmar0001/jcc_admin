@@ -23,6 +23,8 @@ class SelectedComplaintBloc
     on<LoadSelectedComplaint>(_onLoadSelectedComplaint);
     on<UpdateSelectedComplaint>(_onUpdateSelectedComplaint);
     on<TakeComplaint>(_onTakeComplaint);
+    on<HoldComplaint>(_onHoldComplaint);
+    on<SolveComplaint>(_onSolveComplaint);
   }
 
   final ComplaintRepository _complaintRepository;
@@ -55,6 +57,46 @@ class SelectedComplaintBloc
     Emitter<SelectedComplaintState> emit,
   ) {
     emit(SelectedComplaintLoaded(event.complaint));
+  }
+
+  Future<void> _onHoldComplaint(HoldComplaint event, Emitter<SelectedComplaintState> emit,) async {
+    final time = DateTime.now();
+    final complaint = event.complaint;
+
+    final updatedTrackData = complaint.trackData
+      ..add(
+        TimeLine(
+          date: time.toString(),
+          status: 'On Hold',
+        ),
+      );
+
+    final updateData = {
+      'status': 'On Hold',
+      'trackData': updatedTrackData.map((e) => e.toMap()),
+    };
+
+    await _complaintRepository.updateComplaintToTaken(complaint.id, updateData);
+  }
+
+  Future<void> _onSolveComplaint(SolveComplaint event, Emitter<SelectedComplaintState> emit,) async {
+    final time = DateTime.now();
+    final complaint = event.complaint;
+
+    final updatedTrackData = complaint.trackData
+      ..add(
+        TimeLine(
+          date: time.toString(),
+          status: 'Solved',
+        ),
+      );
+
+    final updateData = {
+      'status': 'Solved',
+      'trackData': updatedTrackData.map((e) => e.toMap()),
+    };
+
+    await _complaintRepository.updateComplaintToTaken(complaint.id, updateData);
   }
 
   Future<void> _onTakeComplaint(

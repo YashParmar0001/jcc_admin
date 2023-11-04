@@ -28,3 +28,15 @@ class TakeComplaint extends SelectedComplaintEvent {
   final String assignedEmployeeId;
   final ComplaintModel complaint;
 }
+
+class HoldComplaint extends SelectedComplaintEvent {
+  const HoldComplaint(this.complaint);
+
+  final ComplaintModel complaint;
+}
+
+class SolveComplaint extends SelectedComplaintEvent {
+  const SolveComplaint(this.complaint);
+
+  final ComplaintModel complaint;
+}
