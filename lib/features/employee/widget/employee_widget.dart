@@ -44,50 +44,51 @@ class EmployeeWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 10),
-            Column(
-              // mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '${employeeModel.firstName} ${employeeModel.middleName} ${employeeModel.lastName}',
-                  style: TextStyle(
-                    color: Color(0xFF0C356A),
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  employeeModel.phone,
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  // mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      'Employee ID: ${employeeModel.employeeId}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                      ),
+            Expanded(
+              child: Column(
+                // mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${employeeModel.firstName} ${employeeModel.middleName} ${employeeModel.lastName}',
+                    style: TextStyle(
+                      color: Color(0xFF0C356A),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
                     ),
-                     SizedBox(width: 50),
-                    // Spacer(),
-                    Text(
-                      "ward no : ${employeeModel.ward}",
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                      ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    employeeModel.phone,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Employee ID: ${employeeModel.employeeId}',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      // Spacer(),
+                      Text(
+                        "ward no : ${employeeModel.ward}",
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             )
           ],
         ),
