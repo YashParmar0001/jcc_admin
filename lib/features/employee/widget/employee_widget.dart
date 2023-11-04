@@ -45,6 +45,7 @@ class EmployeeWidget extends StatelessWidget {
             ),
             const SizedBox(width: 10),
             Expanded(
+
               child: Column(
                 // mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
