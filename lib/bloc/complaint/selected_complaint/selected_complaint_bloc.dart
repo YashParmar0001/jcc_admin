@@ -100,6 +100,7 @@ class SelectedComplaintBloc
 
     final updateData = {
       'status': 'Approval Pending',
+      'isLocked' : true,
       'trackData': updatedTrackData.map((e) => e.toMap()),
     };
 

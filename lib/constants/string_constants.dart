@@ -6,8 +6,8 @@ class CommonDataConstants {
   static final List<String> bottomNavigation = [
     "Home",
     "Complaints",
-    "Employee",
     "Notifications",
+    "Employee"
   ];
 
   static final List<String> complaintStatuses = [
