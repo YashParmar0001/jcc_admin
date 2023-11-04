@@ -130,6 +130,27 @@ class DepartmentDataConstants {
     "FLOOD CONTROL",
   ];
 
+  static final List<String> departmentThumbnailIcons = [
+    Assets.departmentThumbnailWater,
+    Assets.departmentThumbnailSlum,
+    Assets.departmentThumbnailLightEeslNagarSimArea,
+    Assets.departmentThumbnailCivil,
+    Assets.departmentThumbnailHealth,
+    Assets.departmentThumbnailSoildWaste,
+    Assets.departmentThumbnailEstate,
+    Assets.departmentThumbnailTownPlanning,
+    Assets.departmentThumbnailUgd,
+    Assets.departmentThumbnailHouseTax,
+    Assets.departmentThumbnailUcd,
+    Assets.departmentThumbnailIcds,
+    Assets.departmentThumbnailGarden,
+    Assets.departmentThumbnailProjectPlanning,
+    Assets.departmentThumbnailLightEeslNagarSimArea,
+    Assets.departmentThumbnailSecurity,
+    Assets.departmentThumbnailFloodControl,
+  ];
+
+
   static final List<String> departmentIconsAssetsName = [
     Assets.departmentIconsWaterDepartment,
     Assets.departmentIconsSlumDepartment,

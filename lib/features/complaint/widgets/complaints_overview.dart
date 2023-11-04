@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 
 import '../../../constants/app_color.dart';
-import '../../../generated/assets.dart';
 
 class ComplaintsOverview extends StatelessWidget {
   const ComplaintsOverview({super.key});
@@ -13,7 +12,7 @@ class ComplaintsOverview extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween ,
       children: [
-        Image.asset(Assets.tempWater2),
+        // Image.asset(Assets.dep),
         Container(
           width: 340,
           height: 75,

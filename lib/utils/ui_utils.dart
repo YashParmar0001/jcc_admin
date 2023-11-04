@@ -20,4 +20,10 @@ class UIUtils {
 
   static String formatDate(DateTime timeStamp) =>
       DateFormat('E, dd MMM yyyy, hh:mm a').format(timeStamp);
+
+  static String getThumbnailName(String departmentName){
+    int index =
+    DepartmentDataConstants.departmentNameList.indexOf(departmentName);
+    return DepartmentDataConstants.departmentThumbnailIcons.elementAt(index);
+  }
 }
