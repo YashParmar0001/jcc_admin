@@ -27,6 +27,7 @@ class AppBottomNavigationBar extends StatelessWidget {
       Assets.iconsNotifications,
       colorFilter: const ColorFilter.mode(AppColors.black60, BlendMode.srcIn),
     ),
+
   ];
 
   final filledIcons = [
@@ -46,6 +47,7 @@ class AppBottomNavigationBar extends StatelessWidget {
       Assets.iconsNotifications,
       colorFilter: const ColorFilter.mode(AppColors.blue, BlendMode.srcIn),
     ),
+
   ];
 
   @override
@@ -77,8 +79,7 @@ class AppBottomNavigationBar extends StatelessWidget {
           items: [
             _buildBottomNavigationBarItem(index: 0),
             _buildBottomNavigationBarItem(index: 1),
-
-            if (type == 'hod') _buildBottomNavigationBarItem(index: 2),
+            _buildBottomNavigationBarItem(index: 2),
             _buildBottomNavigationBarItem(index: 3),
           ],
         ),
