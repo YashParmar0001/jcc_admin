@@ -183,6 +183,7 @@ class TimeLine extends Equatable {
     return {
       'date': date,
       'status': status,
+
     };
   }
 

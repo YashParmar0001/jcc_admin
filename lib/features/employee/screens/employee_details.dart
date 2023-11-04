@@ -3,7 +3,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jcc_admin/bloc/employee/employee_bloc.dart';
 import 'package:jcc_admin/generated/assets.dart';
@@ -22,22 +21,17 @@ class EmployeeDetails extends StatefulWidget {
 class _EmployeeDetailsState extends State<EmployeeDetails> {
   late EmployeeModel employeeModel;
 
+
   @override
   Widget build(BuildContext context) {
     print("Hello");
     employeeModel = (context.read<EmployeeBloc>().state as EmployeeLoaded)
-        .employeeList
-        .firstWhere((element) => element.email == widget.id);
-    print(employeeModel.toString());
+          .employeeList
+          .firstWhere((element) => element.employeeId == widget.id) ;
+      print(employeeModel.toString());
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'EmployeeDetails',
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 22,
-          ),
-        ),
+        title: const Text('EmployeeDetails'),
         centerTitle: true,
         actions: [
           PopupMenuButton(
@@ -64,8 +58,10 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
       ),
       body: Stack(
         children: [
-          SvgPicture.asset(
-            'assets/departmentThumbnail/flood_control.svg',
+          Image.asset(
+            "assets/department/water.png",
+            width: double.infinity,
+            fit: BoxFit.cover,
           ),
           SingleChildScrollView(
             scrollDirection: Axis.vertical,
@@ -76,29 +72,20 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(height: 60),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Image.asset(
-                      Assets.iconsUser,
-                      width: 200,
-                      fit: BoxFit.cover,
-                    ),
+                  Image.asset(
+                    Assets.iconsLogo,
+                    width: double.infinity,
                   ),
                   _buildEmployDataField(
-                      title: "Full name ",
-                      data:
-                          "${employeeModel.firstName} ${employeeModel.middleName} ${employeeModel.lastName}"),
+                      title: "Full name ", data: "${employeeModel.firstName} ${employeeModel.middleName} ${employeeModel.lastName}"),
                   _buildEmployDataField(
-                      title: "Employee ID",
-                      data: "${employeeModel.employeeId}"),
+                      title: "Employee ID", data: "${employeeModel.employeeId}"),
                   _buildEmployDataField(
                       title: "Mobile No", data: "${employeeModel.phone}"),
                   _buildEmployDataField(
                       title: "Email", data: "${employeeModel.email}"),
-                  _buildEmployDataField(
-                      title: "Department", data: "${employeeModel.department}"),
-                  _buildEmployDataField(
-                      title: "Post", data: "${employeeModel.type}"),
+                  _buildEmployDataField(title: "Department", data: "Coding"),
+                  _buildEmployDataField(title: "Post", data: "Pro Developer"),
                   _buildEmployDataField(
                       title: "Ward no", data: "${employeeModel.ward}"),
                 ],

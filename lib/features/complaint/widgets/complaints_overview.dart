@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jcc_admin/utils/ui_utils.dart';
 
-
+import '../../../bloc/login/login_bloc.dart';
 import '../../../constants/app_color.dart';
 
 class ComplaintsOverview extends StatelessWidget {
@@ -9,12 +11,20 @@ class ComplaintsOverview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween ,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        // Image.asset(Assets.dep),
+
+        SizedBox(
+          width: size.width - 20,
+          child: Image.asset(UIUtils.getThumbnailName((context.read<LoginBloc>().state as LoggedIn).employee.department),fit: BoxFit.cover),
+        ),
+
         Container(
-          width: 340,
+
+          width: size.width - 20,
           height: 75,
           decoration: const BoxDecoration(
             boxShadow: [
