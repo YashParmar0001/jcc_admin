@@ -83,12 +83,12 @@ class SelectedComplaintBloc
 
     final notification = NotificationModel(
       description: 'Your complaint has been taken',
-      time: time,
+      timeStamp: time,
       userId: complaint.userId,
-      department: complaint.departmentName,
-      complaintID: complaint.id,
+      departmentName: complaint.departmentName,
+      complaintId: complaint.id,
     );
 
-    await _notificationRepository.addNotification(notification);
+    // await _notificationRepository.addNotification(notification);
   }
 }

@@ -48,14 +48,14 @@ class NotificationRepository {
   //   }
   // }
 
-  Future<void> addNotification(NotificationModel notification) async {
-    return await _firestore
-        .collection('users')
-        .doc(notification.userId)
-        .collection('notifications')
-        .doc(notification.time.toString())
-        .set(notification.toMap());
-  }
+  // Future<void> addNotification(NotificationModel notification) async {
+  //   return await _firestore
+  //       .collection('users')
+  //       .doc(notification.userId)
+  //       .collection('notifications')
+  //       .doc(notification.time.toString())
+  //       .set(notification.toMap());
+  // }
 
   Stream<List<NotificationModel>> getNotification() {
     return _firestore

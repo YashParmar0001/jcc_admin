@@ -31,16 +31,21 @@ class ComplaintScreen extends StatelessWidget {
                 onPressed: () {
                   debugDumpRenderTree();
                 },
-                icon: Icon(Icons.sort))
+                icon: const Icon(Icons.sort))
           ],
-          title: const Text('ComplaintScreen'),
+          title: Text(
+            'Complaints',
+            style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                  fontSize: 22,
+                ),
+          ),
         ),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
-              ComplaintsOverview(),
-              SizedBox(
+              const ComplaintsOverview(),
+              const SizedBox(
                 height: 20,
               ),
               Container(
@@ -91,9 +96,11 @@ class ComplaintScreen extends StatelessWidget {
                       final id = (context.read<LoginBloc>().state as LoggedIn)
                           .employee
                           .employeeId;
-                      final takenList = state.complaintList.where((complaint) =>
-                          complaint.isAssigned &&
-                          complaint.assignedEmployeeId == id).toList();
+                      final takenList = state.complaintList
+                          .where((complaint) =>
+                              complaint.isAssigned &&
+                              complaint.assignedEmployeeId == id)
+                          .toList();
 
                       return TabBarView(
                         children: [

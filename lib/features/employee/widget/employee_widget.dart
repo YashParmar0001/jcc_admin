@@ -20,6 +20,7 @@ class EmployeeWidget extends StatelessWidget {
         context.push('/employeeView/${employeeModel.email}');
       },
       child: Container(
+        width: MediaQuery.of(context).size.width - 30,
         margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         padding: const EdgeInsets.all(15),
         clipBehavior: Clip.antiAlias,
@@ -44,7 +45,7 @@ class EmployeeWidget extends StatelessWidget {
             ),
             const SizedBox(width: 10),
             Column(
-              mainAxisSize: MainAxisSize.min,
+              // mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -66,6 +67,7 @@ class EmployeeWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Row(
+                  // mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
                       'Employee ID: ${employeeModel.employeeId}',
@@ -74,7 +76,8 @@ class EmployeeWidget extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    const SizedBox(width: 60),
+                     SizedBox(width: 50),
+                    // Spacer(),
                     Text(
                       "ward no : ${employeeModel.ward}",
                       style: TextStyle(
