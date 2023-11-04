@@ -41,6 +41,13 @@ final router = GoRouter(
     ),
     GoRoute(
       parentNavigatorKey: _rootNavigatorKey,
+      path: '/complaint_details',
+      builder: (context, state) {
+        return const ComplaintDetails();
+      },
+    ),
+    GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
       path: '/employee_create',
       builder: (context, state) => EmployeeCreate(),
     ),

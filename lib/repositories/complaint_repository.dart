@@ -21,6 +21,18 @@ class ComplaintRepository {
     });
   }
 
+  Stream<ComplaintModel?> getSelectedComplaint(String id) {
+    return _firestore
+        .collection('complaints')
+        .doc(id)
+        .snapshots()
+        .map((e) => ComplaintModel.fromMap(e.data()!));
+  }
+
+  Future<void> updateComplaintToTaken(String id, Map<String, dynamic> data) async {
+    return await _firestore.collection('complaints').doc(id).update(data);
+  }
+    
   Stream<ComplaintStatsModel?> getComplaintStats() {
     return _firestore
         .collection('complaint_stats')

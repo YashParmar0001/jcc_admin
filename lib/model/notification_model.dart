@@ -1,13 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class NotificationModel {
-  final String title;
   final String description;
-  final String time;
+  final DateTime time;
   final String userId;
   final String department;
   final String complaintID;
 
   List<Object?> get props => [
-        title,
         description,
         time,
         userId,
@@ -16,7 +16,6 @@ class NotificationModel {
       ];
 
   const NotificationModel({
-    required this.title,
     required this.description,
     required this.time,
     required this.userId,
@@ -24,38 +23,34 @@ class NotificationModel {
     required this.complaintID,
   });
 
-  factory NotificationModel.toMap(Map<String, dynamic> map) {
+  factory NotificationModel.fromMap(Map<String, dynamic> map) {
     return NotificationModel(
-      title: map['title'],
       description: map['description'],
-      time: map['time'],
+      time: (map['timeStamp'] as Timestamp).toDate(),
       userId: map['userId'],
-      department: map['department'],
+      department: map['departmentName'],
       complaintID: map['complaintID'],
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'title': title,
       'description': description,
-      'time': time,
+      'timeStamp': time,
       'userId': userId,
-      'department': department,
+      'departmentName': department,
       'complaintID': complaintID,
     };
   }
 
   NotificationModel copyWith({
-    String? title,
     String? description,
-    String? time,
+    DateTime? time,
     String? userId,
     String? department,
     String? complaintID,
   }) {
     return NotificationModel(
-      title: title ?? this.title,
       description: description ?? this.description,
       time: time ?? this.time,
       userId: userId ?? this.userId,
@@ -66,6 +61,6 @@ class NotificationModel {
 
   @override
   String toString() {
-    return 'NotificationModel{title: $title, description: $description, time: $time, userId: $userId, department: $department, complaintID: $complaintID}';
+    return 'NotificationModel{description: $description, time: $time, userId: $userId, department: $department, complaintID: $complaintID}';
   }
 }
