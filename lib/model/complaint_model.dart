@@ -27,6 +27,7 @@ class ComplaintModel extends Equatable {
     id,
     description,
     registrationDate,
+    applicantName,
     departmentName,
     subject,
     ward,
@@ -40,6 +41,8 @@ class ComplaintModel extends Equatable {
     isLocked,
     isAssigned,
     assignedEmployeeId,
+    noOfHours,
+    remarks,
   ];
 
 //<editor-fold desc="Data Methods">
@@ -67,7 +70,7 @@ class ComplaintModel extends Equatable {
 
   @override
   String toString() {
-    return 'ComplaintModel{ id: $id, description: $description, registrationDate: $registrationDate, departmentName: $departmentName, subject: $subject, ward: $ward, area: $area, userId: $userId, uniquePin: $uniquePin, imageUrls: $imageUrls, status: $status, siteAddress: $detailedAddress, isLocked: $isLocked, isAssigned: $isAssigned, assignedId: $assignedEmployeeId,}';
+    return 'ComplaintModel{ id: $id, description: $description, registrationDate: $registrationDate, departmentName: $departmentName, subject: $subject, ward: $ward, area: $area, userId: $userId, uniquePin: $uniquePin, imageUrls: , status: $status, siteAddress: $detailedAddress, isLocked: $isLocked, isAssigned: $isAssigned, assignedId: $assignedEmployeeId,}';
   }
 
   ComplaintModel copyWith({
