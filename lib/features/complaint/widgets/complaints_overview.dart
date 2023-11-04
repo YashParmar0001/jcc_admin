@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 import '../../../constants/app_color.dart';
+import '../../../generated/assets.dart';
 
 class ComplaintsOverview extends StatelessWidget {
   const ComplaintsOverview({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween ,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Image.asset(Assets.tempWater2),
+        SizedBox(
+          width: size.width - 20,
+          child: Image.asset(Assets.tempWater2),
+        ),
         Container(
-          width: 340,
+          width: size.width - 20,
           height: 75,
           decoration: const BoxDecoration(
             boxShadow: [

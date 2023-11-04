@@ -40,3 +40,9 @@ class SolveComplaint extends SelectedComplaintEvent {
 
   final ComplaintModel complaint;
 }
+
+class RequestApproval extends SelectedComplaintEvent {
+  const RequestApproval(this.complaint);
+
+  final ComplaintModel complaint;
+}

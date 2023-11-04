@@ -408,9 +408,14 @@ class _ComplaintDetailsState extends State<ComplaintDetails> {
                       _buildCustomButton(
                         context: context,
                         onTap: () {
-                          _showCompletionBottomSheet(context, complaint);
+                          // _showCompletionBottomSheet(context, complaint);
+                          context.read<SelectedComplaintBloc>().add(
+                                RequestApproval(
+                                  complaint,
+                                ),
+                              );
                         },
-                        title: "Mark as Solved",
+                        title: "Request Approval",
                         color: AppColors.brilliantAzure,
                       ),
                     const SizedBox(
@@ -574,7 +579,8 @@ class _ComplaintDetailsState extends State<ComplaintDetails> {
     }
   }
 
-  void _showCompletionBottomSheet(BuildContext context, ComplaintModel complaint) {
+  void _showCompletionBottomSheet(
+      BuildContext context, ComplaintModel complaint) {
     showBottomSheet(
       context: context,
       builder: (context) {
@@ -645,10 +651,10 @@ class _ComplaintDetailsState extends State<ComplaintDetails> {
               ),
               PrimaryButton(
                 onTap: () {
-                  if (_pinController.text == complaint.uniquePin) {
-                    context.read<SelectedComplaintBloc>().add(SolveComplaint(complaint));
-                    context.pop();
-                  }
+                  // if (_pinController.text == complaint.uniquePin) {
+                  //   context.read<SelectedComplaintBloc>().add(SolveComplaint(complaint));
+                  //   context.pop();
+                  // }
                 },
                 title: 'Mark as Solved',
               ),
