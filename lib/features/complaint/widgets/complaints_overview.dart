@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jcc_admin/utils/ui_utils.dart';
 
+import '../../../bloc/login/login_bloc.dart';
 import '../../../constants/app_color.dart';
-import '../../../generated/assets.dart';
 
 class ComplaintsOverview extends StatelessWidget {
   const ComplaintsOverview({super.key});
@@ -14,11 +16,14 @@ class ComplaintsOverview extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+
         SizedBox(
           width: size.width - 20,
-          child: Image.asset(Assets.tempWater2),
+          child: Image.asset(UIUtils.getThumbnailName((context.read<LoginBloc>().state as LoggedIn).employee.department),fit: BoxFit.cover),
         ),
+
         Container(
+
           width: size.width - 20,
           height: 75,
           decoration: const BoxDecoration(

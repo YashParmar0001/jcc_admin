@@ -162,6 +162,8 @@ class SelectedComplaintBloc
       complaintId: complaint.id,
     );
 
-    // await _notificationRepository.addNotification(notification);
+    await _notificationRepository.addNotification(notification);
+
+    await _notificationRepository.sendPushNotification(notification.description, notification.departmentName, [notification.userId]);
   }
 }

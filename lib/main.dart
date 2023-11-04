@@ -13,15 +13,24 @@ import 'package:jcc_admin/repositories/login_repository.dart';
 import 'package:jcc_admin/repositories/notification_repository.dart';
 import 'package:jcc_admin/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import 'bloc/complaint/stats/complaint_stats_bloc.dart';
-
+import 'config/onesignal_config.dart';
+import 'dart:developer'as dev;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // OneSignal.Notifications.clearAll();
+  OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+  OneSignal.initialize(OneSignalConfig.oneSignalAppId);
+  OneSignal.Notifications.requestPermission(true);
+  dev.log("${OneSignal.Notifications.permission}");
+
   runApp(MyApp());
 }
 
