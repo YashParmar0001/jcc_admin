@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+
 import '../../../constants/app_color.dart';
 import '../../../generated/assets.dart';
 
@@ -10,8 +11,9 @@ class ComplaintsOverview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween ,
       children: [
+        Image.asset(Assets.tempWater2),
         Container(
           width: 340,
           height: 75,

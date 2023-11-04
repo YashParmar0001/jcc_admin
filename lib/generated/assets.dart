@@ -68,5 +68,6 @@ class Assets {
   static const String logoLogo = 'assets/logo/logo.png';
   static const String lottieSearch = 'assets/lottie/search.json';
   static const String lottieSuccess = 'assets/lottie/success.json';
+  static const String tempWater2 = 'assets/temp/water2.png';
 
 }
