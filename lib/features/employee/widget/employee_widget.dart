@@ -17,7 +17,7 @@ class EmployeeWidget extends StatelessWidget {
 
     return InkWell(
       onTap: (){
-        context.push('/employeeView/${employeeModel.email}');
+        context.push('/employeeView/${employeeModel.employeeId}');
       },
       child: Container(
         width: MediaQuery.of(context).size.width - 30,
@@ -25,7 +25,7 @@ class EmployeeWidget extends StatelessWidget {
         padding: const EdgeInsets.all(15),
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
-          border: Border.all(color: Color(0xFFAAAAAA)),
+          border: Border.all(color: AppColors.geryis),
           color: AppColors.antiFlashWhite,
           borderRadius: BorderRadius.circular(10),
         ),
@@ -43,7 +43,7 @@ class EmployeeWidget extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: 17),
             Expanded(
 
               child: Column(
@@ -53,38 +53,28 @@ class EmployeeWidget extends StatelessWidget {
                 children: [
                   Text(
                     '${employeeModel.firstName} ${employeeModel.middleName} ${employeeModel.lastName}',
-                    style: TextStyle(
-                      color: Color(0xFF0C356A),
-                      fontSize: 16,
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.w600,
+                      color: AppColors.darkMidnightBlue
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: 5),
                   Text(
                     employeeModel.phone,
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                    ),
+                    style : Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Employee ID: ${employeeModel.employeeId}',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        ),
+                        'Emp. ID : ${employeeModel.employeeId}',
+                        style: Theme.of(context).textTheme.titleLarge,
                       ),
                       // Spacer(),
                       Text(
-                        "ward no : ${employeeModel.ward}",
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        ),
+                        "Ward no : ${employeeModel.ward}",
+                        style: Theme.of(context).textTheme.titleLarge,
                       ),
                     ],
                   ),
