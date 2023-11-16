@@ -63,6 +63,7 @@ class Assets {
   static const String iconsMenu = 'assets/icons/menu.svg';
   static const String iconsNotifications = 'assets/icons/notifications.svg';
   static const String iconsPhoneCall = 'assets/icons/phone-call.svg';
+  static const String iconsReload = 'assets/icons/reload.svg';
   static const String iconsSearch = 'assets/icons/search.svg';
   static const String iconsUser = 'assets/icons/user.png';
   static const String logoLogo = 'assets/logo/logo.png';

@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => EmployeeBloc(
             employeeRepository: employeeRepository,
-          )..add(LoadEmployee()),
+          ),
         ),
         BlocProvider(
           create: (context) => EmployeeRegisterBloc(

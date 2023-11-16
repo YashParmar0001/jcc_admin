@@ -10,6 +10,8 @@ import 'package:jcc_admin/bloc/login/login_bloc.dart';
 import 'package:jcc_admin/constants/app_color.dart';
 import 'package:jcc_admin/utils/ui_utils.dart';
 
+import '../../../bloc/employee/employee_bloc.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -59,6 +61,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   department: state.employee.department,
                   ward: state.employee.ward,
                 ));
+            if (state.employee.type == 'hod') {
+              context
+                  .read<EmployeeBloc>()
+                  .add(LoadEmployee(state.employee.department));
+            }
             context.go('/home');
           }
         },
@@ -116,6 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: passwordController,
                     cursorColor: Colors.black,
                     obscureText: true,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 20,

@@ -9,7 +9,10 @@ abstract class EmployeeEvent extends Equatable {
 
 class InitializeEmployee extends EmployeeEvent {}
 
-class LoadEmployee extends EmployeeEvent {}
+class LoadEmployee extends EmployeeEvent {
+  const LoadEmployee(this.department);
+  final String department;
+}
 
 class UpdateEmployee extends EmployeeEvent {
   const UpdateEmployee(this.employeeList);

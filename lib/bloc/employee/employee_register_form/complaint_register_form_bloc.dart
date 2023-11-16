@@ -15,15 +15,11 @@ class EmployeeRegisterFormBloc extends FormBloc<Map<String, dynamic>, String> {
           email,
           password,
           ward,
-          department,
-          type,
         ]
     );
   }
 
   final ward = SelectFieldBloc(items: CommonDataConstants.wardNameList.toList());
-  final department = SelectFieldBloc(items: CommonDataConstants.departmentNameList.toList());
-  final type = SelectFieldBloc(items: CommonDataConstants.employeetype.toList());
 
   final firstName = TextFieldBloc();
   final middleName = TextFieldBloc();
@@ -44,9 +40,9 @@ class EmployeeRegisterFormBloc extends FormBloc<Map<String, dynamic>, String> {
         'phone' : phone.value,
         'email' : email.value,
         'ward': ward.value,
-        'department' : department.value,
-        'type' : type.value,
-        'password' : "898920",
+        'department' : '-',
+        'type' : 'employee',
+        'password' : '-',
       };
       emitSuccess(successResponse: data);
     }catch(e) {
