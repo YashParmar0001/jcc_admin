@@ -122,7 +122,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                   controller: widget.controller,
                   itemBuilder: (context, index) {
                     return EmployeeWidget(
-                      employeeModel: state.employeeList[index],
+                      employee: state.employeeList[index],
                     );
                   },
                   itemCount: state.employeeList.length,

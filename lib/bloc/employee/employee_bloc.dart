@@ -32,7 +32,8 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
 
     try {
       _employeeSubscription =
-          _employeeRepository.getEmployeeList().listen((list) {
+          _employeeRepository.getEmployeeList(event.department).listen((list) {
+            dev.log('Updating employee list', name: 'Employee');
             add(UpdateEmployee(list));
           });
     } catch (e) {
@@ -50,6 +51,6 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
   @override
   void onTransition(Transition<EmployeeEvent, EmployeeState> transition) {
     super.onTransition(transition);
-    dev.log(transition.toString(), name: "Employee List Screen");
+    dev.log(transition.toString(), name: "Employee");
   }
 }

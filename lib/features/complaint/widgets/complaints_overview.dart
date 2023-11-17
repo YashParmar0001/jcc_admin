@@ -16,14 +16,17 @@ class ComplaintsOverview extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-
         SizedBox(
           width: size.width - 20,
-          child: Image.asset(UIUtils.getThumbnailName((context.read<LoginBloc>().state as LoggedIn).employee.department),fit: BoxFit.cover),
+          child: Image.asset(
+            UIUtils.getThumbnailName(
+                (context.read<LoginBloc>().state as LoggedIn)
+                    .employee
+                    .department),
+            fit: BoxFit.cover,
+          ),
         ),
-
         Container(
-
           width: size.width - 20,
           height: 75,
           decoration: const BoxDecoration(

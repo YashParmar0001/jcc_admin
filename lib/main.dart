@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jcc_admin/bloc/complaint/complaint_bloc.dart';
 import 'package:jcc_admin/bloc/complaint/selected_complaint/selected_complaint_bloc.dart';
+import 'package:jcc_admin/bloc/employee/delete_employee/delete_employee_bloc.dart';
 import 'package:jcc_admin/bloc/employee/employee_bloc.dart';
 import 'package:jcc_admin/bloc/employee/register/employee_register_bloc.dart';
+import 'package:jcc_admin/bloc/employee/selected_employee/selected_employee_bloc.dart';
 import 'package:jcc_admin/bloc/login/login_bloc.dart';
 import 'package:jcc_admin/config/router.dart';
 import 'package:jcc_admin/firebase_options.dart';
@@ -17,7 +19,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import 'bloc/complaint/stats/complaint_stats_bloc.dart';
 import 'config/onesignal_config.dart';
-import 'dart:developer'as dev;
+import 'dart:developer' as dev;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,9 +63,17 @@ class MyApp extends StatelessWidget {
           ),
         ),
         BlocProvider(
+          create: (context) =>
+              SelectedEmployeeBloc(employeeRepository: employeeRepository),
+        ),
+        BlocProvider(
+          create: (context) =>
+              DeleteEmployeeBloc(employeeRepository: employeeRepository),
+        ),
+        BlocProvider(
           create: (context) => EmployeeBloc(
             employeeRepository: employeeRepository,
-          )..add(LoadEmployee()),
+          ),
         ),
         BlocProvider(
           create: (context) => EmployeeRegisterBloc(
@@ -72,8 +82,8 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) =>
-          ComplaintStatsBloc(complaintRepository: complaintRepository)
-            ..add(GetComplaintStats()),
+              ComplaintStatsBloc(complaintRepository: complaintRepository)
+                ..add(GetComplaintStats()),
         ),
       ],
       child: MaterialApp.router(

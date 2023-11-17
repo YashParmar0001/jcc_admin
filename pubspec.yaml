@@ -23,6 +23,8 @@ dependencies:
   syncfusion_flutter_gauges: ^23.1.42
   syncfusion_flutter_charts: ^23.1.42
   timeline_tile: ^2.0.0
+  image_picker: ^1.0.4
+  cached_network_image: ^3.3.0
 
   #  Bloc Libs
   equatable: ^2.0.5
@@ -36,6 +38,7 @@ dependencies:
   cloud_firestore:
   intl:
   firebase_auth:
+  firebase_storage:
   flutter_form_bloc: ^0.31.0
 
   #notification
@@ -63,6 +66,4 @@ flutter:
     - assets/complaint_data/
     - assets/departmentIcons/
     - assets/departmentThumbnail/
-    - assets/temp/
-
-
+    - assets/images/

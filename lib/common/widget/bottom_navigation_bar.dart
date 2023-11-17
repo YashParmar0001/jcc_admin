@@ -27,7 +27,6 @@ class AppBottomNavigationBar extends StatelessWidget {
       Assets.iconsNotifications,
       colorFilter: const ColorFilter.mode(AppColors.black60, BlendMode.srcIn),
     ),
-
   ];
 
   final filledIcons = [
@@ -47,7 +46,6 @@ class AppBottomNavigationBar extends StatelessWidget {
       Assets.iconsNotifications,
       colorFilter: const ColorFilter.mode(AppColors.blue, BlendMode.srcIn),
     ),
-
   ];
 
   @override
@@ -74,12 +72,12 @@ class AppBottomNavigationBar extends StatelessWidget {
           selectedItemColor: AppColors.blue,
           unselectedItemColor: AppColors.black60,
           showUnselectedLabels: true,
-          currentIndex: _calculateSelectedIndex(context),
-          onTap: (value) => onTap(value, context),
+          currentIndex: _calculateSelectedIndex(context, type),
+          onTap: (value) => onTap(value, context, type),
           items: [
             _buildBottomNavigationBarItem(index: 0),
             _buildBottomNavigationBarItem(index: 1),
-            _buildBottomNavigationBarItem(index: 2),
+            if (type == 'hod') _buildBottomNavigationBarItem(index: 2),
             _buildBottomNavigationBarItem(index: 3),
           ],
         ),
@@ -95,7 +93,7 @@ class AppBottomNavigationBar extends StatelessWidget {
     );
   }
 
-  int _calculateSelectedIndex(BuildContext context) {
+  int _calculateSelectedIndex(BuildContext context, String type) {
     final GoRouterState router = GoRouterState.of(context);
     final String location = router.matchedLocation;
     if (location.startsWith('/home')) {
@@ -108,19 +106,21 @@ class AppBottomNavigationBar extends StatelessWidget {
       return 2;
     }
     if (location.startsWith('/notifications')) {
-      return 3;
+      return (type == 'hod') ? 3 : 2;
     }
     return 0;
   }
 
-  void onTap(int value, BuildContext context) {
+  void onTap(int value, BuildContext context, String type) {
     switch (value) {
       case 0:
         return context.go('/home');
       case 1:
         return context.go('/complaint_screen');
       case 2:
-        return context.go('/employee_screen');
+        return (type == 'hod')
+            ? context.go('/employee_screen')
+            : context.go('/notifications');
       case 3:
         return context.go('/notifications');
       default:

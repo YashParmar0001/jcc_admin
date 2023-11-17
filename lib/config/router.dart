@@ -49,14 +49,12 @@ final router = GoRouter(
     GoRoute(
       parentNavigatorKey: _rootNavigatorKey,
       path: '/employee_create',
-      builder: (context, state) => EmployeeCreate(),
+      builder: (context, state) => const EmployeeCreate(),
     ),
     GoRoute(
       parentNavigatorKey: _rootNavigatorKey,
-      path: '/employeeView/:id',
-      builder: (context, state) => EmployeeDetails(
-        id: state.pathParameters['id']!,
-      ),
+      path: '/employee_details',
+      builder: (context, state) => const EmployeeDetails(),
     ),
     ShellRoute(
       navigatorKey: _shellNavigatorKey,

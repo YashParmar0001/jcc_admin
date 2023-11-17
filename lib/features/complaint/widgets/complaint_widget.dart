@@ -27,7 +27,7 @@ class ComplaintWidget extends StatelessWidget {
           ),
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            border: Border.all(color: AppColors.geryis),
+            border: Border.all(color: AppColors.grey),
             color: AppColors.antiFlashWhite,
             borderRadius: BorderRadius.circular(15),
             // boxShadow: const [
