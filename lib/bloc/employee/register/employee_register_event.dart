@@ -8,9 +8,8 @@ abstract class EmployeeRegisterEvent extends Equatable {
 }
 
 class RegisterEmployee extends EmployeeRegisterEvent {
-  const RegisterEmployee({
-    required this.employeeData,
-  });
+  const RegisterEmployee({required this.employeeData, required this.image});
 
   final Map<String, dynamic> employeeData;
+  final File image;
 }

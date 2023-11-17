@@ -26,4 +26,24 @@ class UIUtils {
     DepartmentDataConstants.departmentNameList.indexOf(departmentName);
     return DepartmentDataConstants.departmentThumbnailIcons.elementAt(index);
   }
+
+  static void showAlertDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          content: Row(
+            children: [
+              const CircularProgressIndicator(),
+              const SizedBox(
+                width: 20,
+              ),
+              Text(message),
+            ],
+          ),
+        );
+      },
+    );
+  }
 }
