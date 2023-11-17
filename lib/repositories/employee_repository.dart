@@ -35,23 +35,25 @@ class EmployeeRepository {
 
   Future<EmployeeModel?> registerEmployee(
     Map<String, dynamic> employeeData,
-    File imageFile,
+    File? imageFile,
   ) async {
     try {
-      try {
-        final photoUrl = await uploadUserProfilePhoto(
-          imageFile,
-          employeeData['email'],
-        );
-        if (photoUrl == null) {
+      if (imageFile != null) {
+        try {
+          final photoUrl = await uploadUserProfilePhoto(
+            imageFile,
+            employeeData['email'],
+          );
+          if (photoUrl == null) {
+            return null;
+          } else {
+            employeeData['photoUrl'] = photoUrl;
+            // return null;
+          }
+        } catch (e) {
+          dev.log('Got error: $e', name: 'Register');
           return null;
-        } else {
-          employeeData['photoUrl'] = photoUrl;
-          // return null;
         }
-      } catch (e) {
-        dev.log('Got error: $e', name: 'Register');
-        return null;
       }
 
       final employee = EmployeeModel(

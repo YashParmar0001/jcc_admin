@@ -7,6 +7,7 @@ import 'package:jcc_admin/features/complaint/screens/complaint_screen.dart';
 import 'package:jcc_admin/features/complaint/screens/complaint_view.dart';
 import 'package:jcc_admin/features/employee/screens/employee_create.dart';
 import 'package:jcc_admin/features/employee/screens/employee_details.dart';
+import 'package:jcc_admin/features/employee/screens/employee_edit.dart';
 import 'package:jcc_admin/features/employee/screens/employee_screen.dart';
 import 'package:jcc_admin/features/home/sreens/home_screen.dart';
 import 'package:jcc_admin/features/login/screens/login_screen.dart';
@@ -55,6 +56,13 @@ final router = GoRouter(
       parentNavigatorKey: _rootNavigatorKey,
       path: '/employee_details',
       builder: (context, state) => const EmployeeDetails(),
+    ),
+    GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
+      path: '/employee_edit/:password',
+      builder: (context, state) => EmployeeEdit(
+        password: state.pathParameters['password']!,
+      ),
     ),
     ShellRoute(
       navigatorKey: _shellNavigatorKey,

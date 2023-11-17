@@ -20,7 +20,9 @@ class EmployeeRegisterBloc
   final EmployeeRepository _employeeRepository;
 
   Future<void> _onRegisterEmployee(
-      RegisterEmployee event, Emitter<EmployeeRegisterState> emit) async {
+    RegisterEmployee event,
+    Emitter<EmployeeRegisterState> emit,
+  ) async {
     emit(EmployeeRegistering());
     final employeeData = event.employeeData;
     print(employeeData.toString());
@@ -31,7 +33,7 @@ class EmployeeRegisterBloc
     if (employee != null) {
       emit(EmployeeRegisterSuccess(employee.employeeId));
     } else {
-      emit(EmployeeRegisterFailure('Error while registering employee'));
+      emit(const EmployeeRegisterFailure('Error while registering employee'));
     }
   }
 }
