@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jcc_admin/bloc/complaint/complaint_bloc.dart';
 import 'package:jcc_admin/bloc/complaint/selected_complaint/selected_complaint_bloc.dart';
 import 'package:jcc_admin/bloc/employee/delete_employee/delete_employee_bloc.dart';
+import 'package:jcc_admin/bloc/employee/edit_employee/edit_employee_bloc.dart';
 import 'package:jcc_admin/bloc/employee/employee_bloc.dart';
 import 'package:jcc_admin/bloc/employee/register/employee_register_bloc.dart';
 import 'package:jcc_admin/bloc/employee/selected_employee/selected_employee_bloc.dart';
@@ -33,7 +34,7 @@ Future<void> main() async {
   OneSignal.Notifications.requestPermission(true);
   dev.log("${OneSignal.Notifications.permission}");
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -69,6 +70,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) =>
               DeleteEmployeeBloc(employeeRepository: employeeRepository),
+        ),
+        BlocProvider(
+          create: (context) =>
+              EditEmployeeBloc(employeeRepository: employeeRepository),
         ),
         BlocProvider(
           create: (context) => EmployeeBloc(

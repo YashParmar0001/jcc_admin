@@ -4,8 +4,10 @@ import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 import 'package:jcc_admin/constants/string_constants.dart';
 import 'dart:developer' as dev;
 
-class EmployeeRegisterFormBloc extends FormBloc<Map<String, dynamic>, String> {
-  EmployeeRegisterFormBloc() {
+import 'package:jcc_admin/model/employee_model.dart';
+
+class EditEmployeeFormBloc extends FormBloc<Map<String, dynamic>, String> {
+  EditEmployeeFormBloc(this.prefilledEmployeeData) : super(isLoading: true) {
     addFieldBlocs(fieldBlocs: [
       firstName,
       middleName,
@@ -17,6 +19,8 @@ class EmployeeRegisterFormBloc extends FormBloc<Map<String, dynamic>, String> {
     ]);
   }
 
+  final EmployeeModel prefilledEmployeeData;
+
   final ward =
       SelectFieldBloc(items: CommonDataConstants.wardNameList.toList());
 
@@ -26,6 +30,23 @@ class EmployeeRegisterFormBloc extends FormBloc<Map<String, dynamic>, String> {
   final employeeId = TextFieldBloc();
   final phone = TextFieldBloc();
   final email = TextFieldBloc();
+
+  @override
+  FutureOr<void> onLoading() {
+    try {
+      firstName.updateInitialValue(prefilledEmployeeData.firstName);
+      middleName.updateInitialValue(prefilledEmployeeData.middleName);
+      lastName.updateInitialValue(prefilledEmployeeData.lastName);
+      employeeId.updateInitialValue(prefilledEmployeeData.employeeId);
+      phone.updateInitialValue(prefilledEmployeeData.phone);
+      email.updateInitialValue(prefilledEmployeeData.email);
+      ward.updateInitialValue(prefilledEmployeeData.ward);
+      emitLoaded();
+    }catch(e) {
+      dev.log('Got loading error: $e', name: 'Employee');
+      emitLoadFailed();
+    }
+  }
 
   @override
   FutureOr<void> onSubmitting() {

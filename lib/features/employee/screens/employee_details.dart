@@ -77,6 +77,14 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
                         Text("Edit"),
                       ],
                     ),
+                    onTap: () {
+                      final password = (context
+                              .read<SelectedEmployeeBloc>()
+                              .state as SelectedEmployeeLoaded)
+                          .employee
+                          .password;
+                      context.push('/employee_edit/$password');
+                    },
                   ),
                   PopupMenuItem(
                     height: 1,
@@ -122,7 +130,7 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
             builder: (context, state) {
               if (state is SelectedEmployeeLoading ||
                   state is SelectedEmployeeInitial) {
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               } else if (state is SelectedEmployeeError) {
                 return Text(state.message);
               } else if (state is SelectedEmployeeLoaded) {
