@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jcc_admin/bloc/complaint/selected_complaint/selected_complaint_bloc.dart';
+import 'package:jcc_admin/bloc/complaint/stats/complaint_stats_bloc.dart';
 import 'package:jcc_admin/bloc/login/login_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -36,6 +37,10 @@ class _ComplaintDetailsState extends State<ComplaintDetails> {
 
   @override
   Widget build(BuildContext context) {
+    final stats =
+        (context.read<ComplaintStatsBloc>().state as ComplaintStatsLoaded)
+            .stats;
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -381,19 +386,38 @@ class _ComplaintDetailsState extends State<ComplaintDetails> {
                                 TakeComplaint(
                                   assignedEmployeeId: employeeId,
                                   complaint: complaint,
+                                  stats: stats,
                                 ),
                               );
                         },
                         title: "Take Complaint",
                       ),
+                    if (complaint.isAssigned && complaint.status == 'On Hold')
+                      _buildCustomButton(
+                        context: context,
+                        onTap: () {
+                          context.read<SelectedComplaintBloc>().add(
+                                ResumeComplaint(
+                                  complaint: complaint,
+                                  stats: stats,
+                                ),
+                              );
+                        },
+                        title: 'Resume Progress',
+                        color: AppColors.darkMidnightBlue,
+                      ),
+                    // if (complaint.isAssigned &&
+                    //     !(complaint.status == "On Hold" ||
+                    //         complaint.status == "Approval Pending"))
                     if (complaint.isAssigned &&
-                        !(complaint.status == "On Hold" || complaint.status == "Approval Pending"))
+                        complaint.status == 'In Process')
                       _buildCustomButton(
                         context: context,
                         onTap: () {
                           context.read<SelectedComplaintBloc>().add(
                                 HoldComplaint(
-                                  complaint,
+                                  complaint: complaint,
+                                  stats: stats,
                                 ),
                               );
                         },
@@ -404,19 +428,39 @@ class _ComplaintDetailsState extends State<ComplaintDetails> {
                       const SizedBox(
                         height: 15,
                       ),
-                    if (complaint.isAssigned && complaint.status != "Approval Pending" )
+                    // if (complaint.isAssigned &&
+                    //     complaint.status != 'On Hold' &&
+                    //     complaint.status != "Approval Pending")
+                    if (complaint.isAssigned &&
+                        complaint.status == 'In Process')
                       _buildCustomButton(
                         context: context,
                         onTap: () {
                           // _showCompletionBottomSheet(context, complaint);
                           context.read<SelectedComplaintBloc>().add(
                                 RequestApproval(
-                                  complaint,
+                                  complaint: complaint,
+                                  stats: stats,
                                 ),
                               );
                         },
                         title: "Request Approval",
                         color: AppColors.brilliantAzure,
+                      ),
+                    if (complaint.isAssigned &&
+                        complaint.status == 'Approval Pending')
+                      _buildCustomButton(
+                        context: context,
+                        onTap: () {
+                          context.read<SelectedComplaintBloc>().add(
+                                ResumeComplaint(
+                                  complaint: complaint,
+                                  stats: stats,
+                                ),
+                              );
+                        },
+                        title: 'Cancel Request',
+                        color: AppColors.darkMidnightBlue,
                       ),
                     const SizedBox(
                       height: 25,
@@ -457,10 +501,11 @@ class _ComplaintDetailsState extends State<ComplaintDetails> {
     );
   }
 
-  Widget _buildDataFiled2(
-      {required BuildContext context,
-      required String title,
-      required String text,}) {
+  Widget _buildDataFiled2({
+    required BuildContext context,
+    required String title,
+    required String text,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -583,7 +628,9 @@ class _ComplaintDetailsState extends State<ComplaintDetails> {
   }
 
   void _showCompletionBottomSheet(
-      BuildContext context, ComplaintModel complaint) {
+    BuildContext context,
+    ComplaintModel complaint,
+  ) {
     showBottomSheet(
       context: context,
       builder: (context) {

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:jcc_admin/model/complaint_stats_model.dart';
 import 'package:jcc_admin/model/notification_model.dart';
 import 'package:jcc_admin/repositories/complaint_repository.dart';
 import 'package:jcc_admin/repositories/notification_repository.dart';
@@ -24,7 +25,7 @@ class SelectedComplaintBloc
     on<UpdateSelectedComplaint>(_onUpdateSelectedComplaint);
     on<TakeComplaint>(_onTakeComplaint);
     on<HoldComplaint>(_onHoldComplaint);
-    on<SolveComplaint>(_onSolveComplaint);
+    on<ResumeComplaint>(_onResumeComplaint);
     on<RequestApproval>(_onRequestApproval);
   }
 
@@ -80,7 +81,72 @@ class SelectedComplaintBloc
       'trackData': updatedTrackData.map((e) => e.toMap()),
     };
 
-    await _complaintRepository.updateComplaintToTaken(complaint.id, updateData);
+    await _complaintRepository.updateComplaint(complaint.id, updateData);
+    await _complaintRepository.updateComplaintStats({
+      'in_process': (event.stats.inProcess - 1).toString(),
+      'on_hold': (event.stats.onHold + 1).toString(),
+    });
+
+    final notification = NotificationModel(
+      description:
+          'Your complaint has been put on hold: Complaint no. ${complaint.id}',
+      timeStamp: time,
+      userId: complaint.userId,
+      departmentName: complaint.departmentName,
+      complaintId: complaint.id,
+    );
+
+    await _notificationRepository.addNotification(notification);
+
+    await _notificationRepository.sendPushNotification(
+      notification.description,
+      notification.departmentName,
+      [notification.userId],
+    );
+  }
+
+  Future<void> _onResumeComplaint(
+    ResumeComplaint event,
+    Emitter<SelectedComplaintState> emit,
+  ) async {
+    final time = DateTime.now();
+    final complaint = event.complaint;
+
+    final updatedTrackData = complaint.trackData
+      ..add(
+        TimeLine(
+          date: time.toString(),
+          status: 'In Process',
+        ),
+      );
+
+    final updateData = {
+      'status': 'In Process',
+      'trackData': updatedTrackData.map((e) => e.toMap()),
+    };
+
+    await _complaintRepository.updateComplaint(complaint.id, updateData);
+    await _complaintRepository.updateComplaintStats({
+      'on_hold': (event.stats.onHold - 1).toString(),
+      'in_process': (event.stats.inProcess + 1).toString(),
+    });
+
+    final notification = NotificationModel(
+      description:
+          'Work on your complaint has been resumed: Complaint no. ${complaint.id}',
+      timeStamp: time,
+      userId: complaint.userId,
+      departmentName: complaint.departmentName,
+      complaintId: complaint.id,
+    );
+
+    await _notificationRepository.addNotification(notification);
+
+    await _notificationRepository.sendPushNotification(
+      notification.description,
+      notification.departmentName,
+      [notification.userId],
+    );
   }
 
   Future<void> _onRequestApproval(
@@ -100,34 +166,28 @@ class SelectedComplaintBloc
 
     final updateData = {
       'status': 'Approval Pending',
-      'isLocked' : true,
+      'isLocked': true,
       'trackData': updatedTrackData.map((e) => e.toMap()),
     };
 
-    await _complaintRepository.updateComplaintToTaken(complaint.id, updateData);
-  }
+    await _complaintRepository.updateComplaint(complaint.id, updateData);
 
-  Future<void> _onSolveComplaint(
-    SolveComplaint event,
-    Emitter<SelectedComplaintState> emit,
-  ) async {
-    final time = DateTime.now();
-    final complaint = event.complaint;
+    final notification = NotificationModel(
+      description:
+          'Your approval is requested to mark complaint as Solved: Complaint no. ${complaint.id}',
+      timeStamp: time,
+      userId: complaint.userId,
+      departmentName: complaint.departmentName,
+      complaintId: complaint.id,
+    );
 
-    final updatedTrackData = complaint.trackData
-      ..add(
-        TimeLine(
-          date: time.toString(),
-          status: 'Solved',
-        ),
-      );
+    await _notificationRepository.addNotification(notification);
 
-    final updateData = {
-      'status': 'Solved',
-      'trackData': updatedTrackData.map((e) => e.toMap()),
-    };
-
-    await _complaintRepository.updateComplaintToTaken(complaint.id, updateData);
+    await _notificationRepository.sendPushNotification(
+      notification.description,
+      notification.departmentName,
+      [notification.userId],
+    );
   }
 
   Future<void> _onTakeComplaint(
@@ -152,10 +212,15 @@ class SelectedComplaintBloc
       'trackData': updatedTrackData.map((e) => e.toMap()),
     };
 
-    await _complaintRepository.updateComplaintToTaken(complaint.id, updateData);
+    await _complaintRepository.updateComplaint(complaint.id, updateData);
+    await _complaintRepository.updateComplaintStats({
+      'registered': (event.stats.registered - 1).toString(),
+      'in_process': (event.stats.inProcess + 1).toString(),
+    });
 
     final notification = NotificationModel(
-      description: 'Your complaint has been taken',
+      description:
+          'Your complaint has been taken: Complaint no. ${complaint.id}',
       timeStamp: time,
       userId: complaint.userId,
       departmentName: complaint.departmentName,
@@ -164,6 +229,10 @@ class SelectedComplaintBloc
 
     await _notificationRepository.addNotification(notification);
 
-    await _notificationRepository.sendPushNotification(notification.description, notification.departmentName, [notification.userId]);
+    await _notificationRepository.sendPushNotification(
+      notification.description,
+      notification.departmentName,
+      [notification.userId],
+    );
   }
 }
