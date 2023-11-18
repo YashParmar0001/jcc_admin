@@ -65,7 +65,6 @@ class ComplaintWidget extends StatelessWidget {
               ),
               buildStatus(
                 context,
-                AppColors.monaLisa,
                 complaint.status,
               ),
               const SizedBox(
@@ -117,13 +116,13 @@ class ComplaintWidget extends StatelessWidget {
     );
   }
 
-  Widget buildStatus(BuildContext context, Color color, String status) {
+  Widget buildStatus(BuildContext context, String status) {
     return Row(
       children: [
         Container(
           width: 13,
           height: 13,
-          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+          decoration: BoxDecoration(color: _buildSelectColor(status: status), shape: BoxShape.circle),
         ),
         const SizedBox(
           width: 5,
@@ -135,5 +134,18 @@ class ComplaintWidget extends StatelessWidget {
         )
       ],
     );
+  }
+
+  Color _buildSelectColor({required String status}) {
+    switch (status) {
+      case 'Registered':
+        return AppColors.brightTurquoise;
+      case 'In Process':
+        return AppColors.heliotrope;
+      case 'On Hold':
+        return AppColors.monaLisa;
+      default:
+        return AppColors.mantis;
+    }
   }
 }
