@@ -23,26 +23,31 @@ class TakeComplaint extends SelectedComplaintEvent {
   const TakeComplaint({
     required this.assignedEmployeeId,
     required this.complaint,
+    required this.stats,
   });
 
   final String assignedEmployeeId;
   final ComplaintModel complaint;
+  final ComplaintStatsModel stats;
 }
 
 class HoldComplaint extends SelectedComplaintEvent {
-  const HoldComplaint(this.complaint);
+  const HoldComplaint({required this.complaint, required this.stats});
 
   final ComplaintModel complaint;
+  final ComplaintStatsModel stats;
 }
 
-class SolveComplaint extends SelectedComplaintEvent {
-  const SolveComplaint(this.complaint);
+class ResumeComplaint extends SelectedComplaintEvent {
+  const ResumeComplaint({required this.complaint, required this.stats});
 
   final ComplaintModel complaint;
+  final ComplaintStatsModel stats;
 }
 
 class RequestApproval extends SelectedComplaintEvent {
-  const RequestApproval(this.complaint);
+  const RequestApproval({required this.complaint, required this.stats});
 
   final ComplaintModel complaint;
+  final ComplaintStatsModel stats;
 }

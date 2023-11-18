@@ -29,10 +29,17 @@ class ComplaintRepository {
         .map((e) => ComplaintModel.fromMap(e.data()!));
   }
 
-  Future<void> updateComplaintToTaken(String id, Map<String, dynamic> data) async {
+  Future<void> updateComplaint(String id, Map<String, dynamic> data) async {
     return await _firestore.collection('complaints').doc(id).update(data);
   }
-    
+
+  Future<void> updateComplaintStats(Map<String, dynamic> data) async {
+    return await _firestore
+        .collection('complaint_stats')
+        .doc('stats')
+        .update(data);
+  }
+
   Stream<ComplaintStatsModel?> getComplaintStats() {
     return _firestore
         .collection('complaint_stats')
