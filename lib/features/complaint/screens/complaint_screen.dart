@@ -30,8 +30,10 @@ class ComplaintScreen extends StatefulWidget {
 class _ComplaintScreenState extends State<ComplaintScreen> {
   @override
   Widget build(BuildContext context) {
+    final type = (context.read<LoginBloc>().state as LoggedIn).employee.type;
+
     return DefaultTabController(
-      length: 2,
+      length: (type == 'hod') ? 5 : 2,
       child: Scaffold(
         drawer: const MenuDrawer(),
         onDrawerChanged: (isOpened) {
@@ -68,8 +70,7 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
           ),
           actions: [
             IconButton(
-              onPressed: () {
-              },
+              onPressed: () {},
               icon: SvgPicture.asset(Assets.iconsFilter),
             ),
           ],
@@ -81,102 +82,153 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
                 ),
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              const ComplaintsOverview(),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
+        body: Column(
+          children: [
+            const ComplaintsOverview(),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Container(
                 height: 50,
-                width: 250,
+                // width: 250,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   color: AppColors.brilliantAzure,
                 ),
                 child: TabBar(
+                  isScrollable: true,
                   indicatorSize: TabBarIndicatorSize.tab,
                   indicatorPadding: const EdgeInsets.all(5),
                   indicator: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     color: AppColors.darkMidnightBlue,
                   ),
-                  tabs: [
-                    Tab(
-                      child: Text(
-                        'Pending',
-                        style: GoogleFonts.poppins(
-                            color: Colors.white, fontSize: 14),
-                      ),
-                    ),
-                    Tab(
-                      child: Text(
-                        'Taken',
-                        style: GoogleFonts.poppins(
-                            color: Colors.white, fontSize: 14),
-                      ),
-                    ),
-                  ],
+                  tabs: buildListTabs(type: type),
                 ),
               ),
-              // TabBarView(children: [
-              //   Text('Tab 1'),
-              //   Text('Tab 2'),
-              // ]),
-              const SizedBox(
-                height: 15,
-              ),
-              Expanded(
-                child: BlocBuilder<ComplaintBloc, ComplaintState>(
-                  builder: (context, state) {
-                    if (state is ComplaintLoading) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (state is ComplaintLoaded) {
-                      final id = (context.read<LoginBloc>().state as LoggedIn)
-                          .employee
-                          .employeeId;
-                      final takenList = state.complaintList
-                          .where((complaint) =>
-                              complaint.isAssigned &&
-                              complaint.assignedEmployeeId == id)
-                          .toList();
+            ),
+            // TabBarView(children: [
+            //   Text('Tab 1'),
+            //   Text('Tab 2'),
+            // ]),
+            const SizedBox(
+              height: 15,
+            ),
+            Expanded(
+              child: BlocBuilder<ComplaintBloc, ComplaintState>(
+                builder: (context, state) {
+                  if (state is ComplaintLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is ComplaintLoaded) {
+                    final id = (context.read<LoginBloc>().state as LoggedIn)
+                        .employee
+                        .employeeId;
+                    final takenList = state.complaintList
+                        .where((complaint) =>
+                            complaint.isAssigned &&
+                            complaint.assignedEmployeeId == id)
+                        .toList();
 
-                      return TabBarView(
-                        children: [
-                          buildList(state.complaintList),
-                          buildList(takenList),
-                        ],
-                      );
-                    }
+                    final all = state.complaintList;
+                    final pending = state.complaintList
+                        .where((complaint) => complaint.status == "Registered")
+                        .toList();
+                    final inProcess = state.complaintList
+                        .where((complaint) => complaint.status == "In Process")
+                        .toList();
+                    final onHold = state.complaintList
+                        .where((complaint) => complaint.status == "On Hold")
+                        .toList();
+                    final Solved = state.complaintList
+                        .toList();
+                    return (type == 'hod')
+                        ? TabBarView(
+                            children: [
+                              buildList(all),
+                              buildList(pending),
+                              buildList(inProcess),
+                              buildList(onHold),
+                              buildList(Solved),
+                            ],
+                          )
+                        : TabBarView(
+                            children: [
+                              buildList(state.complaintList.where((complaint) => complaint.status == "Registered" && !complaint.isAssigned).toList()),
+                              buildList(takenList),
+                            ],
+                          );
+                  }
 
-                    return TabBarView(
-                      children: [
-                        buildList([]),
-                        buildList([]),
-                      ],
-                    );
-                  },
-                ),
+                  return (type == 'hod')
+                      ? TabBarView(
+                          children: [
+                            buildList([]),
+                            buildList([]),
+                            buildList([]),
+                            buildList([]),
+                            buildList([]),
+                          ],
+                        )
+                      : TabBarView(
+                          children: [
+                            buildList([]),
+                            buildList([]),
+                          ],
+                        );
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
   Widget buildList(List<ComplaintModel> list) {
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        return ComplaintWidget(
-          complaint: list[index],
-        );
-      },
-      itemCount: list.length,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: ListView.builder(
+        itemBuilder: (context, index) {
+          return ComplaintWidget(
+            complaint: list[index],
+          );
+        },
+        itemCount: list.length,
 
-      // shrinkWrap: true,
+        // shrinkWrap: true,
+      ),
+    );
+  }
+
+  List<Tab> buildListTabs({required String type}) {
+    return (type == 'hod')
+        ? [
+            buildTab(tabName: "All"),
+            buildTab(tabName: "Pending"),
+            buildTab(tabName: "In Process"),
+            buildTab(tabName: "Solved"),
+            buildTab(tabName: "On Hold"),
+          ]
+        : [
+            buildTab(tabName: "Pending"),
+            buildTab(tabName: "Taken"),
+          ];
+  }
+
+  Tab buildTab({required String tabName}) {
+    return Tab(
+      child: SizedBox(
+        height: 40,
+        width: 120,
+        child: Center(
+          child: Text(
+            tabName,
+            style: GoogleFonts.poppins(color: Colors.white, fontSize: 14),
+          ),
+        ),
+      ),
     );
   }
 }
