@@ -109,29 +109,43 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
                 ),
               ),
             ),
-            // TabBarView(children: [
-            //   Text('Tab 1'),
-            //   Text('Tab 2'),
-            // ]),
             const SizedBox(
               height: 15,
             ),
-            Expanded(
-              child: BlocBuilder<ComplaintBloc, ComplaintState>(
-                builder: (context, state) {
-                  if (state is ComplaintLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (state is ComplaintLoaded) {
-                    final id = (context.read<LoginBloc>().state as LoggedIn)
-                        .employee
-                        .employeeId;
-                    final takenList = state.complaintList
+            BlocBuilder<ComplaintBloc, ComplaintState>(
+              builder: (context, state) {
+                if (state is ComplaintLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is ComplaintLoaded) {
+                  final employee =
+                      (context.read<LoginBloc>().state as LoggedIn).employee;
+                  final id = employee.employeeId;
+
+                  if (employee.type == 'employee') {
+                    final complaintList = state.complaintList
+                        .where((complaint) => complaint.ward == employee.ward)
+                        .toList();
+
+                    final pending = complaintList
+                        .where((complaint) =>
+                            complaint.status == "Registered" &&
+                            !complaint.isAssigned)
+                        .toList();
+
+                    final taken = complaintList
                         .where((complaint) =>
                             complaint.isAssigned &&
                             complaint.assignedEmployeeId == id)
                         .toList();
 
-                    final all = state.complaintList;
+                    return TabBarView(
+                      children: [
+                        buildList(pending, widget.controller),
+                        buildList(taken, widget.controller),
+                      ],
+                    );
+                  } else {
+                    final allComplaints = state.complaintList;
                     final pending = state.complaintList
                         .where((complaint) => complaint.status == "Registered")
                         .toList();
@@ -141,44 +155,33 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
                     final onHold = state.complaintList
                         .where((complaint) => complaint.status == "On Hold")
                         .toList();
-                    final Solved = state.complaintList
+                    final solved = state.complaintList
+                        .where((complaint) => complaint.status == 'Solved')
                         .toList();
-                    return (type == 'hod')
-                        ? TabBarView(
-                            children: [
-                              buildList(all),
-                              buildList(pending),
-                              buildList(inProcess),
-                              buildList(onHold),
-                              buildList(Solved),
-                            ],
-                          )
-                        : TabBarView(
-                            children: [
-                              buildList(state.complaintList.where((complaint) => complaint.status == "Registered" && !complaint.isAssigned).toList()),
-                              buildList(takenList),
-                            ],
-                          );
-                  }
 
-                  return (type == 'hod')
-                      ? TabBarView(
-                          children: [
-                            buildList([]),
-                            buildList([]),
-                            buildList([]),
-                            buildList([]),
-                            buildList([]),
-                          ],
-                        )
-                      : TabBarView(
-                          children: [
-                            buildList([]),
-                            buildList([]),
-                          ],
-                        );
-                },
-              ),
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height - 355,
+                      child: TabBarView(
+                        children: [
+                          buildList(allComplaints, widget.controller),
+                          buildList(pending, widget.controller),
+                          buildList(inProcess, widget.controller),
+                          buildList(solved, widget.controller),
+                          buildList(onHold, widget.controller),
+                        ],
+                      ),
+                    );
+                  }
+                } else if (state is ComplaintError) {
+                  return Center(
+                    child: Text('Something went wrong: ${state.message}'),
+                  );
+                } else {
+                  return const Center(
+                    child: Text('Unknown state'),
+                  );
+                }
+              },
             ),
           ],
         ),
@@ -186,18 +189,17 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
     );
   }
 
-  Widget buildList(List<ComplaintModel> list) {
+  Widget buildList(List<ComplaintModel> list, ScrollController controller) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: ListView.builder(
+        controller: controller,
         itemBuilder: (context, index) {
           return ComplaintWidget(
             complaint: list[index],
           );
         },
         itemCount: list.length,
-
-        // shrinkWrap: true,
       ),
     );
   }

@@ -10,11 +10,11 @@ class ComplaintRepository {
 
   final FirebaseFirestore _firestore;
 
-  Stream<List<ComplaintModel>> getComplaints(String department, String ward) {
+  Stream<List<ComplaintModel>> getComplaints(String department) {
     return _firestore
         .collection('complaints')
         .where('departmentName', isEqualTo: department)
-        .where('ward', isEqualTo: ward)
+        .orderBy('registrationDate', descending: true)
         .snapshots()
         .map((event) {
       return event.docs.map((e) => ComplaintModel.fromMap(e.data())).toList();

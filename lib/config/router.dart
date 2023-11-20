@@ -16,7 +16,7 @@ import 'package:jcc_admin/features/splash_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
-final controller = ScrollController();
+final _controller = ScrollController();
 final _bottomNavKey = GlobalKey<ScrollToHideWidgetState>();
 
 final router = GoRouter(
@@ -68,7 +68,7 @@ final router = GoRouter(
       navigatorKey: _shellNavigatorKey,
       builder: (context, state, child) => AppScaffold(
         bottomNavKey: _bottomNavKey,
-        controller: controller,
+        controller: _controller,
         child: child,
       ),
       routes: [
@@ -78,7 +78,7 @@ final router = GoRouter(
           pageBuilder: (context, state) {
             return CustomTransitionPage(
               child: HomeScreen(
-                controller: controller,
+                controller: _controller,
                 bottomNavKey: _bottomNavKey,
               ),
               transitionDuration: Duration.zero,
@@ -95,7 +95,7 @@ final router = GoRouter(
           pageBuilder: (context, state) {
             return CustomTransitionPage(
               child: ComplaintScreen(
-                controller: controller,
+                controller: _controller,
                 bottomNavKey: _bottomNavKey,
               ),
               transitionDuration: Duration.zero,
@@ -119,7 +119,7 @@ final router = GoRouter(
           pageBuilder: (context, state) {
             return CustomTransitionPage(
               child: EmployeeScreen(
-                controller: controller,
+                controller: _controller,
                 bottomNavKey: _bottomNavKey,
               ),
               transitionDuration: Duration.zero,
@@ -140,7 +140,7 @@ final router = GoRouter(
           pageBuilder: (context, state) {
             return CustomTransitionPage(
               child: NotificationScreen(
-                controller: controller,
+                controller: _controller,
                 bottomNavKey: _bottomNavKey,
               ),
               transitionDuration: Duration.zero,

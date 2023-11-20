@@ -59,7 +59,6 @@ class _LoginScreenState extends State<LoginScreen> {
           } else if (state is LoggedIn) {
             context.read<ComplaintBloc>().add(LoadComplaint(
                   department: state.employee.department,
-                  ward: state.employee.ward,
                 ));
             if (state.employee.type == 'hod') {
               context

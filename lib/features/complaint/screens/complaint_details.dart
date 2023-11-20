@@ -317,7 +317,7 @@ class _ComplaintDetailsState extends State<ComplaintDetails> {
                                           color: AppColors.brilliantAzure,
                                         ),
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -477,10 +477,11 @@ class _ComplaintDetailsState extends State<ComplaintDetails> {
     );
   }
 
-  Widget _buildDataFiled(
-      {required BuildContext context,
-      required String title,
-      required String text}) {
+  Widget _buildDataFiled({
+    required BuildContext context,
+    required String title,
+    required String text,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
