@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jcc_admin/common/widget/bottom_navigation_bar.dart';
 import 'package:jcc_admin/common/widget/scroll_to_hide_widget.dart';
-import 'package:jcc_admin/config/router.dart';
 
 class AppScaffold extends StatefulWidget {
   const AppScaffold({
@@ -22,7 +21,7 @@ class AppScaffold extends StatefulWidget {
 class _AppScaffoldState extends State<AppScaffold> {
   @override
   void dispose() {
-    controller.dispose();
+    widget.controller.dispose();
     super.dispose();
   }
 

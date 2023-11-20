@@ -118,7 +118,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
         itemCount: 5,
         itemBuilder: (context, index) {
           return _buildNotificationItem(
-            notification: NotificationModel(timeStamp: DateTime.now(), departmentName: 'Civil', description: 'New complaint is registered    ', complaintId: '45', userId: '916355303321'),
+            notification: NotificationModel(
+                timeStamp: DateTime.now(),
+                departmentName: 'Health',
+                description: 'New complaint is registered    ',
+                complaintId: '45',
+                userId: '916355303321'),
             context: context,
           );
         },
@@ -227,9 +232,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           ),
           SizedBox(height: 20),
           PrimaryButton(
-            onTap: (){
-
-            },
+              onTap: () {},
               // onTap: () {
               //   if (values == "Newest") {
               //     context
@@ -252,8 +255,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 }
 
-Widget _buildNotificationItem(
-    {required NotificationModel notification, required BuildContext context}) {
+Widget _buildNotificationItem({
+  required NotificationModel notification,
+  required BuildContext context,
+}) {
   return Container(
     decoration: BoxDecoration(
       color: AppColors.antiBlueFlash,
