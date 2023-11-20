@@ -40,11 +40,13 @@ class ComplaintsOverview extends StatelessWidget {
                 bottomRight: Radius.circular(15),
                 bottomLeft: Radius.circular(15)),
           ),
-          child: BlocBuilder< ComplaintBloc, ComplaintEvent>(
+          child: BlocBuilder<ComplaintBloc, ComplaintState>(
             builder: (context, state){
               if (state is ComplaintLoading) {
                 return const Center(child: CircularProgressIndicator());
-              } else if (state is ComplaintLoaded) {
+              } else if (state is ComplaintError) {
+                return Text(state.message);
+              }else if (state is ComplaintLoaded) {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
