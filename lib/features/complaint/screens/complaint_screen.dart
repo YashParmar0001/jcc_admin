@@ -141,7 +141,7 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
                     final onHold = state.complaintList
                         .where((complaint) => complaint.status == "On Hold")
                         .toList();
-                    final Solved = state.complaintList
+                    final solved = state.complaintList
                         .toList();
                     return (type == 'hod')
                         ? TabBarView(
@@ -150,7 +150,7 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
                               buildList(pending),
                               buildList(inProcess),
                               buildList(onHold),
-                              buildList(Solved),
+                              buildList(solved),
                             ],
                           )
                         : TabBarView(
