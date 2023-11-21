@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jcc_admin/bloc/complaint/complaint_bloc.dart';
 import 'package:jcc_admin/utils/ui_utils.dart';
 
 import '../../../bloc/login/login_bloc.dart';
@@ -39,30 +40,50 @@ class ComplaintsOverview extends StatelessWidget {
                 bottomRight: Radius.circular(15),
                 bottomLeft: Radius.circular(15)),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildTextOfOverview(value: '115', label: "Registered"),
-              Container(
-                height: 40,
-                width: 1,
-                color: Colors.white.withOpacity(0.5),
-              ),
-              _buildTextOfOverview(value: '1758', label: "In Process"),
-              Container(
-                height: 40,
-                width: 1,
-                color: Colors.white.withOpacity(0.5),
-              ),
-              _buildTextOfOverview(value: '123', label: "On Hold"),
-              Container(
-                height: 40,
-                width: 1,
-                color: Colors.white.withOpacity(0.5),
-              ),
-              _buildTextOfOverview(value: '28.8', label: "Solved"),
-            ],
-          ),
+          child: BlocBuilder<ComplaintBloc, ComplaintState>(
+            builder: (context, state){
+              if (state is ComplaintLoading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is ComplaintError) {
+                return Text(state.message);
+              }else if (state is ComplaintLoaded) {
+                final registeredCount = state.complaintList.where((complaint) => complaint.status == "Registered").length;
+                final inProcessCount = state.complaintList.where((complaint) => complaint.status == "In Process").length;
+                final onHoldCount = state.complaintList.where((complaint) => complaint.status == "On Hold").length;
+                final solvedCount = state.complaintList.where((complaint) => complaint.status == "Solved").length;
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _buildTextOfOverview(value: registeredCount.toString(), label: "Registered"),
+                    Container(
+                      height: 40,
+                      width: 1,
+                      color: Colors.white.withOpacity(0.5),
+                    ),
+                    _buildTextOfOverview(value: inProcessCount.toString(), label: "In Process"),
+                    Container(
+                      height: 40,
+                      width: 1,
+                      color: Colors.white.withOpacity(0.5),
+                    ),
+                    _buildTextOfOverview(value: onHoldCount.toString(), label: "On Hold"),
+                    Container(
+                      height: 40,
+                      width: 1,
+                      color: Colors.white.withOpacity(0.5),
+                    ),
+                    _buildTextOfOverview(value: solvedCount.toString(), label: "Solved"),
+                  ]
+                );
+              } else {
+                return Row(
+                  children: [
+                    Text("Unknown state"),
+                  ],
+                );
+              }
+            },
+          )
         ),
       ],
     );
