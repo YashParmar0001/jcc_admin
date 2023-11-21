@@ -5,7 +5,10 @@ import 'dart:developer' as dev;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jcc_admin/bloc/login/login_bloc.dart';
+import 'package:lottie/lottie.dart';
 
+import '../../../bloc/notifications/notification_bloc.dart';
 import '../../../common/widget/menu_drawer.dart';
 import '../../../common/widget/primary_button.dart';
 import '../../../constants/app_color.dart';
@@ -112,78 +115,84 @@ class _NotificationScreenState extends State<NotificationScreen> {
           ),
         ],
       ),
-      body: ListView.separated(
-        controller: widget.controller,
-        padding: const EdgeInsets.all(10),
-        itemCount: 5,
-        itemBuilder: (context, index) {
-          return _buildNotificationItem(
-            notification: NotificationModel(
-                timeStamp: DateTime.now(),
-                departmentName: 'Health',
-                description: 'New complaint is registered    ',
-                complaintId: '45',
-                userId: '916355303321'),
-            context: context,
-          );
-        },
-        separatorBuilder: (context, index) => const SizedBox(
-          height: 5,
-        ),
-      ),
-      // body: BlocConsumer<NotificationBloc, NotificationState>(
-      //   listener: (context, state) {},
-      //   builder: (context, state) {
-      //     if (state is NotificationLoading || state is NotificationInitial) {
-      //       return Center(child: CircularProgressIndicator());
-      //     } else if (state is NotificationLoaded) {
-      //       list = state.notificationList;
-      //       if (list.isEmpty) {
-      //         return Column(
-      //           children: [
-      //             const SizedBox(
-      //               height: 150,
-      //             ),
-      //             Lottie.asset(
-      //               Assets.lottieSearch,
-      //               repeat: true,
-      //             ),
-      //             const SizedBox(
-      //               height: 10,
-      //             ),
-      //             Text(
-      //               'Nothing to Show',
-      //               style: Theme.of(context).textTheme.displayLarge?.copyWith(
-      //                     fontWeight: FontWeight.w600,
-      //                   ),
-      //             ),
-      //           ],
-      //         );
-      //       } else {
-      //         return ListView.separated(
-      //           controller: widget.controller,
-      //           padding: const EdgeInsets.all(10),
-      //           itemCount: state.notificationList.length,
-      //           itemBuilder: (context, index) {
-      //             return _buildNotificationItem(
-      //               notification: state.notificationList[index],
-      //               context: context,
-      //             );
-      //           },
-      //           separatorBuilder: (context, index) => const SizedBox(
-      //             height: 5,
-      //           ),
-      //         );
-      //       }
-      //     } else if (state is NotificationError) {
-      //       return Center(
-      //         child: Text(state.message),
-      //       );
-      //     }
-      //
-      //     return Center(child: CircularProgressIndicator());
+      // body: ListView.separated(
+      //   controller: widget.controller,
+      //   padding: const EdgeInsets.all(10),
+      //   itemCount: 5,
+      //   itemBuilder: (context, index) {
+      //     return _buildNotificationItem(
+      //       notification: NotificationModel(
+      //           timeStamp: DateTime.now(),
+      //           departmentName: 'Health',
+      //           description: 'New complaint is registered    ',
+      //           complaintId: '45',
+      //           userId: '916355303321'),
+      //       context: context,
+      //     );
       //   },
+      //   separatorBuilder: (context, index) => const SizedBox(
+      //     height: 5,
+      //   ),
       // ),
+      body: BlocConsumer<NotificationBloc, NotificationState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          if (state is NotificationLoading || state is NotificationInitial) {
+            return Center(child: CircularProgressIndicator());
+          } else if (state is NotificationLoaded) {
+            list = state.notificationList;
+            if (list.isEmpty) {
+              return Column(
+                children: [
+                  const SizedBox(
+                    height: 150,
+                  ),
+                  Lottie.asset(
+                    Assets.lottieSearch,
+                    repeat: true,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Nothing to Show',
+                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                ],
+              );
+            } else {
+              var notifications = state.notificationList;
+              final employee = (context.read<LoginBloc>().state as LoggedIn).employee;
+              if (employee.type == 'employee') {
+                notifications = notifications.where((notification) => notification.ward == employee.ward).toList();
+              }
+
+              return ListView.separated(
+                controller: widget.controller,
+                padding: const EdgeInsets.all(10),
+                itemCount: notifications.length,
+                itemBuilder: (context, index) {
+                  return _buildNotificationItem(
+                    notification: notifications[index],
+                    context: context,
+                  );
+                },
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 5,
+                ),
+              );
+            }
+          } else if (state is NotificationError) {
+            return Center(
+              child: Text(state.message),
+            );
+          }
+
+          return Center(child: CircularProgressIndicator());
+        },
+      ),
     );
   }
 

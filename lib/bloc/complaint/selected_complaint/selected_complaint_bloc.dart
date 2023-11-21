@@ -94,6 +94,7 @@ class SelectedComplaintBloc
       userId: complaint.userId,
       departmentName: complaint.departmentName,
       complaintId: complaint.id,
+      ward: complaint.ward,
     );
 
     await _notificationRepository.addNotification(notification);
@@ -138,6 +139,7 @@ class SelectedComplaintBloc
       userId: complaint.userId,
       departmentName: complaint.departmentName,
       complaintId: complaint.id,
+      ward: complaint.ward,
     );
 
     await _notificationRepository.addNotification(notification);
@@ -179,6 +181,7 @@ class SelectedComplaintBloc
       userId: complaint.userId,
       departmentName: complaint.departmentName,
       complaintId: complaint.id,
+      ward: complaint.ward,
     );
 
     await _notificationRepository.addNotification(notification);
@@ -225,6 +228,7 @@ class SelectedComplaintBloc
       userId: complaint.userId,
       departmentName: complaint.departmentName,
       complaintId: complaint.id,
+      ward: complaint.ward,
     );
 
     await _notificationRepository.addNotification(notification);

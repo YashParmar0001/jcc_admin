@@ -33,7 +33,7 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
     final type = (context.read<LoginBloc>().state as LoggedIn).employee.type;
 
     return DefaultTabController(
-      length: (type == 'hod') ? 5 : 2,
+      length: (type == 'hod') ? 5 : 3,
       child: Scaffold(
         drawer: const MenuDrawer(),
         onDrawerChanged: (isOpened) {
@@ -134,27 +134,44 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
 
                     final taken = complaintList
                         .where((complaint) =>
+                            complaint.status != 'Solved' &&
                             complaint.isAssigned &&
                             complaint.assignedEmployeeId == id)
                         .toList();
 
-                    return TabBarView(
-                      children: [
-                        buildList(pending, widget.controller),
-                        buildList(taken, widget.controller),
-                      ],
+                    final solved = complaintList
+                        .where((complaint) =>
+                            complaint.status == 'Solved' &&
+                            complaint.assignedEmployeeId == id)
+                        .toList();
+
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height - 355,
+                      child: TabBarView(
+                        children: [
+                          buildList(pending, widget.controller),
+                          buildList(taken, widget.controller),
+                          buildList(solved, widget.controller),
+                        ],
+                      ),
                     );
                   } else {
                     final allComplaints = state.complaintList;
+
                     final pending = state.complaintList
                         .where((complaint) => complaint.status == "Registered")
                         .toList();
+
                     final inProcess = state.complaintList
-                        .where((complaint) => complaint.status == "In Process")
+                        .where((complaint) =>
+                            complaint.status == "In Process" ||
+                            complaint.status == 'Approval Pending')
                         .toList();
+
                     final onHold = state.complaintList
                         .where((complaint) => complaint.status == "On Hold")
                         .toList();
+
                     final solved = state.complaintList
                         .where((complaint) => complaint.status == 'Solved')
                         .toList();
@@ -216,6 +233,7 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
         : [
             buildTab(tabName: "Pending"),
             buildTab(tabName: "Taken"),
+            buildTab(tabName: 'Solved'),
           ];
   }
 

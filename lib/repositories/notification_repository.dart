@@ -1,24 +1,21 @@
 import 'dart:convert';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:developer' as dev;
 import '../config/onesignal_config.dart';
 import '../model/notification_model.dart';
 import 'package:http/http.dart' as http;
+
 class NotificationRepository {
-  NotificationRepository(
-      {FirebaseFirestore? firestore, FirebaseAuth? firebaseAuth})
-      : _firestore = firestore ?? FirebaseFirestore.instance,
-        _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
+  NotificationRepository({FirebaseFirestore? firestore})
+      : _firestore = firestore ?? FirebaseFirestore.instance;
 
   final FirebaseFirestore _firestore;
-  final FirebaseAuth _firebaseAuth;
 
   Future<void> sendPushNotification(
-      String notificationContents,
-      String notificationTitle,
-      List<String> listOfToken,
-      ) async {
+    String notificationContents,
+    String notificationTitle,
+    List<String> listOfToken,
+  ) async {
     try {
       var url = Uri.parse(OneSignalConfig.oneSignalApiUrl);
       var client = http.Client();
@@ -34,10 +31,10 @@ class NotificationRepository {
         "headings": {"en": notificationTitle},
         "priority": "HIGH",
         "small_icon":
-        'https://www.gstatic.com/mobilesdk/160503_mobilesdk/logo/2x/firebase_28dp.png',
+            'https://www.gstatic.com/mobilesdk/160503_mobilesdk/logo/2x/firebase_28dp.png',
       };
       var response =
-      await client.post(url, headers: headers, body: json.encode(body));
+          await client.post(url, headers: headers, body: json.encode(body));
       if (response.statusCode == 200) {
         dev.log("Notification is send Successfully ${response.body} ",
             name: 'Notification');
@@ -58,11 +55,10 @@ class NotificationRepository {
         .set(notification.toMap());
   }
 
-  Stream<List<NotificationModel>> getNotifications() {
+  Stream<List<NotificationModel>> getNotifications(String department) {
     return _firestore
-        .collection('users')
-        .doc(_firebaseAuth.currentUser!.phoneNumber.toString())
         .collection('notifications')
+        .where('departmentName', isEqualTo: department)
         .orderBy(
           'timeStamp',
           descending: true,
