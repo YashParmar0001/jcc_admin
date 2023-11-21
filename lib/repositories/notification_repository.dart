@@ -58,7 +58,7 @@ class NotificationRepository {
         .set(notification.toMap());
   }
 
-  Stream<List<NotificationModel>> getNotification() {
+  Stream<List<NotificationModel>> getNotifications() {
     return _firestore
         .collection('users')
         .doc(_firebaseAuth.currentUser!.phoneNumber.toString())

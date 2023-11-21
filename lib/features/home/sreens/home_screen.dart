@@ -6,7 +6,7 @@ import 'dart:developer' as dev;
 import '../../../bloc/complaint/stats/complaint_stats_bloc.dart';
 import '../../../common/widget/menu_drawer.dart';
 import '../../../common/widget/scroll_to_hide_widget.dart';
-import '../../../config/router.dart';
+// import '../../../config/router.dart';
 import '../../../constants/app_color.dart';
 import '../../../constants/string_constants.dart';
 import '../../../generated/assets.dart';
@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: SingleChildScrollView(
-        controller: controller,
+        controller: widget.controller,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

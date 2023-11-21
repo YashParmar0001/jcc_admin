@@ -36,7 +36,7 @@ class ComplaintBloc extends Bloc<ComplaintEvent, ComplaintState> {
 
     try {
       _complaintSubscription =
-          _complaintRepository.getComplaints(event.department, event.ward).listen((list) {
+          _complaintRepository.getComplaints(event.department).listen((list) {
             add(UpdateComplaint(list));
           });
     } catch (e) {

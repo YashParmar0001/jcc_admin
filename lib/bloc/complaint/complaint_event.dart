@@ -10,10 +10,9 @@ abstract class ComplaintEvent extends Equatable {
 class InitializeComplaint extends ComplaintEvent {}
 
 class LoadComplaint extends ComplaintEvent {
-  const LoadComplaint({required this.department, required this.ward});
+  const LoadComplaint({required this.department});
 
   final String department;
-  final String ward;
 }
 
 class UpdateComplaint extends ComplaintEvent {

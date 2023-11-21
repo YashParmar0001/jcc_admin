@@ -47,28 +47,32 @@ class ComplaintsOverview extends StatelessWidget {
               } else if (state is ComplaintError) {
                 return Text(state.message);
               }else if (state is ComplaintLoaded) {
+                final registeredCount = state.complaintList.where((complaint) => complaint.status == "Registered").length;
+                final inProcessCount = state.complaintList.where((complaint) => complaint.status == "In Process").length;
+                final onHoldCount = state.complaintList.where((complaint) => complaint.status == "On Hold").length;
+                final solvedCount = state.complaintList.where((complaint) => complaint.status == "Solved").length;
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    _buildTextOfOverview(value: '115', label: "Registered"),
+                    _buildTextOfOverview(value: registeredCount.toString(), label: "Registered"),
                     Container(
                       height: 40,
                       width: 1,
                       color: Colors.white.withOpacity(0.5),
                     ),
-                    _buildTextOfOverview(value: '1758', label: "In Process"),
+                    _buildTextOfOverview(value: inProcessCount.toString(), label: "In Process"),
                     Container(
                       height: 40,
                       width: 1,
                       color: Colors.white.withOpacity(0.5),
                     ),
-                    _buildTextOfOverview(value: '123', label: "On Hold"),
+                    _buildTextOfOverview(value: onHoldCount.toString(), label: "On Hold"),
                     Container(
                       height: 40,
                       width: 1,
                       color: Colors.white.withOpacity(0.5),
                     ),
-                    _buildTextOfOverview(value: '28.8', label: "Solved"),
+                    _buildTextOfOverview(value: solvedCount.toString(), label: "Solved"),
                   ]
                 );
               } else {
