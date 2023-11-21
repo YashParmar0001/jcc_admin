@@ -116,6 +116,8 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
               builder: (context, state) {
                 if (state is ComplaintLoading) {
                   return const Center(child: CircularProgressIndicator());
+                } else if (state is ComplaintError) {
+                  return Text(state.message);
                 } else if (state is ComplaintLoaded) {
                   final employee =
                       (context.read<LoginBloc>().state as LoggedIn).employee;
