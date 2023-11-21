@@ -8,6 +8,7 @@ import 'package:jcc_admin/bloc/employee/employee_bloc.dart';
 import 'package:jcc_admin/bloc/employee/register/employee_register_bloc.dart';
 import 'package:jcc_admin/bloc/employee/selected_employee/selected_employee_bloc.dart';
 import 'package:jcc_admin/bloc/login/login_bloc.dart';
+import 'package:jcc_admin/bloc/notifications/notification_bloc.dart';
 import 'package:jcc_admin/config/router.dart';
 import 'package:jcc_admin/firebase_options.dart';
 import 'package:jcc_admin/repositories/complaint_repository.dart';
@@ -51,6 +52,10 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => LoginBloc(loginRepository: loginRepository),
+        ),
+        BlocProvider(
+          create: (context) =>
+              NotificationBloc(notificationRepository: notificationRepository),
         ),
         BlocProvider(
           create: (context) => ComplaintBloc(

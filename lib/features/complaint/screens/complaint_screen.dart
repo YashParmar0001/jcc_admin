@@ -33,7 +33,7 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
     final type = (context.read<LoginBloc>().state as LoggedIn).employee.type;
 
     return DefaultTabController(
-      length: (type == 'hod') ? 5 : 2,
+      length: (type == 'hod') ? 5 : 3,
       child: Scaffold(
         drawer: const MenuDrawer(),
         onDrawerChanged: (isOpened) {
@@ -78,8 +78,8 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
           title: Text(
             'Complaints',
             style: Theme.of(context).textTheme.displayLarge?.copyWith(
-              fontSize: 22,
-            ),
+                  fontSize: 22,
+                ),
           ),
         ),
         body: Column(
@@ -118,7 +118,7 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
                   return const Center(child: CircularProgressIndicator());
                 } else if (state is ComplaintError) {
                   return Text(state.message);
-                }else if (state is ComplaintLoaded) {
+                } else if (state is ComplaintLoaded) {
                   final employee =
                       (context.read<LoginBloc>().state as LoggedIn).employee;
                   final id = employee.employeeId;
@@ -130,14 +130,21 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
 
                     final pending = complaintList
                         .where((complaint) =>
-                    complaint.status == "Registered" &&
-                        !complaint.isAssigned)
+                            complaint.status == "Registered" &&
+                            !complaint.isAssigned)
                         .toList();
 
                     final taken = complaintList
                         .where((complaint) =>
-                    complaint.isAssigned &&
-                        complaint.assignedEmployeeId == id)
+                            complaint.status != 'Solved' &&
+                            complaint.isAssigned &&
+                            complaint.assignedEmployeeId == id)
+                        .toList();
+
+                    final solved = complaintList
+                        .where((complaint) =>
+                            complaint.status == 'Solved' &&
+                            complaint.assignedEmployeeId == id)
                         .toList();
 
                     return SizedBox(
@@ -146,20 +153,27 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
                         children: [
                           buildList(pending, widget.controller),
                           buildList(taken, widget.controller),
+                          buildList(solved, widget.controller),
                         ],
                       ),
                     );
                   } else {
                     final allComplaints = state.complaintList;
+
                     final pending = state.complaintList
                         .where((complaint) => complaint.status == "Registered")
                         .toList();
+
                     final inProcess = state.complaintList
-                        .where((complaint) => complaint.status == "In Process")
+                        .where((complaint) =>
+                            complaint.status == "In Process" ||
+                            complaint.status == 'Approval Pending')
                         .toList();
+
                     final onHold = state.complaintList
                         .where((complaint) => complaint.status == "On Hold")
                         .toList();
+
                     final solved = state.complaintList
                         .where((complaint) => complaint.status == 'Solved')
                         .toList();
@@ -212,16 +226,17 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
   List<Tab> buildListTabs({required String type}) {
     return (type == 'hod')
         ? [
-      buildTab(tabName: "All"),
-      buildTab(tabName: "Pending"),
-      buildTab(tabName: "In Process"),
-      buildTab(tabName: "Solved"),
-      buildTab(tabName: "On Hold"),
-    ]
+            buildTab(tabName: "All"),
+            buildTab(tabName: "Pending"),
+            buildTab(tabName: "In Process"),
+            buildTab(tabName: "Solved"),
+            buildTab(tabName: "On Hold"),
+          ]
         : [
-      buildTab(tabName: "Pending"),
-      buildTab(tabName: "Taken"),
-    ];
+            buildTab(tabName: "Pending"),
+            buildTab(tabName: "Taken"),
+            buildTab(tabName: 'Solved'),
+          ];
   }
 
   Tab buildTab({required String tabName}) {
