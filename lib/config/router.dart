@@ -12,6 +12,7 @@ import 'package:jcc_admin/features/employee/screens/employee_screen.dart';
 import 'package:jcc_admin/features/home/sreens/home_screen.dart';
 import 'package:jcc_admin/features/login/screens/login_screen.dart';
 import 'package:jcc_admin/features/notification/screens/notification_screen.dart';
+import 'package:jcc_admin/features/profile/screens/user_profile.dart';
 import 'package:jcc_admin/features/splash_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -39,6 +40,11 @@ final router = GoRouter(
       builder: (context, state) => ComplaintView(
         id: state.pathParameters['id']!,
       ),
+    ),
+    GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
+      path: '/user_profile',
+      builder: (context, state) => const UserProfile(),
     ),
     GoRoute(
       parentNavigatorKey: _rootNavigatorKey,
