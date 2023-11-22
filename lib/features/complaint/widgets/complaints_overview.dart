@@ -14,78 +14,92 @@ class ComplaintsOverview extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        SizedBox(
-          width: size.width - 20,
-          child: Image.asset(
-            UIUtils.getThumbnailName(
-                (context.read<LoginBloc>().state as LoggedIn)
-                    .employee
-                    .department),
-            fit: BoxFit.cover,
+    return Container(
+      clipBehavior: Clip.hardEdge,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(20))
+      ),
+      child: Column(
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width- 20,
+            child: Image.asset(
+              UIUtils.getThumbnailName(
+                  (context.read<LoginBloc>().state as LoggedIn)
+                      .employee
+                      .department),
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        Container(
-          width: size.width - 20,
-          height: 75,
-          decoration: const BoxDecoration(
-            boxShadow: [
-              BoxShadow(color: AppColors.blue),
-              BoxShadow(color: Colors.black),
-            ],
-            color: AppColors.darkMidnightBlue,
-            borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(15),
-                bottomLeft: Radius.circular(15)),
-          ),
-          child: BlocBuilder<ComplaintBloc, ComplaintState>(
-            builder: (context, state){
-              if (state is ComplaintLoading) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (state is ComplaintError) {
-                return Text(state.message);
-              }else if (state is ComplaintLoaded) {
-                final registeredCount = state.complaintList.where((complaint) => complaint.status == "Registered").length;
-                final inProcessCount = state.complaintList.where((complaint) => complaint.status == "In Process").length;
-                final onHoldCount = state.complaintList.where((complaint) => complaint.status == "On Hold").length;
-                final solvedCount = state.complaintList.where((complaint) => complaint.status == "Solved").length;
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _buildTextOfOverview(value: registeredCount.toString(), label: "Registered"),
-                    Container(
-                      height: 40,
-                      width: 1,
-                      color: Colors.white.withOpacity(0.5),
-                    ),
-                    _buildTextOfOverview(value: inProcessCount.toString(), label: "In Process"),
-                    Container(
-                      height: 40,
-                      width: 1,
-                      color: Colors.white.withOpacity(0.5),
-                    ),
-                    _buildTextOfOverview(value: onHoldCount.toString(), label: "On Hold"),
-                    Container(
-                      height: 40,
-                      width: 1,
-                      color: Colors.white.withOpacity(0.5),
-                    ),
-                    _buildTextOfOverview(value: solvedCount.toString(), label: "Solved"),
-                  ]
-                );
-              } else {
-                return Row(
-                  children: [
-                    Text("Unknown state"),
-                  ],
-                );
-              }
-            },
-          )
-        ),
-      ],
+          Container(
+              width: size.width - 20,
+              height: 75,
+              decoration: const BoxDecoration(
+                boxShadow: [
+                  BoxShadow(color: AppColors.blue),
+                  BoxShadow(color: Colors.black),
+                ],
+                color: AppColors.darkMidnightBlue,
+              ),
+              child: BlocBuilder<ComplaintBloc, ComplaintState>(
+                builder: (context, state) {
+                  if (state is ComplaintLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is ComplaintError) {
+                    return Text(state.message);
+                  } else if (state is ComplaintLoaded) {
+                    final registeredCount = state.complaintList
+                        .where((complaint) => complaint.status == "Registered")
+                        .length;
+                    final inProcessCount = state.complaintList
+                        .where((complaint) => complaint.status == "In Process")
+                        .length;
+                    final onHoldCount = state.complaintList
+                        .where((complaint) => complaint.status == "On Hold")
+                        .length;
+                    final solvedCount = state.complaintList
+                        .where((complaint) => complaint.status == "Solved")
+                        .length;
+                    return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _buildTextOfOverview(
+                              value: registeredCount.toString(),
+                              label: "Registered"),
+                          Container(
+                            height: 40,
+                            width: 1,
+                            color: Colors.white.withOpacity(0.5),
+                          ),
+                          _buildTextOfOverview(
+                              value: inProcessCount.toString(),
+                              label: "In Process"),
+                          Container(
+                            height: 40,
+                            width: 1,
+                            color: Colors.white.withOpacity(0.5),
+                          ),
+                          _buildTextOfOverview(
+                              value: onHoldCount.toString(), label: "On Hold"),
+                          Container(
+                            height: 40,
+                            width: 1,
+                            color: Colors.white.withOpacity(0.5),
+                          ),
+                          _buildTextOfOverview(
+                              value: solvedCount.toString(), label: "Solved"),
+                        ]);
+                  } else {
+                    return Row(
+                      children: [
+                        Text("Unknown state"),
+                      ],
+                    );
+                  }
+                },
+              )),
+        ],
+      ),
     );
   }
 
