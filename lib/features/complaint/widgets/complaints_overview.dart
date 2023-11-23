@@ -16,20 +16,36 @@ class ComplaintsOverview extends StatelessWidget {
 
     return Container(
       clipBehavior: Clip.hardEdge,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20))
-      ),
+      decoration:
+          const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20))),
       child: Column(
         children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width- 20,
-            child: Image.asset(
-              UIUtils.getThumbnailName(
+          Stack(
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width - 20,
+                child: Image.asset(
+                  UIUtils.getThumbnailName(
+                      (context.read<LoginBloc>().state as LoggedIn)
+                          .employee
+                          .department),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Positioned(
+                bottom: 10,
+                left: 15,
+                child: Text(
                   (context.read<LoginBloc>().state as LoggedIn)
                       .employee
-                      .department),
-              fit: BoxFit.cover,
-            ),
+                      .department,
+                  style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.white,
+                      ),
+                ),
+              ),
+            ],
           ),
           Container(
               width: size.width - 20,
@@ -90,7 +106,7 @@ class ComplaintsOverview extends StatelessWidget {
                               value: solvedCount.toString(), label: "Solved"),
                         ]);
                   } else {
-                    return Row(
+                    return const Row(
                       children: [
                         Text("Unknown state"),
                       ],
