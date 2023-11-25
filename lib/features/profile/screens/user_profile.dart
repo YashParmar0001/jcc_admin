@@ -5,12 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:jcc_admin/bloc/employee/selected_employee/selected_employee_bloc.dart';
+import 'package:jcc_admin/bloc/login/login_bloc.dart';
 import 'package:jcc_admin/constants/app_color.dart';
 import 'package:jcc_admin/generated/assets.dart';
 import 'package:jcc_admin/utils/ui_utils.dart';
-
-import 'dart:developer' as dev;
 
 class UserProfile extends StatelessWidget {
   const UserProfile({super.key});
@@ -37,100 +35,113 @@ class UserProfile extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        child: Stack(
-          children: [
-            SizedBox(
-              height: 138,
-              width: MediaQuery.of(context).size.width,
-              child: Image.asset(
-                UIUtils.getThumbnailName("Water Works"),
-                fit: BoxFit.cover,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+        child: BlocBuilder<LoginBloc, LoginState>(
+          builder: (context, state) {
+            if (state is LoggedIn){
+              return Stack(
                 children: [
-                  SizedBox(height: 50),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 220,
-                        height: 160,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        clipBehavior: Clip.hardEdge,
-                        child: CachedNetworkImage(
-                          imageUrl: "",
-                          imageBuilder: (context, imageProvider) {
-                            return Image(
-                              image: imageProvider,
-                              fit: BoxFit.cover,
-                            );
-                          },
-                          placeholder: (context, url) {
-                            return Image.asset(
-                              Assets.imagesDefaultProfile,
-                              fit: BoxFit.cover,
-                            );
-                          },
-                          errorWidget: (context, url, error) {
-                            return Image.asset(
-                              Assets.imagesDefaultProfile,
-                              fit: BoxFit.cover,
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
                   SizedBox(
-                    height: 25,
+                    height: 138,
+                    width: MediaQuery.of(context).size.width,
+                    child: Image.asset(
+                      UIUtils.getThumbnailName(state.employee.department),
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                  _buildEmployDataField(
-                    context: context,
-                    title: "Full name ",
-                    data:
-                    "Pedhadiya Jay K.",
-                  ),
-                  _buildEmployDataField(
-                    context: context,
-                    title: "Employee ID",
-                    data: "32988233",
-                  ),
-                  _buildEmployDataField(
-                    context: context,
-                    title: "Mobile No",
-                    data: "9313096952",
-                  ),
-                  _buildEmployDataField(
-                    context: context,
-                    title: "Email",
-                    data: "pedhadiyajay5230@gmail.com",
-                  ),
-                  _buildEmployDataField(
-                    context: context,
-                    title: "Department",
-                    data: "Water Works",
-                  ),
-                  _buildEmployDataField(
-                    context: context,
-                    title: "Post",
-                    data: "Employee",
-                  ),
-                  _buildEmployDataField(
-                    context: context,
-                    title: "Ward no",
-                    data: "1",
-                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 50),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 220,
+                              height: 160,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              clipBehavior: Clip.hardEdge,
+                              child: CachedNetworkImage(
+                                imageUrl: state.employee.photoUrl,
+                                imageBuilder: (context, imageProvider) {
+                                  return Image(
+                                    image: imageProvider,
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                                placeholder: (context, url) {
+                                  return Image.asset(
+                                    Assets.imagesDefaultProfile,
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                                errorWidget: (context, url, error) {
+                                  return Image.asset(
+                                    Assets.imagesDefaultProfile,
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 25,
+                        ),
+                        _buildEmployDataField(
+                          context: context,
+                          title: "Full name ",
+                          data: "${state.employee.firstName} ${state.employee.middleName} ${state.employee.lastName}",
+                        ),
+                        _buildEmployDataField(
+                          context: context,
+                          title: "Employee ID",
+                          data: state.employee.employeeId,
+                        ),
+                        _buildEmployDataField(
+                          context: context,
+                          title: "Mobile No",
+                          data: state.employee.phone,
+                        ),
+                        _buildEmployDataField(
+                          context: context,
+                          title: "Email",
+                          data: state.employee.email,
+                        ),
+                        _buildEmployDataField(
+                          context: context,
+                          title: "Department",
+                          data: state.employee.department,
+                        ),
+                        _buildEmployDataField(
+                          context: context,
+                          title: "Post",
+                          data: state.employee.type,
+                        ),
+                        _buildEmployDataField(
+                          context: context,
+                          title: "Ward no",
+                          data: state.employee.ward,
+                        ),
+                      ],
+                    ),
+                  )
                 ],
-              ),
-            )
-          ],
+              );
+            } else if (state is LoggedOut) {
+              return Container();
+            } else {
+              return const Row(
+                children: [
+                  Text("Unknown state")
+                ],
+              );
+            }
+          },
         )
       ),
     );
