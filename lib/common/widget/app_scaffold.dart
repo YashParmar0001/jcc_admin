@@ -19,11 +19,6 @@ class AppScaffold extends StatefulWidget {
 }
 
 class _AppScaffoldState extends State<AppScaffold> {
-  @override
-  void dispose() {
-    widget.controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

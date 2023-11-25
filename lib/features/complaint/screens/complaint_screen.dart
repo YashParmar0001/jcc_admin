@@ -151,9 +151,24 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
                       height: MediaQuery.of(context).size.height - 355,
                       child: TabBarView(
                         children: [
-                          buildList(pending, widget.controller),
-                          buildList(taken, widget.controller),
-                          buildList(solved, widget.controller),
+                          buildList(
+                            context,
+                            pending,
+                            widget.controller,
+                            'No registered complaints in your ward!',
+                          ),
+                          buildList(
+                            context,
+                            taken,
+                            widget.controller,
+                            'You have no complaints working or with pending approvals!',
+                          ),
+                          buildList(
+                            context,
+                            solved,
+                            widget.controller,
+                            'You have not solved any complaints yet!',
+                          ),
                         ],
                       ),
                     );
@@ -182,11 +197,36 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
                       height: MediaQuery.of(context).size.height - 355,
                       child: TabBarView(
                         children: [
-                          buildList(allComplaints, widget.controller),
-                          buildList(pending, widget.controller),
-                          buildList(inProcess, widget.controller),
-                          buildList(solved, widget.controller),
-                          buildList(onHold, widget.controller),
+                          buildList(
+                            context,
+                            allComplaints,
+                            widget.controller,
+                            'There are no complaints in your department!',
+                          ),
+                          buildList(
+                            context,
+                            pending,
+                            widget.controller,
+                            'There are no pending complaints in your department',
+                          ),
+                          buildList(
+                            context,
+                            inProcess,
+                            widget.controller,
+                            'There are no complaints that are currently in process!',
+                          ),
+                          buildList(
+                            context,
+                            solved,
+                            widget.controller,
+                            'There are no solved complaints!',
+                          ),
+                          buildList(
+                            context,
+                            onHold,
+                            widget.controller,
+                            'There are no any complaints are on hold!',
+                          ),
                         ],
                       ),
                     );
@@ -208,18 +248,28 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
     );
   }
 
-  Widget buildList(List<ComplaintModel> list, ScrollController controller) {
+  Widget buildList(
+      BuildContext context,
+    List<ComplaintModel> list,
+    ScrollController controller,
+    String emptyText,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: ListView.builder(
-        controller: controller,
-        itemBuilder: (context, index) {
-          return ComplaintWidget(
-            complaint: list[index],
-          );
-        },
-        itemCount: list.length,
-      ),
+      child: (list.isEmpty)
+          ? Text(
+            emptyText,
+            style: Theme.of(context).textTheme.headlineMedium,
+          )
+          : ListView.builder(
+              controller: controller,
+              itemBuilder: (context, index) {
+                return ComplaintWidget(
+                  complaint: list[index],
+                );
+              },
+              itemCount: list.length,
+            ),
     );
   }
 

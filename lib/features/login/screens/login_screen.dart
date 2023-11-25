@@ -5,7 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jcc_admin/bloc/auth/auth_bloc.dart' as auth_bloc;
 import 'package:jcc_admin/bloc/complaint/complaint_bloc.dart';
+import 'package:jcc_admin/bloc/complaint/recent_complaints/recent_complaints_bloc.dart';
+import 'package:jcc_admin/bloc/complaint/stats/complaint_stats_bloc.dart';
 import 'package:jcc_admin/bloc/login/login_bloc.dart';
 import 'package:jcc_admin/bloc/notifications/notification_bloc.dart';
 import 'package:jcc_admin/constants/app_color.dart';
@@ -42,40 +45,70 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: BlocListener<LoginBloc, LoginState>(
-        listener: (context, state) {
-          if (state is LoggingIn) {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return Center(child: const CircularProgressIndicator());
-              },
-            );
-          } else if (state is NotRegistered) {
-            context.pop();
-            UIUtils.showSnackBar(
-              context,
-              'You are not registered as employee!',
-            );
-          } else if (state is LoggedIn) {
-            context.read<ComplaintBloc>().add(
-                  LoadComplaint(
-                    department: state.employee.department,
-                  ),
+      body: MultiBlocListener(
+        listeners: [
+          BlocListener<auth_bloc.AuthBloc, auth_bloc.AuthState>(
+            listener: (context, state) {
+              if (state is auth_bloc.Authenticated) {
+                context.pop();
+                context.read<LoginBloc>().add(LogIn(email: state.email));
+              } else if (state is auth_bloc.UnAuthenticated) {
+                context.pop();
+                UIUtils.showSnackBar(
+                  context,
+                  'Something went wrong while logging you in!',
                 );
-            context.read<NotificationBloc>().add(
-                  LoadNotifications(
-                    state.employee.department,
-                  ),
+              }else if (state is auth_bloc.Authenticating) {
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) {
+                    return Center(child: const CircularProgressIndicator());
+                  },
                 );
-            if (state.employee.type == 'hod') {
-              context
-                  .read<EmployeeBloc>()
-                  .add(LoadEmployee(state.employee.department));
-            }
-            context.go('/home');
-          }
-        },
+              }
+            },
+          ),
+          BlocListener<LoginBloc, LoginState>(
+            listener: (context, state) {
+              if (state is LoggingIn) {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return Center(child: const CircularProgressIndicator());
+                  },
+                );
+              } else if (state is NotRegistered) {
+                context.pop();
+                UIUtils.showSnackBar(
+                  context,
+                  'You are not registered as employee!',
+                );
+              } else if (state is LoggedIn) {
+                context.read<ComplaintStatsBloc>().add(GetComplaintStats());
+                context.read<ComplaintBloc>().add(
+                      LoadComplaint(
+                        department: state.employee.department,
+                      ),
+                    );
+                context
+                    .read<RecentComplaintsBloc>()
+                    .add(LoadRecentComplaints());
+                context.read<NotificationBloc>().add(
+                      LoadNotifications(
+                        state.employee.department,
+                      ),
+                    );
+                if (state.employee.type == 'hod') {
+                  context
+                      .read<EmployeeBloc>()
+                      .add(LoadEmployee(state.employee.department));
+                }
+                context.go('/home');
+              }
+            },
+          ),
+        ],
         child: Stack(
           children: [
             SvgPicture.asset(
@@ -144,11 +177,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  //Container button with blue color and text as login with 70px height
                   InkWell(
                     onTap: () {
-                      context.read<LoginBloc>().add(
-                            LogIn(
+                      context.read<auth_bloc.AuthBloc>().add(
+                            auth_bloc.LogIn(
                               email: emailController.text,
                               password: passwordController.text,
                             ),

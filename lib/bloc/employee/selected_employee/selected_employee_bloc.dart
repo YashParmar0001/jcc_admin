@@ -58,4 +58,10 @@ class SelectedEmployeeBloc
   ) {
     emit(SelectedEmployeeLoaded(event.employee));
   }
+
+  @override
+  void onTransition(Transition<SelectedEmployeeEvent, SelectedEmployeeState> transition) {
+    dev.log(transition.toString(), name: 'SelectedEmployee');
+    super.onTransition(transition);
+  }
 }

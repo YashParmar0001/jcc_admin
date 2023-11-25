@@ -44,6 +44,9 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
+              context
+                  .read<SelectedEmployeeBloc>()
+                  .add(InitializeSelectedEmployee());
               context.pop();
             },
             icon: SvgPicture.asset(
@@ -124,110 +127,118 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
             )
           ],
         ),
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: BlocBuilder<SelectedEmployeeBloc, SelectedEmployeeState>(
-            builder: (context, state) {
-              if (state is SelectedEmployeeLoading ||
-                  state is SelectedEmployeeInitial) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (state is SelectedEmployeeError) {
-                return Text(state.message);
-              } else if (state is SelectedEmployeeLoaded) {
-                final employee = state.employee;
+        body: WillPopScope(
+          onWillPop: () async {
+            context
+                .read<SelectedEmployeeBloc>()
+                .add(InitializeSelectedEmployee());
+            return true;
+          },
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: BlocBuilder<SelectedEmployeeBloc, SelectedEmployeeState>(
+              builder: (context, state) {
+                if (state is SelectedEmployeeLoading ||
+                    state is SelectedEmployeeInitial) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is SelectedEmployeeError) {
+                  return Text(state.message);
+                } else if (state is SelectedEmployeeLoaded) {
+                  final employee = state.employee;
 
-                return Stack(
-                  children: [
-                    SizedBox(
-                      height: 138,
-                      width: MediaQuery.of(context).size.width,
-                      child: Image.asset(
-                        UIUtils.getThumbnailName(employee.department),
-                        fit: BoxFit.cover,
+                  return Stack(
+                    children: [
+                      SizedBox(
+                        height: 138,
+                        width: MediaQuery.of(context).size.width,
+                        child: Image.asset(
+                          UIUtils.getThumbnailName(employee.department),
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 50),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 220,
-                                height: 160,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 50),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 220,
+                                  height: 160,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  clipBehavior: Clip.hardEdge,
+                                  child: CachedNetworkImage(
+                                    imageUrl: employee.photoUrl,
+                                    imageBuilder: (context, imageProvider) {
+                                      return Image(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover,
+                                      );
+                                    },
+                                    placeholder: (context, url) {
+                                      return Image.asset(
+                                        Assets.imagesDefaultProfile,
+                                        fit: BoxFit.cover,
+                                      );
+                                    },
+                                    errorWidget: (context, url, error) {
+                                      return Image.asset(
+                                        Assets.imagesDefaultProfile,
+                                        fit: BoxFit.cover,
+                                      );
+                                    },
+                                  ),
                                 ),
-                                clipBehavior: Clip.hardEdge,
-                                child: CachedNetworkImage(
-                                  imageUrl: employee.photoUrl,
-                                  imageBuilder: (context, imageProvider) {
-                                    return Image(
-                                      image: imageProvider,
-                                      fit: BoxFit.cover,
-                                    );
-                                  },
-                                  placeholder: (context, url) {
-                                    return Image.asset(
-                                      Assets.imagesDefaultProfile,
-                                      fit: BoxFit.cover,
-                                    );
-                                  },
-                                  errorWidget: (context, url, error) {
-                                    return Image.asset(
-                                      Assets.imagesDefaultProfile,
-                                      fit: BoxFit.cover,
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 25,
-                          ),
-                          _buildEmployDataField(
-                            title: "Full name ",
-                            data:
-                                "${employee.firstName} ${employee.middleName} ${employee.lastName}",
-                          ),
-                          _buildEmployDataField(
-                            title: "Employee ID",
-                            data: employee.employeeId,
-                          ),
-                          _buildEmployDataField(
-                            title: "Mobile No",
-                            data: employee.phone,
-                          ),
-                          _buildEmployDataField(
-                            title: "Email",
-                            data: employee.email,
-                          ),
-                          _buildEmployDataField(
-                            title: "Department",
-                            data: employee.department,
-                          ),
-                          _buildEmployDataField(
-                            title: "Post",
-                            data: "Employee",
-                          ),
-                          _buildEmployDataField(
-                            title: "Ward no",
-                            data: employee.ward,
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                );
-              } else {
-                return const Text('Unknown state');
-              }
-            },
+                              ],
+                            ),
+                            SizedBox(
+                              height: 25,
+                            ),
+                            _buildEmployDataField(
+                              title: "Full name ",
+                              data:
+                                  "${employee.firstName} ${employee.middleName} ${employee.lastName}",
+                            ),
+                            _buildEmployDataField(
+                              title: "Employee ID",
+                              data: employee.employeeId,
+                            ),
+                            _buildEmployDataField(
+                              title: "Mobile No",
+                              data: employee.phone,
+                            ),
+                            _buildEmployDataField(
+                              title: "Email",
+                              data: employee.email,
+                            ),
+                            _buildEmployDataField(
+                              title: "Department",
+                              data: employee.department,
+                            ),
+                            _buildEmployDataField(
+                              title: "Post",
+                              data: "Employee",
+                            ),
+                            _buildEmployDataField(
+                              title: "Ward no",
+                              data: employee.ward,
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  );
+                } else {
+                  return const Text('Unknown state');
+                }
+              },
+            ),
           ),
         ),
       ),

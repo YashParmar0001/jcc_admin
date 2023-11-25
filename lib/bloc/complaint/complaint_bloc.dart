@@ -32,6 +32,7 @@ class ComplaintBloc extends Bloc<ComplaintEvent, ComplaintState> {
       LoadComplaint event,
       Emitter<ComplaintState> emit,
       ) {
+    emit(ComplaintLoading());
     _complaintSubscription?.cancel();
 
     try {
@@ -53,7 +54,7 @@ class ComplaintBloc extends Bloc<ComplaintEvent, ComplaintState> {
 
   @override
   void onTransition(Transition<ComplaintEvent, ComplaintState> transition) {
+    dev.log(transition.toString(), name: "Complaints");
     super.onTransition(transition);
-    dev.log(transition.toString(), name: "Complaint List Screen");
   }
 }

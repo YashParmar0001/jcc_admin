@@ -22,7 +22,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   Future<void> _onLogIn(LogIn event, Emitter<LoginState> emit) async {
     emit(LoggingIn());
-    final employee = await _loginRepository.login(event.email, event.password);
+    final employee = await _loginRepository.login(event.email);
 
     if (employee == null) {
       emit(NotRegistered());
@@ -31,7 +31,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  void _onLogOut(LogOut event, Emitter<LoginState> emit) {}
+  void _onLogOut(LogOut event, Emitter<LoginState> emit) {
+    emit(LoggedOut());
+  }
 
   @override
   void onTransition(Transition<LoginEvent, LoginState> transition) {

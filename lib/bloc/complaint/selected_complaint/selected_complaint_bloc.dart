@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer' as dev;
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -21,17 +22,24 @@ class SelectedComplaintBloc
   })  : _complaintRepository = complaintRepository,
         _notificationRepository = notificationRepository,
         super(SelectedComplaintInitial()) {
+    on<InitializeSelectedComplaint>(_onInitializeSelectedComplaint);
     on<LoadSelectedComplaint>(_onLoadSelectedComplaint);
     on<UpdateSelectedComplaint>(_onUpdateSelectedComplaint);
     on<TakeComplaint>(_onTakeComplaint);
     on<HoldComplaint>(_onHoldComplaint);
     on<ResumeComplaint>(_onResumeComplaint);
     on<RequestApproval>(_onRequestApproval);
+    on<AddRemarks>(_onAddRemarks);
   }
 
   final ComplaintRepository _complaintRepository;
   final NotificationRepository _notificationRepository;
   StreamSubscription? _selectedComplaintSubscription;
+
+  void _onInitializeSelectedComplaint(InitializeSelectedComplaint event, Emitter<SelectedComplaintState> emit,) {
+    _selectedComplaintSubscription?.cancel();
+    emit(SelectedComplaintInitial());
+  }
 
   void _onLoadSelectedComplaint(
     LoadSelectedComplaint event,
@@ -238,5 +246,17 @@ class SelectedComplaintBloc
       notification.departmentName,
       [notification.userId],
     );
+  }
+
+  Future<void> _onAddRemarks(AddRemarks event, Emitter<SelectedComplaintState> emit,) async {
+    await _complaintRepository.updateComplaint(event.complaintId, {
+      'remarks' : event.remarks,
+    });
+  }
+
+  @override
+  void onTransition(Transition<SelectedComplaintEvent, SelectedComplaintState> transition) {
+    dev.log(transition.toString(), name: 'SelectedComplaint');
+    super.onTransition(transition);
   }
 }

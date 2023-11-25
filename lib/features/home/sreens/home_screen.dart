@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jcc_admin/bloc/complaint/recent_complaints/recent_complaints_bloc.dart';
 
 import 'dart:developer' as dev;
 import '../../../bloc/complaint/stats/complaint_stats_bloc.dart';
 import '../../../common/widget/menu_drawer.dart';
 import '../../../common/widget/scroll_to_hide_widget.dart';
+
 // import '../../../config/router.dart';
 import '../../../constants/app_color.dart';
 import '../../../constants/string_constants.dart';
@@ -71,8 +73,8 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text(
           CommonDataConstants.home,
           style: Theme.of(context).textTheme.displayLarge?.copyWith(
-            fontSize: 22,
-          ),
+                fontSize: 22,
+              ),
         ),
         centerTitle: true,
         actions: [
@@ -185,34 +187,49 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Text(
                 ScreensDataConstants.recentTitle,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.w400,
-                ),
+                      fontWeight: FontWeight.w400,
+                    ),
               ),
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10),
-              clipBehavior: Clip.hardEdge,
-              decoration:
-              BoxDecoration(borderRadius: BorderRadius.circular(15)),
-              //   // child: Column(
-              //   //   children: List.generate(10, (index) => RecentComplaintsCard(index: index)),
-              //   // ),
-              child: ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: 5,
-                separatorBuilder: (context, index) {
-                  return const SizedBox(
-                    height: 5,
+            BlocBuilder<RecentComplaintsBloc, RecentComplaintsState>(
+              builder: (context, state) {
+                if (state is RecentComplaintsLoading || state is RecentComplaintsInitial) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
                   );
-                },
-                itemBuilder: (context, index) {
-                  return RecentComplaintsCard(index: index);
-                },
-              ),
+                }else if (state is RecentComplaintsError) {
+                  return Center(
+                    child: Text('Got error: ${state.message}'),
+                  );
+                }else if (state is RecentComplaintsLoaded) {
+                  return Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    clipBehavior: Clip.hardEdge,
+                    decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(15)),
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: state.complaints.length,
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(
+                          height: 5,
+                        );
+                      },
+                      itemBuilder: (context, index) {
+                        return RecentComplaintsCard(complaint: state.complaints[index],);
+                      },
+                    ),
+                  );
+                }else {
+                  return const Center(
+                    child: Text('Unknown State'),
+                  );
+                }
+              },
             ),
             const SizedBox(
-              height: 92,
+              height: 20,
             ),
           ],
         ),
@@ -222,8 +239,12 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class ComplaintStateData {
-  ComplaintStateData(this.complaintState, this.complaintDataInNumber,
-      this.complaintsDataInPercentage, this.color);
+  ComplaintStateData(
+    this.complaintState,
+    this.complaintDataInNumber,
+    this.complaintsDataInPercentage,
+    this.color,
+  );
 
   final String complaintState;
   final String complaintDataInNumber;
