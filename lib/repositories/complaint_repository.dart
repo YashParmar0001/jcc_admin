@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:jcc_admin/model/complaint_model.dart';
 import 'dart:developer' as dev;
 import '../model/complaint_stats_model.dart';
@@ -6,9 +9,10 @@ import '../model/complaint_stats_model.dart';
 class ComplaintRepository {
   ComplaintRepository({
     FirebaseFirestore? firestore,
-  }) : _firestore = firestore ?? FirebaseFirestore.instance;
+  }) : _firestore = firestore ?? FirebaseFirestore.instance, _storage = FirebaseStorage.instance;
 
   final FirebaseFirestore _firestore;
+  final FirebaseStorage _storage;
 
   Stream<List<ComplaintModel>> getComplaints(String department) {
     return _firestore
@@ -34,6 +38,28 @@ class ComplaintRepository {
         return event.docs.map((e) => ComplaintModel.fromMap(e.data())).toList();
       },
     );
+  }
+
+  Future<List<String>> uploadFiles(String id, List<File> files) async {
+    List<String> urls = [];
+    int count = 1;
+    for (var file in files) {
+      final ref = _storage.ref().child(
+        'complaint_res_photographs/cid_${id}_img_$count.jpg',
+      );
+      await ref
+          .putFile(
+        file,
+        SettableMetadata(contentType: 'image/jpeg'),
+      )
+          .then((value) async {
+        await value.ref.getDownloadURL().then((value) {
+          urls.add(value);
+        });
+      });
+      count++;
+    }
+    return urls;
   }
 
   Stream<ComplaintModel?> getSelectedComplaint(String id) {

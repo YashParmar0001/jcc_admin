@@ -82,167 +82,169 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
                 ),
           ),
         ),
-        body: Column(
-          children: [
-            const ComplaintsOverview(),
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Container(
-                height: 50,
-                // width: 250,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: AppColors.brilliantAzure,
-                ),
-                child: TabBar(
-                  isScrollable: true,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  indicatorPadding: const EdgeInsets.all(5),
-                  indicator: BoxDecoration(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              const ComplaintsOverview(),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Container(
+                  height: 50,
+                  // width: 250,
+                  decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    color: AppColors.darkMidnightBlue,
+                    color: AppColors.brilliantAzure,
                   ),
-                  tabs: buildListTabs(type: type),
+                  child: TabBar(
+                    isScrollable: true,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    indicatorPadding: const EdgeInsets.all(5),
+                    indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: AppColors.darkMidnightBlue,
+                    ),
+                    tabs: buildListTabs(type: type),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            BlocBuilder<ComplaintBloc, ComplaintState>(
-              builder: (context, state) {
-                if (state is ComplaintLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (state is ComplaintError) {
-                  return Text(state.message);
-                } else if (state is ComplaintLoaded) {
-                  final employee =
-                      (context.read<LoginBloc>().state as LoggedIn).employee;
-                  final id = employee.employeeId;
+              const SizedBox(
+                height: 15,
+              ),
+              BlocBuilder<ComplaintBloc, ComplaintState>(
+                builder: (context, state) {
+                  if (state is ComplaintLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is ComplaintError) {
+                    return Text(state.message);
+                  } else if (state is ComplaintLoaded) {
+                    final employee =
+                        (context.read<LoginBloc>().state as LoggedIn).employee;
+                    final id = employee.employeeId;
 
-                  if (employee.type == 'employee') {
-                    final complaintList = state.complaintList
-                        .where((complaint) => complaint.ward == employee.ward)
-                        .toList();
+                    if (employee.type == 'employee') {
+                      final complaintList = state.complaintList
+                          .where((complaint) => complaint.ward == employee.ward)
+                          .toList();
 
-                    final pending = complaintList
-                        .where((complaint) =>
-                            complaint.status == "Registered" &&
-                            !complaint.isAssigned)
-                        .toList();
+                      final pending = complaintList
+                          .where((complaint) =>
+                              complaint.status == "Registered" &&
+                              !complaint.isAssigned)
+                          .toList();
 
-                    final taken = complaintList
-                        .where((complaint) =>
-                            complaint.status != 'Solved' &&
-                            complaint.isAssigned &&
-                            complaint.assignedEmployeeId == id)
-                        .toList();
+                      final taken = complaintList
+                          .where((complaint) =>
+                              complaint.status != 'Solved' &&
+                              complaint.isAssigned &&
+                              complaint.assignedEmployeeId == id)
+                          .toList();
 
-                    final solved = complaintList
-                        .where((complaint) =>
-                            complaint.status == 'Solved' &&
-                            complaint.assignedEmployeeId == id)
-                        .toList();
+                      final solved = complaintList
+                          .where((complaint) =>
+                              complaint.status == 'Solved' &&
+                              complaint.assignedEmployeeId == id)
+                          .toList();
 
-                    return SizedBox(
-                      height: MediaQuery.of(context).size.height - 355,
-                      child: TabBarView(
-                        children: [
-                          buildList(
-                            context,
-                            pending,
-                            widget.controller,
-                            'No registered complaints in your ward!',
-                          ),
-                          buildList(
-                            context,
-                            taken,
-                            widget.controller,
-                            'You have no complaints working or with pending approvals!',
-                          ),
-                          buildList(
-                            context,
-                            solved,
-                            widget.controller,
-                            'You have not solved any complaints yet!',
-                          ),
-                        ],
-                      ),
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height - 355,
+                        child: TabBarView(
+                          children: [
+                            buildList(
+                              context,
+                              pending,
+                              widget.controller,
+                              'No registered complaints in your ward!',
+                            ),
+                            buildList(
+                              context,
+                              taken,
+                              widget.controller,
+                              'You have no complaints working or with pending approvals!',
+                            ),
+                            buildList(
+                              context,
+                              solved,
+                              widget.controller,
+                              'You have not solved any complaints yet!',
+                            ),
+                          ],
+                        ),
+                      );
+                    } else {
+                      final allComplaints = state.complaintList;
+
+                      final pending = state.complaintList
+                          .where((complaint) => complaint.status == "Registered")
+                          .toList();
+
+                      final inProcess = state.complaintList
+                          .where((complaint) =>
+                              complaint.status == "In Process" ||
+                              complaint.status == 'Approval Pending')
+                          .toList();
+
+                      final onHold = state.complaintList
+                          .where((complaint) => complaint.status == "On Hold")
+                          .toList();
+
+                      final solved = state.complaintList
+                          .where((complaint) => complaint.status == 'Solved')
+                          .toList();
+
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height - 355,
+                        child: TabBarView(
+                          children: [
+                            buildList(
+                              context,
+                              allComplaints,
+                              widget.controller,
+                              'There are no complaints in your department!',
+                            ),
+                            buildList(
+                              context,
+                              pending,
+                              widget.controller,
+                              'There are no pending complaints in your department',
+                            ),
+                            buildList(
+                              context,
+                              inProcess,
+                              widget.controller,
+                              'There are no complaints that are currently in process!',
+                            ),
+                            buildList(
+                              context,
+                              solved,
+                              widget.controller,
+                              'There are no solved complaints!',
+                            ),
+                            buildList(
+                              context,
+                              onHold,
+                              widget.controller,
+                              'There are no any complaints are on hold!',
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  } else if (state is ComplaintError) {
+                    return Center(
+                      child: Text('Something went wrong: ${state.message}'),
                     );
                   } else {
-                    final allComplaints = state.complaintList;
-
-                    final pending = state.complaintList
-                        .where((complaint) => complaint.status == "Registered")
-                        .toList();
-
-                    final inProcess = state.complaintList
-                        .where((complaint) =>
-                            complaint.status == "In Process" ||
-                            complaint.status == 'Approval Pending')
-                        .toList();
-
-                    final onHold = state.complaintList
-                        .where((complaint) => complaint.status == "On Hold")
-                        .toList();
-
-                    final solved = state.complaintList
-                        .where((complaint) => complaint.status == 'Solved')
-                        .toList();
-
-                    return SizedBox(
-                      height: MediaQuery.of(context).size.height - 355,
-                      child: TabBarView(
-                        children: [
-                          buildList(
-                            context,
-                            allComplaints,
-                            widget.controller,
-                            'There are no complaints in your department!',
-                          ),
-                          buildList(
-                            context,
-                            pending,
-                            widget.controller,
-                            'There are no pending complaints in your department',
-                          ),
-                          buildList(
-                            context,
-                            inProcess,
-                            widget.controller,
-                            'There are no complaints that are currently in process!',
-                          ),
-                          buildList(
-                            context,
-                            solved,
-                            widget.controller,
-                            'There are no solved complaints!',
-                          ),
-                          buildList(
-                            context,
-                            onHold,
-                            widget.controller,
-                            'There are no any complaints are on hold!',
-                          ),
-                        ],
-                      ),
+                    return const Center(
+                      child: Text('Unknown state'),
                     );
                   }
-                } else if (state is ComplaintError) {
-                  return Center(
-                    child: Text('Something went wrong: ${state.message}'),
-                  );
-                } else {
-                  return const Center(
-                    child: Text('Unknown state'),
-                  );
-                }
-              },
-            ),
-          ],
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

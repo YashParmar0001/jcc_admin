@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:jcc_admin/bloc/complaint/complaint_bloc.dart';
 import 'package:jcc_admin/bloc/complaint/selected_complaint/selected_complaint_bloc.dart';
 import 'package:jcc_admin/bloc/complaint/stats/complaint_stats_bloc.dart';
 import 'package:jcc_admin/bloc/login/login_bloc.dart';
@@ -14,6 +18,9 @@ import 'package:jcc_admin/utils/conversion.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../constants/assets_constants.dart';
+import '../../../utils/ui_utils.dart';
+
 class ComplaintDetails extends StatefulWidget {
   const ComplaintDetails({super.key});
 
@@ -23,6 +30,8 @@ class ComplaintDetails extends StatefulWidget {
 
 class _ComplaintDetailsState extends State<ComplaintDetails> {
   late TextEditingController remarksController;
+  final images = <File>[];
+  final picker = ImagePicker();
 
   @override
   void initState() {
@@ -173,12 +182,12 @@ class _ComplaintDetailsState extends State<ComplaintDetails> {
                                 //     text: "05:23:45",
                                 //     // "${complaint.noOfHours} Hours",
                                 //   ),
-                                : _buildRemainingTime(
+                                : (complaint.status != 'Solved') ? _buildRemainingTime(
                                     DateTime.parse(
                                       complaint.trackData[1].date,
                                     ),
                                     complaint.noOfHours,
-                                  ),
+                                  ) : null,
                           ),
                         ],
                       ),
@@ -434,6 +443,7 @@ class _ComplaintDetailsState extends State<ComplaintDetails> {
                       ),
                       if (employee.type != 'hod')
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             if (!complaint.isAssigned)
                               PrimaryButton(
@@ -453,6 +463,9 @@ class _ComplaintDetailsState extends State<ComplaintDetails> {
                                 },
                                 title: "Take Complaint",
                               ),
+                            if (complaint.isAssigned &&
+                                complaint.status == 'In Process')
+                              _buildUploadImagesSection(context),
                             if (complaint.isAssigned &&
                                 complaint.status == 'On Hold')
                               _buildCustomButton(
@@ -502,6 +515,7 @@ class _ComplaintDetailsState extends State<ComplaintDetails> {
                                   context.read<SelectedComplaintBloc>().add(
                                         RequestApproval(
                                           complaint: complaint,
+                                          images: images,
                                           stats: stats,
                                         ),
                                       );
@@ -540,6 +554,216 @@ class _ComplaintDetailsState extends State<ComplaintDetails> {
         ),
       ),
     );
+  }
+
+  Widget _buildUploadImagesSection(BuildContext scaffoldContext) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Upload Photo',
+          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        const SizedBox(
+          height: 5,
+        ),
+        SizedBox(
+          height: 250,
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: images.length < 3 ? images.length + 1 : images.length,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return Container(
+                width: 187.5,
+                height: 250,
+                clipBehavior: Clip.hardEdge,
+                margin: const EdgeInsets.only(
+                  right: 10,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: AppColors.black25,
+                      blurRadius: 1.0,
+                      spreadRadius: 0.0,
+                      offset:
+                      Offset(0.0, 0.0), // shadow direction: bottom right
+                    ),
+                  ],
+                  color: AppColors.antiFlashWhite,
+                  image: (index < images.length)
+                      ? DecorationImage(
+                    image: FileImage(
+                      images[index],
+                    ),
+                    fit: BoxFit.cover,
+                  )
+                      : null,
+                ),
+                child: Center(
+                  child: Stack(
+                    children: [
+                      if (index < images.length)
+                        Positioned(
+                          top: 10,
+                          right: 10,
+                          child: InkWell(
+                            onTap: () {
+                              setState(() {
+                                images.removeAt(index);
+                              });
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: AppColors.black25),
+                              child: SvgPicture.asset(
+                                Assets.iconsDeleteBg,
+                                fit: BoxFit.cover,
+                                colorFilter: const ColorFilter.mode(
+                                  AppColors.white,
+                                  BlendMode.srcIn,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      if (index == images.length)
+                        Center(
+                          child: IconButton(
+                            onPressed: () {
+                              getImage(
+                                scaffoldContext: scaffoldContext,
+                                index: index < images.length ? index : null,
+                              );
+                            },
+                            icon: SvgPicture.asset(
+                              width: 40,
+                              height: 40,
+                              Assets.iconsCircleAdd,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        )
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Future getImage({required BuildContext scaffoldContext, int? index}) async {
+    showBottomSheet(
+      context: scaffoldContext,
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SvgPicture.asset(Assets.iconsEdge),
+              const SizedBox(
+                height: 20,
+              ),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Choose Option',
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      context.pop();
+                      getImageFromSource(source: ImageSource.camera);
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SvgPicture.asset(
+                          Assets.iconsCameraBg,
+                          width: 50,
+                        ),
+                        const Text('Camera'),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      context.pop();
+                      getImageFromSource(source: ImageSource.gallery);
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SvgPicture.asset(
+                          Assets.iconsGalleryBg,
+                          width: 50,
+                        ),
+                        const Text('Gallery'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextButton(
+                onPressed: () {
+                  context.pop();
+                },
+                child: const Text('Dismiss'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future getImageFromSource({required ImageSource source, int? index}) async {
+    final pickedFile = await picker.pickImage(source: source);
+    XFile? xFilePick = pickedFile;
+
+    if (xFilePick != null) {
+      final file = File(pickedFile!.path);
+
+      setState(() {
+        if (index != null) {
+          images[index] = file;
+        } else {
+          images.add(file);
+        }
+      },
+      );
+    } else {
+      UIUtils.showSnackBar(context, 'Nothing is selected');
+    }
   }
 
   Future<void> _makePhoneCall(String phoneNo) async {

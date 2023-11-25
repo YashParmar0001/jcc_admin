@@ -55,8 +55,13 @@ class AddRemarks extends SelectedComplaintEvent {
 }
 
 class RequestApproval extends SelectedComplaintEvent {
-  const RequestApproval({required this.complaint, required this.stats});
+  const RequestApproval({
+    required this.complaint,
+    required this.images,
+    required this.stats,
+  });
 
   final ComplaintModel complaint;
+  final List<File> images;
   final ComplaintStatsModel stats;
 }

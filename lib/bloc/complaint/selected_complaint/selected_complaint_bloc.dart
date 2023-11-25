@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer' as dev;
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -36,7 +37,10 @@ class SelectedComplaintBloc
   final NotificationRepository _notificationRepository;
   StreamSubscription? _selectedComplaintSubscription;
 
-  void _onInitializeSelectedComplaint(InitializeSelectedComplaint event, Emitter<SelectedComplaintState> emit,) {
+  void _onInitializeSelectedComplaint(
+    InitializeSelectedComplaint event,
+    Emitter<SelectedComplaintState> emit,
+  ) {
     _selectedComplaintSubscription?.cancel();
     emit(SelectedComplaintInitial());
   }
@@ -174,9 +178,15 @@ class SelectedComplaintBloc
         ),
       );
 
+    final response = await _complaintRepository.uploadFiles(
+      complaint.id,
+      event.images,
+    );
+
     final updateData = {
       'status': 'Approval Pending',
       'isLocked': true,
+      'verifiedImageUrls' : response,
       'trackData': updatedTrackData.map((e) => e.toMap()),
     };
 
@@ -248,14 +258,18 @@ class SelectedComplaintBloc
     );
   }
 
-  Future<void> _onAddRemarks(AddRemarks event, Emitter<SelectedComplaintState> emit,) async {
+  Future<void> _onAddRemarks(
+    AddRemarks event,
+    Emitter<SelectedComplaintState> emit,
+  ) async {
     await _complaintRepository.updateComplaint(event.complaintId, {
-      'remarks' : event.remarks,
+      'remarks': event.remarks,
     });
   }
 
   @override
-  void onTransition(Transition<SelectedComplaintEvent, SelectedComplaintState> transition) {
+  void onTransition(
+      Transition<SelectedComplaintEvent, SelectedComplaintState> transition) {
     dev.log(transition.toString(), name: 'SelectedComplaint');
     super.onTransition(transition);
   }
