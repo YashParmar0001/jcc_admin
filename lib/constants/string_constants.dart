@@ -101,6 +101,7 @@ class ScreensDataConstants {
   static const String address = "Address";
   static const String description = "Description";
   static const String applicantName = "Applicant Name";
+  static const String assignedEmpId = 'Assigned Employee ID';
   static const String applicantMobileNo = "Applicant Mobile no.";
   static const String remarks = "Remarks";
   static const String photographs = "Photographs";

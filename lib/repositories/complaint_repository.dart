@@ -16,9 +16,24 @@ class ComplaintRepository {
         .where('departmentName', isEqualTo: department)
         .orderBy('registrationDate', descending: true)
         .snapshots()
-        .map((event) {
-      return event.docs.map((e) => ComplaintModel.fromMap(e.data())).toList();
-    });
+        .map(
+      (event) {
+        return event.docs.map((e) => ComplaintModel.fromMap(e.data())).toList();
+      },
+    );
+  }
+
+  Stream<List<ComplaintModel>> getRecentComplaints() {
+    return _firestore
+        .collection('complaints')
+        .orderBy('registrationDate', descending: true)
+        .limit(15)
+        .snapshots()
+        .map(
+      (event) {
+        return event.docs.map((e) => ComplaintModel.fromMap(e.data())).toList();
+      },
+    );
   }
 
   Stream<ComplaintModel?> getSelectedComplaint(String id) {

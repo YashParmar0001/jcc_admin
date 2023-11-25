@@ -16,10 +16,10 @@ class ComplaintWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.push('/complaint_details');
         context.read<SelectedComplaintBloc>().add(
-              LoadSelectedComplaint(complaint.id),
-            );
+          LoadSelectedComplaint(complaint.id),
+        );
+        context.push('/complaint_details');
       },
       child: Container(
           margin: const EdgeInsets.only(
@@ -30,14 +30,6 @@ class ComplaintWidget extends StatelessWidget {
             border: Border.all(color: AppColors.grey),
             color: AppColors.antiFlashWhite,
             borderRadius: BorderRadius.circular(15),
-            // boxShadow: const [
-            //   BoxShadow(
-            //     color: Color(0x3F000000),
-            //     blurRadius: 2,
-            //     offset: Offset(0, 2),
-            //     spreadRadius: 0,
-            //   )
-            // ],
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

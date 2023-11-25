@@ -7,6 +7,8 @@ abstract class SelectedComplaintEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class InitializeSelectedComplaint extends SelectedComplaintEvent {}
+
 class LoadSelectedComplaint extends SelectedComplaintEvent {
   const LoadSelectedComplaint(this.id);
 
@@ -43,6 +45,13 @@ class ResumeComplaint extends SelectedComplaintEvent {
 
   final ComplaintModel complaint;
   final ComplaintStatsModel stats;
+}
+
+class AddRemarks extends SelectedComplaintEvent {
+  const AddRemarks({required this.complaintId, required this.remarks});
+
+  final String complaintId;
+  final String remarks;
 }
 
 class RequestApproval extends SelectedComplaintEvent {

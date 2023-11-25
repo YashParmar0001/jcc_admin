@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jcc_admin/bloc/auth/auth_bloc.dart';
 import 'package:jcc_admin/bloc/complaint/complaint_bloc.dart';
+import 'package:jcc_admin/bloc/complaint/recent_complaints/recent_complaints_bloc.dart';
 import 'package:jcc_admin/bloc/complaint/selected_complaint/selected_complaint_bloc.dart';
 import 'package:jcc_admin/bloc/employee/delete_employee/delete_employee_bloc.dart';
 import 'package:jcc_admin/bloc/employee/edit_employee/edit_employee_bloc.dart';
@@ -11,6 +13,7 @@ import 'package:jcc_admin/bloc/login/login_bloc.dart';
 import 'package:jcc_admin/bloc/notifications/notification_bloc.dart';
 import 'package:jcc_admin/config/router.dart';
 import 'package:jcc_admin/firebase_options.dart';
+import 'package:jcc_admin/repositories/auth_repository.dart';
 import 'package:jcc_admin/repositories/complaint_repository.dart';
 import 'package:jcc_admin/repositories/employee_repository.dart';
 import 'package:jcc_admin/repositories/login_repository.dart';
@@ -43,6 +46,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authRepository = AuthRepository();
     final loginRepository = LoginRepository();
     final employeeRepository = EmployeeRepository();
     final complaintRepository = ComplaintRepository();
@@ -51,11 +55,18 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
+          create: (context) => AuthBloc(authRepository: authRepository)..add(AppStarted()),
+        ),
+        BlocProvider(
           create: (context) => LoginBloc(loginRepository: loginRepository),
         ),
         BlocProvider(
           create: (context) =>
               NotificationBloc(notificationRepository: notificationRepository),
+        ),
+        BlocProvider(
+          create: (context) =>
+              RecentComplaintsBloc(complaintRepository: complaintRepository),
         ),
         BlocProvider(
           create: (context) => ComplaintBloc(
@@ -92,8 +103,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) =>
-              ComplaintStatsBloc(complaintRepository: complaintRepository)
-                ..add(GetComplaintStats()),
+              ComplaintStatsBloc(complaintRepository: complaintRepository),
         ),
       ],
       child: MaterialApp.router(

@@ -7,7 +7,7 @@ class LoginRepository {
 
   final FirebaseFirestore _firestore;
 
-  Future<EmployeeModel?> login(String email, String password) async {
+  Future<EmployeeModel?> login(String email) async {
     final response = await _firestore.collection('employees').doc(email).get();
 
     final data = response.data();
@@ -15,11 +15,7 @@ class LoginRepository {
     if (data == null) {
       return null;
     }else {
-      if (password == data['password']) {
-        return EmployeeModel.fromMap(data);
-      }else {
-        return null;
-      }
+      return EmployeeModel.fromMap(data);
     }
   }
 }

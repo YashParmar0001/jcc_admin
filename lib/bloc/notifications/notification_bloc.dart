@@ -60,6 +60,6 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     Transition<NotificationEvent, NotificationState> transition,
   ) {
     super.onTransition(transition);
-    dev.log(transition.toString(), name: "Notification Screen");
+    dev.log(transition.toString(), name: "Notifications");
   }
 }

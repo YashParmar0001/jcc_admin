@@ -50,7 +50,11 @@ class AppBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final type = (context.read<LoginBloc>().state as LoggedIn).employee.type;
+    final logInState = context.read<LoginBloc>().state;
+    var type = 'employee';
+    if (logInState is LoggedIn) {
+      type = logInState.employee.type;
+    }
 
     return Container(
       decoration: BoxDecoration(
