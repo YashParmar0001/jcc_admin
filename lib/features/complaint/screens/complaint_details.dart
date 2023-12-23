@@ -523,6 +523,7 @@ class _ComplaintDetailsState extends State<ComplaintDetails> {
                                 title: "Request Approval",
                                 color: AppColors.brilliantAzure,
                               ),
+                            const SizedBox(height: 10,),
                             if (complaint.isAssigned &&
                                 complaint.status == 'Approval Pending')
                               _buildCustomButton(
