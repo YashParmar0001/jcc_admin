@@ -204,11 +204,14 @@ class MenuDrawer extends StatelessWidget {
                           const SizedBox(
                             height: 5,
                           ),
-                          Text(
-                            employee.email,
-                            style:
-                            Theme.of(context).textTheme.headlineSmall?.copyWith(
-                              color: AppColors.white,
+                          SizedBox(
+                            width: 200,
+                            child: Text(
+                              employee.email,
+                              style:
+                              Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                color: AppColors.white,
+                              ),
                             ),
                           )
                         ],
